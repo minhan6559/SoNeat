@@ -38,6 +38,5 @@ namespace NEATRex.src.NEAT.Genome
             NodeGene node = (NodeGene)obj;
             return InnovationNum == node.InnovationNum;
         }
-
     }
 }

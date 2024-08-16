@@ -30,7 +30,7 @@ namespace NEATRex.src.NEAT.NeuralEvolution
             _clients = clients;
 
             _connectionsMap.Clear();
-            _nodesHashSet.Reset();
+            _nodesHashSet.Clear();
 
             for (int i = 0; i < _inputSize; i++)
             {
@@ -57,18 +57,18 @@ namespace NEATRex.src.NEAT.NeuralEvolution
 
         public NodeGene CreateNode()
         {
-            if (_nodesHashSet.Size() >= MAX_NODES)
+            if (_nodesHashSet.Count >= MAX_NODES)
                 return null!;
 
-            NodeGene node = new NodeGene(_nodesHashSet.Size() + 1);
+            NodeGene node = new NodeGene(_nodesHashSet.Count + 1);
             _nodesHashSet.Add(node);
 
             return node;
         }
         public NodeGene GetNode(int index)
         {
-            if (index > 0 || index <= _nodesHashSet.Size())
-                return _nodesHashSet.Get(index - 1);
+            if (index > 0 || index <= _nodesHashSet.Count)
+                return _nodesHashSet.GetAt(index - 1);
 
             return CreateNode();
         }

@@ -16,6 +16,9 @@ namespace NEATRex.src.NEAT.DataStructures
             _data = new List<T>();
         }
 
+        public int Count => _data.Count;
+        public List<T> Data => _data;
+
         public bool Contains(T item)
         {
             return _set.Contains(item);
@@ -30,11 +33,6 @@ namespace NEATRex.src.NEAT.DataStructures
             return _data[random.Next(_data.Count)];
         }
 
-        public int Size()
-        {
-            return _data.Count;
-        }
-
         public void Add(T item)
         {
             if (_set.Contains(item))
@@ -44,13 +42,13 @@ namespace NEATRex.src.NEAT.DataStructures
             _data.Add(item);
         }
 
-        public void Reset()
+        public void Clear()
         {
             _set.Clear();
             _data.Clear();
         }
 
-        public T Get(int index)
+        public T GetAt(int index)
         {
             if (index < 0 || index >= _data.Count)
                 return default!;
@@ -75,7 +73,5 @@ namespace NEATRex.src.NEAT.DataStructures
             _set.Remove(_data[index]);
             _data.RemoveAt(index);
         }
-
-
     }
 }
