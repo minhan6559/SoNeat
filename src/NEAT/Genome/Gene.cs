@@ -18,7 +18,7 @@ namespace NEATRex.src.NEAT.Genome
         {
         }
 
-        public abstract bool IsEqual(object other);
-        public abstract int HashCode { get; }
+        public abstract override bool Equals(object? obj);
+        public abstract override int GetHashCode();
     }
 }

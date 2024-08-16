@@ -30,7 +30,7 @@ namespace NEATRex.src.NEAT.DataStructures
             return _data[random.Next(_data.Count)];
         }
 
-        private int Size()
+        public int Size()
         {
             return _data.Count;
         }

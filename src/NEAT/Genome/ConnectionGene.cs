@@ -45,15 +45,18 @@ namespace NEATRex.src.NEAT.Genome
             set => _enabled = value;
         }
 
-        public override int HashCode => _fromNode.HashCode * Neat.MAX_NODES + _toNode.HashCode;
-
-        public override bool IsEqual(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is not ConnectionGene)
                 return false;
 
             ConnectionGene connection = (ConnectionGene)obj;
-            return _fromNode.IsEqual(connection.FromNode) && _toNode.IsEqual(connection.ToNode);
+            return _fromNode.Equals(connection.FromNode) && _toNode.Equals(connection.ToNode);
+        }
+
+        public override int GetHashCode()
+        {
+            return _fromNode.GetHashCode() * Neat.MAX_NODES + _toNode.GetHashCode();
         }
     }
 }

@@ -25,14 +25,17 @@ namespace NEATRex.src.NEAT.Genome
             set => _y = value;
         }
 
-        public override int HashCode => InnovationNum;
-
-        public override bool IsEqual(object other)
+        public override int GetHashCode()
         {
-            if (other is not NodeGene)
+            return InnovationNum;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not NodeGene)
                 return false;
 
-            NodeGene node = (NodeGene)other;
+            NodeGene node = (NodeGene)obj;
             return InnovationNum == node.InnovationNum;
         }
 
