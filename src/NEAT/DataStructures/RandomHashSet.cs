@@ -42,6 +42,26 @@ namespace NEATRex.src.NEAT.DataStructures
             _data.Add(item);
         }
 
+        public void AddSortedAscending(T item, Func<T, double> key)
+        {
+            if (_set.Contains(item))
+                return;
+
+            _set.Add(item);
+
+            int index = _data.Count;
+            for (int i = 0; i < _data.Count; i++)
+            {
+                if (key(item) < key(_data[i]))
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            _data.Insert(index, item);
+        }
+
         public void Clear()
         {
             _set.Clear();

@@ -9,7 +9,11 @@ namespace NEATRex.src.NEAT.NeuralEvolution
 {
     public class Neat
     {
-        public readonly static int MAX_NODES = (int)Math.Pow(2, 20);
+        public static readonly int MAX_NODES = (int)Math.Pow(2, 20);
+
+        public const double C1 = 1.0f, C2 = 1.0f, C3 = 1.0f;
+
+        public const double RANDOM_WEIGHT_STRENGTH = 1.0f, SHIFT_WEIGHT_STRENGTH = 0.3f;
 
         private Dictionary<ConnectionGene, ConnectionGene> _connectionsMap;
         private RandomHashSet<NodeGene> _nodesHashSet;

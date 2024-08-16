@@ -28,7 +28,7 @@ namespace NEATRex.src.NEAT.Genome
         public Neat Neat => _neat;
 
         // Compute the distance between two genomes.
-        // The genome of the class itself must have the highest inno num
+        // The genome of the class itself must have the higher inno num
         public double DistanceTo(Genome other)
         {
             int highestInno1 = _connections.Count > 0 ? _connections.GetAt(_connections.Count - 1).InnovationNum : 0;
@@ -68,16 +68,16 @@ namespace NEATRex.src.NEAT.Genome
                     disjoint++;
                     index2++;
                 }
-
-                excess = _connections.Count - index1;
-                weightDiff /= Math.Max(similar, 1);
-
-                double N = Math.Max(_connections.Count, other.Connections.Count);
-                if (N < 20)
-                    N = 1;
-
-                return _neat.C1 * disjoint / N + _neat.C2 * excess / N + _neat.C3 * weightDiff / N;
             }
+
+            excess = _connections.Count - index1;
+            weightDiff /= Math.Max(similar, 1);
+
+            double N = Math.Max(_connections.Count, other.Connections.Count);
+            if (N < 20)
+                N = 1;
+
+            return Neat.C1 * disjoint / N + Neat.C2 * excess / N + Neat.C3 * weightDiff / N;
         }
 
         // Genome A should have the higher score
@@ -117,26 +117,66 @@ namespace NEATRex.src.NEAT.Genome
                 {
                     index2++;
                 }
-
-                while (index1 < _connections.Count)
-                {
-                    ConnectionGene gene = _connections.GetAt(index1);
-                    g.Connections.Add(_neat.GetConnection(gene));
-                    index1++;
-                }
-
-                foreach (ConnectionGene gene in other.Connections.Data)
-                {
-                    g.Nodes.Add(gene.FromNode);
-                    g.Nodes.Add(gene.ToNode);
-                }
-
-                return g;
             }
+
+            while (index1 < _connections.Count)
+            {
+                ConnectionGene gene = _connections.GetAt(index1);
+                g.Connections.Add(_neat.GetConnection(gene));
+                index1++;
+            }
+
+            foreach (ConnectionGene gene in other.Connections.Data)
+            {
+                g.Nodes.Add(gene.FromNode);
+                g.Nodes.Add(gene.ToNode);
+            }
+
+            return g;
         }
 
         public void Mutate()
         {
+        }
+
+        public void MutateNode()
+        {
+        }
+
+        public void MutateConnection()
+        {
+        }
+
+        public void MutateWeightRandom()
+        {
+            ConnectionGene conn = _connections.GetRandom();
+
+            if (conn == null)
+                return;
+
+            Random rnd = new Random();
+            conn.Weight = (rnd.NextDouble() * 2 - 1) * Neat.RANDOM_WEIGHT_STRENGTH;
+        }
+
+        public void MutateWeightShift()
+        {
+            ConnectionGene conn = _connections.GetRandom();
+
+            if (conn == null)
+                return;
+
+            Random rnd = new Random();
+            conn.Weight += (rnd.NextDouble() * 2 - 1) * Neat.SHIFT_WEIGHT_STRENGTH;
+        }
+
+        public void MutateToggle()
+        {
+            ConnectionGene conn = _connections.GetRandom();
+
+            if (conn == null)
+                return;
+
+            conn.Enabled = !conn.Enabled;
         }
     }
 }
