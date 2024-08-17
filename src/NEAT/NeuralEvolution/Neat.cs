@@ -13,6 +13,10 @@ namespace NEATRex.src.NEAT.NeuralEvolution
 
         public const double C1 = 1.0f, C2 = 1.0f, C3 = 1.0f;
 
+        public const double MUTATE_NODE_PROB = 0.4f, MUTATE_CONNECTION_PROB = 0.4f;
+        public const double MUTATE_WEIGHT_SHIFT_PROB = 0.9f, MUTATE_WEIGHT_RANDOM_PROB = 0.1f;
+        public const double MUTATE_TOGGLE_PROB = 0.1f;
+
         public const double RANDOM_WEIGHT_STRENGTH = 1.0f, SHIFT_WEIGHT_STRENGTH = 0.3f;
 
         private Dictionary<ConnectionGene, ConnectionGene> _connectionsMap;

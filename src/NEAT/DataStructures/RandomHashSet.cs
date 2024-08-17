@@ -42,7 +42,7 @@ namespace NEATRex.src.NEAT.DataStructures
             _data.Add(item);
         }
 
-        public void AddSortedAscending(T item, Func<T, double> key)
+        public void AddSortedAscending(T item, Func<T, int> key)
         {
             if (_set.Contains(item))
                 return;

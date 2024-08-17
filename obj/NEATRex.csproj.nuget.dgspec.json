@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Desktop\\NEATRex\\NEATRex.csproj": {}
+    "c:\\Users\\Admin\\Desktop\\NEATRex\\NEATRex.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Desktop\\NEATRex\\NEATRex.csproj": {
+    "c:\\Users\\Admin\\Desktop\\NEATRex\\NEATRex.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Desktop\\NEATRex\\NEATRex.csproj",
+        "projectUniqueName": "c:\\Users\\Admin\\Desktop\\NEATRex\\NEATRex.csproj",
         "projectName": "NEATRex",
-        "projectPath": "C:\\Users\\Admin\\Desktop\\NEATRex\\NEATRex.csproj",
+        "projectPath": "c:\\Users\\Admin\\Desktop\\NEATRex\\NEATRex.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Desktop\\NEATRex\\obj\\",
+        "outputPath": "c:\\Users\\Admin\\Desktop\\NEATRex\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

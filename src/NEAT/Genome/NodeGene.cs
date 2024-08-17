@@ -13,6 +13,12 @@ namespace NEATRex.src.NEAT.Genome
         {
         }
 
+        public NodeGene(int innovation, double x, double y) : base(innovation)
+        {
+            _x = x;
+            _y = y;
+        }
+
         public double X
         {
             get => _x;
@@ -37,6 +43,11 @@ namespace NEATRex.src.NEAT.Genome
 
             NodeGene node = (NodeGene)obj;
             return InnovationNum == node.InnovationNum;
+        }
+
+        public override Gene Clone()
+        {
+            return new NodeGene(InnovationNum, _x, _y);
         }
     }
 }

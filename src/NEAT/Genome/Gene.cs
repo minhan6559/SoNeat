@@ -20,5 +20,6 @@ namespace NEATRex.src.NEAT.Genome
 
         public abstract override bool Equals(object? obj);
         public abstract override int GetHashCode();
+        public abstract Gene Clone();
     }
 }

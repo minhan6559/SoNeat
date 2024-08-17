@@ -21,6 +21,22 @@ namespace NEATRex.src.NEAT.Genome
             _enabled = true;
         }
 
+        public ConnectionGene(NodeGene fromNode, NodeGene toNode, double weight)
+        {
+            _fromNode = fromNode;
+            _toNode = toNode;
+            _weight = weight;
+            _enabled = true;
+        }
+
+        public ConnectionGene(NodeGene fromNode, NodeGene toNode, double weight, bool enabled)
+        {
+            _fromNode = fromNode;
+            _toNode = toNode;
+            _weight = weight;
+            _enabled = enabled;
+        }
+
         public NodeGene FromNode
         {
             get => _fromNode;
@@ -57,6 +73,11 @@ namespace NEATRex.src.NEAT.Genome
         public override int GetHashCode()
         {
             return _fromNode.GetHashCode() * Neat.MAX_NODES + _toNode.GetHashCode();
+        }
+
+        public override Gene Clone()
+        {
+            return new ConnectionGene(_fromNode, _toNode, _weight, _enabled);
         }
     }
 }
