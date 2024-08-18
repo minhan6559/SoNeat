@@ -28,7 +28,7 @@ namespace NEATRex.src.NEAT.NeuralEvolution
         private RandomHashSet<Agent> _agents;
         private RandomHashSet<Species> _species;
 
-        private int _inputSize, _outputSize, _max_agents;
+        private int _inputSize, _outputSize, _population;
 
         public Neat(int inputSize, int outputSize, int max_agents)
         {
@@ -42,14 +42,14 @@ namespace NEATRex.src.NEAT.NeuralEvolution
 
         public int InputSize => _inputSize;
         public int OutputSize => _outputSize;
-        public int MaxAgents => _max_agents;
+        public int Population => _population;
         public RandomHashSet<Agent> Agents => _agents;
 
-        public void Reset(int inputSize, int outputSize, int max_agents)
+        public void Reset(int inputSize, int outputSize, int population)
         {
             _inputSize = inputSize;
             _outputSize = outputSize;
-            _max_agents = max_agents;
+            _population = population;
 
             _connectionsMap.Clear();
             _nodesHashSet.Clear();
@@ -69,7 +69,7 @@ namespace NEATRex.src.NEAT.NeuralEvolution
                 node.Y = (i + 1) / (double)(_outputSize + 1);
             }
 
-            for (int i = 0; i < max_agents; i++)
+            for (int i = 0; i < _population; i++)
             {
                 Agent agent = new Agent(CreateEmptyGenome());
                 agent.CreateCalculator();

@@ -10,7 +10,7 @@ namespace NEATRex
     {
         public static void Main()
         {
-            Neat neat = new Neat(10, 1, 1000);
+            Neat neat = new Neat(10, 1, 100);
 
             double[] input = new double[10];
             Random random = new Random();
@@ -31,14 +31,15 @@ namespace NEATRex
                 neat.PrintSpecies();
             }
 
-            foreach (Agent c in neat.Agents.Data)
-            {
-                foreach (ConnectionGene g in c.Genome.Connections.Data)
-                {
-                    Console.Write(g.InnovationNum + " ");
-                }
-                Console.WriteLine();
-            }
+            // foreach (Agent c in neat.Agents.Data)
+            // {
+            //     foreach (ConnectionGene g in c.Genome.Connections.Data)
+            //     {
+            //         Console.Write(g.InnovationNum + " ");
+            //     }
+            //     Console.WriteLine(c.Fitness);
+            //     Console.WriteLine();
+            // }
         }
     }
 }
