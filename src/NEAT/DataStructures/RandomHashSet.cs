@@ -85,7 +85,7 @@ namespace NEATRex.src.NEAT.DataStructures
             _data.Remove(item);
         }
 
-        public void Remove(int index)
+        public void RemoveAt(int index)
         {
             if (index < 0 || index >= _data.Count)
                 return;

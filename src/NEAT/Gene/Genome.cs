@@ -8,21 +8,19 @@ using NEATRex.src.NEAT.DataStructures;
 using NEATRex.src.NEAT.NeuralEvolution;
 using NEATRex.src.NEAT.Calculation;
 
-namespace NEATRex.src.NEAT.Genome
+namespace NEATRex.src.NEAT.Gene
 {
     public class Genome
     {
         private RandomHashSet<ConnectionGene> _connections;
         private RandomHashSet<NodeGene> _nodes;
         private Neat _neat;
-        private Calculator? _calculator;
 
         public Genome(Neat neat)
         {
             _connections = new RandomHashSet<ConnectionGene>();
             _nodes = new RandomHashSet<NodeGene>();
             _neat = neat;
-            _calculator = null;
         }
 
         public RandomHashSet<ConnectionGene> Connections => _connections;
@@ -79,7 +77,7 @@ namespace NEATRex.src.NEAT.Genome
             if (N < 20)
                 N = 1;
 
-            return Neat.C1 * disjoint / N + Neat.C2 * excess / N + Neat.C3 * weightDiff / N;
+            return Neat.C1 * disjoint / N + Neat.C2 * excess / N + Neat.C3 * weightDiff;
         }
 
         // Genome A should have the higher score
@@ -128,7 +126,7 @@ namespace NEATRex.src.NEAT.Genome
                 index1++;
             }
 
-            foreach (ConnectionGene gene in other.Connections.Data)
+            foreach (ConnectionGene gene in g.Connections.Data)
             {
                 g.Nodes.Add(gene.FromNode);
                 g.Nodes.Add(gene.ToNode);
@@ -163,13 +161,24 @@ namespace NEATRex.src.NEAT.Genome
             NodeGene b = conn.ToNode;
 
             NodeGene mid = _neat.CreateNode();
-            mid.X = (a.X + b.X) / 2;
-            mid.Y = (a.Y + b.Y) / 2;
+            // mid.X = (a.X + b.X) / 2;
+            // mid.Y = (a.Y + b.Y) / 2;
+            int replaceIndex = _neat.GetReplaceIndex(a, b);
+            if (replaceIndex == -1)
+            {
+                mid.X = (a.X + b.X) / 2;
+                mid.Y = (a.Y + b.Y) / 2 + rnd.NextDouble() * 0.1 - 0.05;
+                _neat.SetReplaceIndex(a, b, mid.InnovationNum);
+            }
+            else
+            {
+                mid = _neat.GetNodeAt(replaceIndex);
+            }
 
             ConnectionGene conn1 = _neat.GetConnection(a, mid);
             ConnectionGene conn2 = _neat.GetConnection(mid, b);
 
-            conn1.Weight = 1.0;
+            conn1.Weight = 1.0f;
             conn2.Weight = conn.Weight;
             conn2.Enabled = conn.Enabled;
 
@@ -241,18 +250,6 @@ namespace NEATRex.src.NEAT.Genome
                 return;
 
             conn.Enabled = !conn.Enabled;
-        }
-
-        public void CreateCalculator()
-        {
-            _calculator = new Calculator(this);
-        }
-
-        public double[]? FeedForward(params double[] inputs)
-        {
-            if (_calculator != null)
-                return _calculator.FeedForward(inputs);
-            return null;
         }
     }
 }

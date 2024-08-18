@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NEATRex.src.NEAT.Genome
+namespace NEATRex.src.NEAT.Gene
 {
     public class NodeGene : Gene
     {

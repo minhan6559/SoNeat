@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NEATRex")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e2d1e924e7edeb38f7db93a1ad4bc993496bd028")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f3236a29bed921d5616dfdcedc09299ce026fe5")]
 [assembly: System.Reflection.AssemblyProductAttribute("NEATRex")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NEATRex")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

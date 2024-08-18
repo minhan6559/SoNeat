@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using NEATRex.src.NEAT.Genome;
+using NEATRex.src.NEAT.Gene;
 using NEATRex.src.NEAT.DataStructures;
 
 namespace NEATRex.src.NEAT.Calculation
@@ -12,7 +12,7 @@ namespace NEATRex.src.NEAT.Calculation
     {
         private List<Node> _inputNodes, _outputNodes, _hiddenNodes;
 
-        public Calculator(Genome.Genome g)
+        public Calculator(Genome g)
         {
             _inputNodes = new List<Node>();
             _outputNodes = new List<Node>();

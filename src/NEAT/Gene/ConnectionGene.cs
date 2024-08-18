@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using NEATRex.src.NEAT.NeuralEvolution;
 
-namespace NEATRex.src.NEAT.Genome
+namespace NEATRex.src.NEAT.Gene
 {
     public class ConnectionGene : Gene
     {
@@ -13,12 +13,15 @@ namespace NEATRex.src.NEAT.Genome
         private double _weight;
         private bool _enabled;
 
+        private int _replaceIndex;
+
         public ConnectionGene(NodeGene fromNode, NodeGene toNode)
         {
             _fromNode = fromNode;
             _toNode = toNode;
             _weight = 0.0f;
             _enabled = true;
+            _replaceIndex = -1;
         }
 
         public ConnectionGene(NodeGene fromNode, NodeGene toNode, double weight)
@@ -30,6 +33,13 @@ namespace NEATRex.src.NEAT.Genome
         }
 
         public ConnectionGene(NodeGene fromNode, NodeGene toNode, double weight, bool enabled)
+        {
+            _fromNode = fromNode;
+            _toNode = toNode;
+            _weight = weight;
+            _enabled = enabled;
+        }
+        public ConnectionGene(NodeGene fromNode, NodeGene toNode, double weight, bool enabled, int innovationNum) : base(innovationNum)
         {
             _fromNode = fromNode;
             _toNode = toNode;
@@ -61,6 +71,12 @@ namespace NEATRex.src.NEAT.Genome
             set => _enabled = value;
         }
 
+        public int ReplaceIndex
+        {
+            get => _replaceIndex;
+            set => _replaceIndex = value;
+        }
+
         public override bool Equals(object? obj)
         {
             if (obj is not ConnectionGene)
@@ -77,7 +93,7 @@ namespace NEATRex.src.NEAT.Genome
 
         public override Gene Clone()
         {
-            return new ConnectionGene(_fromNode, _toNode, _weight, _enabled);
+            return new ConnectionGene(_fromNode, _toNode, _weight, _enabled, InnovationNum);
         }
     }
 }
