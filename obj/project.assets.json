@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\NEATRex\\SoNeat.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\SoNeat\\SoNeat.csproj",
       "projectName": "SoNeat",
-      "projectPath": "C:\\Users\\Admin\\Desktop\\NEATRex\\SoNeat.csproj",
+      "projectPath": "C:\\Users\\Admin\\Desktop\\SoNeat\\SoNeat.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Desktop\\NEATRex\\obj\\",
+      "outputPath": "C:\\Users\\Admin\\Desktop\\SoNeat\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
