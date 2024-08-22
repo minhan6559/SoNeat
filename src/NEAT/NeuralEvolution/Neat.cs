@@ -30,14 +30,14 @@ namespace NEATRex.src.NEAT.NeuralEvolution
 
         private int _inputSize, _outputSize, _population;
 
-        public Neat(int inputSize, int outputSize, int max_agents)
+        public Neat(int inputSize, int outputSize, int population)
         {
             _connectionsMap = new Dictionary<ConnectionGene, ConnectionGene>();
             _nodesHashSet = new RandomHashSet<NodeGene>();
             _agents = new RandomHashSet<Agent>();
             _species = new RandomHashSet<Species>();
 
-            Reset(inputSize, outputSize, max_agents);
+            Reset(inputSize, outputSize, population);
         }
 
         public int InputSize => _inputSize;

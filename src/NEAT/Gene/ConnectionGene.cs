@@ -30,6 +30,7 @@ namespace NEATRex.src.NEAT.Gene
             _toNode = toNode;
             _weight = weight;
             _enabled = true;
+            _replaceIndex = -1;
         }
 
         public ConnectionGene(NodeGene fromNode, NodeGene toNode, double weight, bool enabled)
@@ -38,6 +39,7 @@ namespace NEATRex.src.NEAT.Gene
             _toNode = toNode;
             _weight = weight;
             _enabled = enabled;
+            _replaceIndex = -1;
         }
         public ConnectionGene(NodeGene fromNode, NodeGene toNode, double weight, bool enabled, int innovationNum) : base(innovationNum)
         {
@@ -45,6 +47,7 @@ namespace NEATRex.src.NEAT.Gene
             _toNode = toNode;
             _weight = weight;
             _enabled = enabled;
+            _replaceIndex = -1;
         }
 
         public NodeGene FromNode
