@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using NEATRex.src.NEAT.Gene;
-using NEATRex.src.NEAT.DataStructures;
+using SoNeat.src.NEAT.Gene;
+using SoNeat.src.NEAT.DataStructures;
 
-namespace NEATRex.src.NEAT.Calculation
+namespace SoNeat.src.NEAT.Calculation
 {
     public class Calculator
     {

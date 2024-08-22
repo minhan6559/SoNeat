@@ -4,11 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
-using NEATRex.src.NEAT.DataStructures;
-using NEATRex.src.NEAT.NeuralEvolution;
-using NEATRex.src.NEAT.Calculation;
+using SoNeat.src.NEAT.DataStructures;
+using SoNeat.src.NEAT.NeuralEvolution;
+using SoNeat.src.NEAT.Calculation;
 
-namespace NEATRex.src.NEAT.Gene
+namespace SoNeat.src.NEAT.Gene
 {
     public class Genome
     {

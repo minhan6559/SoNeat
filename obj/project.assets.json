@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\NEATRex\\NEATRex.csproj",
-      "projectName": "NEATRex",
-      "projectPath": "C:\\Users\\Admin\\Desktop\\NEATRex\\NEATRex.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\NEATRex\\SoNeat.csproj",
+      "projectName": "SoNeat",
+      "projectPath": "C:\\Users\\Admin\\Desktop\\NEATRex\\SoNeat.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Admin\\Desktop\\NEATRex\\obj\\",
       "projectStyle": "PackageReference",

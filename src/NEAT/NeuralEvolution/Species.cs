@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using NEATRex.src.NEAT.Gene;
-using NEATRex.src.NEAT.DataStructures;
+using SoNeat.src.NEAT.Gene;
+using SoNeat.src.NEAT.DataStructures;
 
-namespace NEATRex.src.NEAT.NeuralEvolution
+namespace SoNeat.src.NEAT.NeuralEvolution
 {
     public class Species
     {

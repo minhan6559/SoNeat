@@ -1,10 +1,10 @@
 using System;
 using SplashKitSDK;
-using NEATRex.src.NEAT.DataStructures;
-using NEATRex.src.NEAT.Gene;
-using NEATRex.src.NEAT.NeuralEvolution;
+using SoNeat.src.NEAT.DataStructures;
+using SoNeat.src.NEAT.Gene;
+using SoNeat.src.NEAT.NeuralEvolution;
 
-namespace NEATRex
+namespace SoNeat
 {
     public class Program
     {
