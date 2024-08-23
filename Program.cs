@@ -4,19 +4,28 @@ using SoNeat.src.NEAT.DataStructures;
 using SoNeat.src.NEAT.Gene;
 using SoNeat.src.NEAT.NeuralEvolution;
 
+using SoNeat.src.Screen;
+using SoNeat.src.GameLogic;
+
 namespace SoNeat
 {
     public class Program
     {
-        public static void SandBox()
-        {
-            // Make a sonic sprite with animation with SplashKit
-
-        }
-
         public static void Main()
         {
-            SandBox();
+            Window window = new Window("SoNeat", 1250, 720);
+            ScreenManager.Instance.SetState(new GameScreenState());
+
+            while (!window.CloseRequested)
+            {
+                SplashKit.ProcessEvents();
+                ScreenManager.Instance.Update();
+
+                window.Clear(Color.White);
+
+                ScreenManager.Instance.Draw();
+                SplashKit.RefreshScreen(60);
+            }
         }
     }
 }
