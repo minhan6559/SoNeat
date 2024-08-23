@@ -14,7 +14,7 @@ namespace SoNeat
         public static void Main()
         {
             Window window = new Window("SoNeat", 1250, 720);
-            ScreenManager.Instance.SetState(new GameScreenState());
+            ScreenManager.Instance.SetState(new TestScreenState());
 
             while (!window.CloseRequested)
             {

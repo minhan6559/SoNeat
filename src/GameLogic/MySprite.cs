@@ -89,5 +89,15 @@ namespace SoNeat.src.GameLogic
         {
             _animations[_current_animation][_current_animation_frame].Draw(X, Y);
         }
+
+        public void Play(string animation)
+        {
+            if (_animations.ContainsKey(animation) && _current_animation != animation)
+            {
+                _current_animation = animation;
+                _current_animation_frame = 0;
+                _animation_timer = 0;
+            }
+        }
     }
 }

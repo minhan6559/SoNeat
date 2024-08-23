@@ -13,6 +13,7 @@ namespace SoNeat.src.Screen
         public void EnterState()
         {
             _sonic = new MySprite("assets\\images\\Sonic", 52, 509);
+            _sonic.Play("Run");
         }
 
         public void Update()
