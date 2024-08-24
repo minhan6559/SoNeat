@@ -13,10 +13,8 @@ namespace SoNeat.src.GameLogic
         private string _current_animation;
         private int _current_animation_frame;
         private int _animation_timer;
-        public float X { get; set; }
-        public float Y { get; set; }
 
-        public MySprite(string folderPath, float x, float y)
+        public MySprite(string folderPath)
         {
             _animations = new Dictionary<string, List<Bitmap>>();
             _animation_lengths = new Dictionary<string, int>();
@@ -24,14 +22,11 @@ namespace SoNeat.src.GameLogic
             _animation_timer = 0;
             _current_animation_frame = 0;
 
-            X = x;
-            Y = y;
-
             LoadSettings(folderPath);
         }
 
-        public float Width => _animations.Values.First().First().Width;
-        public float Height => _animations.Values.First().First().Height;
+        public Dictionary<string, List<Bitmap>> Animations => _animations;
+        public Bitmap CurrentBitmap => _animations[_current_animation][_current_animation_frame];
 
         private void LoadSettings(string folderPath)
         {
@@ -85,9 +80,9 @@ namespace SoNeat.src.GameLogic
             }
         }
 
-        public void Draw()
+        public void Draw(float x, float y)
         {
-            _animations[_current_animation][_current_animation_frame].Draw(X, Y);
+            _animations[_current_animation][_current_animation_frame].Draw(x, y);
         }
 
         public void Play(string animation)

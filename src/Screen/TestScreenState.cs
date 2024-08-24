@@ -4,34 +4,65 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using SoNeat.src.GameLogic;
+using SplashKitSDK;
 
 namespace SoNeat.src.Screen
 {
     public class TestScreenState : IScreenState
     {
-        private MySprite _sonic;
+        private Ground? _ground;
+        private Sonic? _sonic;
+        private float _gameSpeed;
+        private List<Obstacle>? _obstacles;
+
         public void EnterState()
         {
-            _sonic = new MySprite("assets\\images\\Sonic", 52, 509);
-            _sonic.Play("Run");
+            _gameSpeed = 8;
+            _ground = new Ground(0, 634, _gameSpeed);
+            _sonic = new Sonic(52, 509, _ground.Y, _gameSpeed);
+            _obstacles = new List<Obstacle>()
+            {
+                ObstacleFactory.CreateObstacle(ObstacleType.Crab, 1080, 560, _gameSpeed)
+            };
         }
 
         public void Update()
         {
             // Handle game logic, player input, and updates
-            _sonic.Update();
+            _sonic!.Update();
+            _ground!.Update();
+            foreach (Obstacle obstacle in _obstacles!)
+            {
+                obstacle.Update();
+            }
+        }
+
+        public void UpdateGameSpeed(float gameSpeed)
+        {
+            _gameSpeed = gameSpeed;
+            _sonic!.GameSpeed = gameSpeed;
+            _ground!.GameSpeed = gameSpeed;
+            foreach (Obstacle obstacle in _obstacles!)
+            {
+                obstacle.GameSpeed = gameSpeed;
+            }
         }
 
         public void Draw()
         {
             // Draw the game elements to the screen
-            _sonic.Draw();
+            _sonic!.Draw();
+            _ground!.Draw();
+            foreach (Obstacle obstacle in _obstacles!)
+            {
+                obstacle.Draw();
+            }
         }
 
         public void ExitState()
         {
             // Clean up the game screen
-            Console.WriteLine("Exiting Test Screen State");
+            Console.WriteLine("Exiting Game Screen State");
         }
     }
 }

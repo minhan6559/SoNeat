@@ -21,7 +21,7 @@ namespace SoNeat
                 SplashKit.ProcessEvents();
                 ScreenManager.Instance.Update();
 
-                window.Clear(Color.White);
+                window.Clear(Color.RGBColor(132, 204, 234));
 
                 ScreenManager.Instance.Draw();
                 SplashKit.RefreshScreen(60);
