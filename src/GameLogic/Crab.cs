@@ -7,7 +7,7 @@ namespace SoNeat.src.GameLogic
 {
     public class Crab : Obstacle
     {
-        public Crab(float x, float y, float gameSpeed, string folderPath = "assets\\images\\Crab")
+        public Crab(float x, float y, float gameSpeed, string folderPath)
                     : base(x, y, gameSpeed, folderPath)
         {
 
