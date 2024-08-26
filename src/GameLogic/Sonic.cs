@@ -9,13 +9,14 @@ namespace SoNeat.src.GameLogic
 {
     public class Sonic : GameObject
     {
+        public const string DEFAULT_FOLDER_PATH = "assets/images/Sonic";
         private bool _isJumping;
         private bool _isDucking;
         private float _velocityY;
         private float _floorY;
         private float _gravity;
 
-        public Sonic(float x, float y, float floorY, float gameSpeed, string folderPath = "assets\\images\\Sonic")
+        public Sonic(float x, float y, float floorY, float gameSpeed, string folderPath = DEFAULT_FOLDER_PATH)
                     : base(x, y, gameSpeed, folderPath)
         {
             _isJumping = false;

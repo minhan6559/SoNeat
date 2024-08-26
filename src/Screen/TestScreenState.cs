@@ -17,7 +17,7 @@ namespace SoNeat.src.Screen
 
         public void EnterState()
         {
-            _gameSpeed = 8;
+            _gameSpeed = 10;
             _ground = new Ground(0, 634, _gameSpeed);
             _sonic = new Sonic(52, 509, _ground.Y, _gameSpeed);
             _obstacles = new List<Obstacle>()

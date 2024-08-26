@@ -30,6 +30,7 @@ namespace SoNeat.src.GameLogic
 
         private void LoadSettings(string folderPath)
         {
+            folderPath = NormalizePath(folderPath);
             string[] directories = Directory.GetDirectories(folderPath);
             foreach (string directory in directories)
             {
@@ -68,6 +69,19 @@ namespace SoNeat.src.GameLogic
             }
 
             _current_animation = _animations.Keys.First();
+        }
+
+        private static string NormalizePath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                return "";
+
+            // Determine the correct separator for the current OS
+            char correctSeparator = Path.DirectorySeparatorChar;
+            char incorrectSeparator = (correctSeparator == '/') ? '\\' : '/';
+
+            // Replace incorrect separators with the correct ones
+            return path.Replace(incorrectSeparator, correctSeparator);
         }
 
         public void Update()
