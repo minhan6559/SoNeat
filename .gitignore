@@ -1,2 +1,15 @@
 lib/SplashKit.cs
 *.dll
+bin/Debug/net8.0/SoNeat.exe
+bin/Debug/net8.0/SoNeat.pdb
+obj/Debug/net8.0/apphost.exe
+obj/Debug/net8.0/SoNeat.AssemblyInfo.cs
+obj/Debug/net8.0/SoNeat.AssemblyInfoInputs.cache
+obj/Debug/net8.0/SoNeat.assets.cache
+obj/Debug/net8.0/SoNeat.GeneratedMSBuildEditorConfig.editorconfig
+obj/Debug/net8.0/SoNeat.pdb
+obj/project.assets.json
+obj/Debug/net8.0/SoNeat.sourcelink.json
+obj/project.nuget.cache
+obj/SoNeat.csproj.nuget.dgspec.json
+obj/SoNeat.csproj.nuget.g.props

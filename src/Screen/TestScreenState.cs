@@ -31,9 +31,15 @@ namespace SoNeat.src.Screen
             // Handle game logic, player input, and updates
             _sonic!.Update();
             _ground!.Update();
-            foreach (Obstacle obstacle in _obstacles!)
+
+            for (int i = 0; i < _obstacles!.Count; i++)
             {
-                obstacle.Update();
+                _obstacles[i].Update();
+                if (_obstacles[i].IsOffScreen())
+                {
+                    _obstacles.RemoveAt(i);
+                    i--;
+                }
             }
         }
 
