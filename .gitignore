@@ -1,4 +1,5 @@
 lib/SplashKit.cs
+*.dll
 bin/Debug/net8.0/SoNeat.exe
 bin/Debug/net8.0/SoNeat.pdb
 obj/Debug/net8.0/apphost.exe
