@@ -1,0 +1,2 @@
+BITMAP,SonicBMP,sonic_run.png,216,125,2,1,2
+ANIM,SonicScript,sonic_run.txt
