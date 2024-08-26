@@ -13,3 +13,5 @@ obj/Debug/net8.0/SoNeat.sourcelink.json
 obj/project.nuget.cache
 obj/SoNeat.csproj.nuget.dgspec.json
 obj/SoNeat.csproj.nuget.g.props
+obj/Debug/net8.0/SoNeat.AssemblyInfo.cs
+obj/Debug/net8.0/SoNeat.AssemblyInfoInputs.cache
