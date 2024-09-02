@@ -2,28 +2,59 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
+using SplashKitSDK;
 
 namespace SoNeat.src.GameLogic
 {
     public enum ObstacleType
     {
         Crab,
-        Bird
+        Rock,
+        Bat,
+        Spike
     }
 
     public class ObstacleFactory
     {
-        public static Obstacle CreateObstacle(ObstacleType type, float x, float y, float gameSpeed)
+        private static readonly Random _random = new Random();
+        public static Obstacle CreateObstacle(float gameSpeed, ObstacleType? type = null)
         {
+            if (type == null)
+            {
+                type = (ObstacleType)_random.Next(0, Enum.GetValues(typeof(ObstacleType)).Length);
+            }
+
             string spritesFolderPath = Path.Combine("assets", "images");
-            string folderPath = Path.Combine(spritesFolderPath, type.ToString());
+            string folderPath = Path.Combine(spritesFolderPath, type.ToString()!);
 
             return type switch
             {
-                ObstacleType.Crab => new Crab(x, y, gameSpeed, folderPath),
+                ObstacleType.Crab => new Crab(SplashKit.ScreenWidth(), 560, gameSpeed, gameSpeed, folderPath),
+                ObstacleType.Rock => new Rock(SplashKit.ScreenWidth(), 604, gameSpeed, gameSpeed, folderPath),
+                ObstacleType.Bat => CreateBatObstacle(gameSpeed, folderPath),
+                ObstacleType.Spike => new Spike(SplashKit.ScreenWidth(), 583, gameSpeed, gameSpeed, folderPath),
                 _ => throw new ArgumentException("Invalid obstacle type")
             };
+        }
+
+        // Create Bat obstacle randomly
+        public static Obstacle CreateBatObstacle(float gameSpeed, string folderPath)
+        {
+            float randomY;
+
+            if (_random.NextDouble() < 0.5)
+            {
+                randomY = 465;
+            }
+            else
+            {
+                randomY = 348;
+            }
+
+            float randomSpeed = (float)(_random.NextDouble() * (0.25 * gameSpeed) + gameSpeed);
+
+            return new Bat(SplashKit.ScreenWidth(), randomY, randomSpeed, gameSpeed, folderPath);
         }
     }
 }

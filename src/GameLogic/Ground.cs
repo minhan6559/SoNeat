@@ -11,7 +11,7 @@ namespace SoNeat.src.GameLogic
         private float _groundX1, _groundX2;
 
         public Ground(float x, float y, float gameSpeed, string folderPath = DEFAULT_FOLDER_PATH)
-                    : base(x, y, gameSpeed, folderPath)
+                    : base(x, y, gameSpeed, gameSpeed, folderPath)
         {
             _groundX1 = x;
             _groundX2 = x + CurrentBitmap.Width;

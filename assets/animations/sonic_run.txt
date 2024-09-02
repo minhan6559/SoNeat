@@ -1,5 +1,0 @@
-SplashKit Animation
-
-f: [0,1], [0,1], 0
-
-i: sonic_run, 0

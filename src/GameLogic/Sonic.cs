@@ -17,7 +17,7 @@ namespace SoNeat.src.GameLogic
         private float _gravity;
 
         public Sonic(float x, float y, float floorY, float gameSpeed, string folderPath = DEFAULT_FOLDER_PATH)
-                    : base(x, y, gameSpeed, folderPath)
+                    : base(x, y, 0, gameSpeed, folderPath)
         {
             _isJumping = false;
             _isDucking = false;
@@ -35,12 +35,7 @@ namespace SoNeat.src.GameLogic
 
         public override void Move()
         {
-            if (SplashKit.KeyDown(KeyCode.SpaceKey))
-            {
-                Jump();
-            }
-
-            if (SplashKit.KeyDown(KeyCode.DownKey))
+            if (SplashKit.KeyTyped(KeyCode.DownKey))
             {
                 Duck();
             }
@@ -48,6 +43,11 @@ namespace SoNeat.src.GameLogic
             if (SplashKit.KeyUp(KeyCode.DownKey))
             {
                 _isDucking = false;
+            }
+
+            if (SplashKit.KeyDown(KeyCode.SpaceKey))
+            {
+                Jump();
             }
 
             if (_isJumping)
@@ -88,6 +88,12 @@ namespace SoNeat.src.GameLogic
                 _gravity = 1.2f;
             }
             _isJumping = true;
+
+            if (_isDucking)
+            {
+                _isDucking = false;
+            }
+
             Sprite.Play("Jump");
         }
 

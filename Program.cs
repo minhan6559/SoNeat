@@ -11,17 +11,18 @@ namespace SoNeat
 {
     public class Program
     {
+        private static readonly Color BACKGROUND_COLOR = Color.RGBColor(132, 204, 234);
         public static void Main()
         {
             Window window = new Window("SoNeat", 1250, 720);
-            ScreenManager.Instance.SetState(new TestScreenState());
+            ScreenManager.Instance.SetState(new GameScreenState());
 
             while (!window.CloseRequested)
             {
                 SplashKit.ProcessEvents();
                 ScreenManager.Instance.Update();
 
-                window.Clear(Color.RGBColor(132, 204, 234));
+                window.Clear(BACKGROUND_COLOR);
 
                 ScreenManager.Instance.Draw();
                 SplashKit.RefreshScreen(60);
