@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using SoNeat.src.Utils;
 using SplashKitSDK;
 
 namespace SoNeat.src.GameLogic
@@ -30,8 +32,8 @@ namespace SoNeat.src.GameLogic
 
         private void LoadSettings(string folderPath)
         {
-            folderPath = NormalizePath(folderPath);
-            string[] directories = Directory.GetDirectories(folderPath);
+            string normalizedPath = Utility.NormalizePath(folderPath);
+            string[] directories = Directory.GetDirectories(normalizedPath);
             foreach (string directory in directories)
             {
                 string folderName = Path.GetFileName(directory);
@@ -69,19 +71,6 @@ namespace SoNeat.src.GameLogic
             }
 
             _current_animation = _animations.Keys.First();
-        }
-
-        private static string NormalizePath(string path)
-        {
-            if (string.IsNullOrWhiteSpace(path))
-                return "";
-
-            // Determine the correct separator for the current OS
-            char correctSeparator = Path.DirectorySeparatorChar;
-            char incorrectSeparator = (correctSeparator == '/') ? '\\' : '/';
-
-            // Replace incorrect separators with the correct ones
-            return path.Replace(incorrectSeparator, correctSeparator);
         }
 
         public void Update()

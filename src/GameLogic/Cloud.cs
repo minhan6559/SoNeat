@@ -12,5 +12,10 @@ namespace SoNeat.src.GameLogic
                     : base(x, y, speed, 0, folderPath)
         {
         }
+
+        public override void Update()
+        {
+            Move();
+        }
     }
 }

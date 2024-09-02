@@ -14,6 +14,11 @@ namespace SoNeat.src.GameLogic
 
         }
 
+        public override void Update()
+        {
+            Move();
+        }
+
         public override void UpdateGameSpeed(float gameSpeed)
         {
             base.UpdateGameSpeed(gameSpeed);

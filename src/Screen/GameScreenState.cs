@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using SplashKitSDK;
 using SoNeat.src.GameLogic;
+using SoNeat.src.Utils;
 
 namespace SoNeat.src.Screen
 {
@@ -17,7 +18,10 @@ namespace SoNeat.src.Screen
         private List<Cloud>? _clouds;
 
         // Game Logic
+        private double _score;
+        private double _lastScoreMilestone;
         private float _gameSpeed;
+        private float _gameSpeedIncrement;
         private double _nextObstacleInterval;
         private double _nextCloudInterval;
         private static readonly SplashKitSDK.Timer _obstacleTimer = new("Obstacle Timer");
@@ -27,10 +31,17 @@ namespace SoNeat.src.Screen
         public void EnterState()
         {
             _gameSpeed = 10;
+
             _ground = new Ground(0, 634, _gameSpeed);
             _sonic = new Sonic(52, 509, _ground.Y, _gameSpeed);
             _obstacles = new List<Obstacle>();
             _clouds = new List<Cloud>();
+
+            SplashKit.LoadFont("PressStart2P", Utility.NormalizePath("assets/fonts/PressStart2P.ttf"));
+
+            _score = 0;
+            _lastScoreMilestone = 0;
+            _gameSpeedIncrement = 0.5f;
 
             _obstacleTimer.Start();
             _nextObstacleInterval = 1000;
@@ -41,6 +52,13 @@ namespace SoNeat.src.Screen
 
         public void Update()
         {
+            _score += _gameSpeed / 60;
+            if (Math.Floor(_score) >= _lastScoreMilestone + 100)
+            {
+                _lastScoreMilestone = Math.Floor(_score);
+                UpdateGameSpeed(_gameSpeed + _gameSpeedIncrement);
+            }
+
             // Handle game logic, player input, and updates
             _sonic!.Update();
             _ground!.Update();
@@ -94,18 +112,18 @@ namespace SoNeat.src.Screen
         public void UpdateGameSpeed(float gameSpeed)
         {
             _gameSpeed = gameSpeed;
-            _sonic!.GameSpeed = gameSpeed;
-            _ground!.GameSpeed = gameSpeed;
+            _sonic!.UpdateGameSpeed(gameSpeed);
+            _ground!.UpdateGameSpeed(gameSpeed);
             foreach (Obstacle obstacle in _obstacles!)
             {
-                obstacle.GameSpeed = gameSpeed;
+                obstacle.UpdateGameSpeed(gameSpeed);
             }
         }
 
         private void SetNextObstacleInterval()
         {
             // Base interval is reduced as the game speed increases
-            double baseInterval = Math.Max(2000 / _gameSpeed, 800);
+            double baseInterval = Math.Max(9000 / _gameSpeed, 600);
 
             // Add some randomness to the interval
             _nextObstacleInterval = _random.NextDouble() * baseInterval + baseInterval;
@@ -133,6 +151,21 @@ namespace SoNeat.src.Screen
             {
                 obstacle.Draw();
             }
+
+            DrawScore();
+        }
+
+        public void DrawScore()
+        {
+            string scoreStr = Math.Floor(_score).ToString();
+
+            // Padding the score with zeros to fit 5 digits
+            while (scoreStr.Length < 5)
+            {
+                scoreStr = "0" + scoreStr;
+            }
+
+            SplashKit.DrawText($"SCORE:{scoreStr}", Color.Black, "PressStart2P", 24, 925, 30);
         }
 
         public void ExitState()
