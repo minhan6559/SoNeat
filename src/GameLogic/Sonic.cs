@@ -80,12 +80,12 @@ namespace SoNeat.src.GameLogic
             if (isLongJump)
             {
                 _velocityY = 22;
-                _gravity = 1;
+                _gravity = 1.2f;
             }
             else
             {
                 _velocityY = 18;
-                _gravity = 1.2f;
+                _gravity = 1f;
             }
             _isJumping = true;
 

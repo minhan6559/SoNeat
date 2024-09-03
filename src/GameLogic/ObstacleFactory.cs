@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 using SplashKitSDK;
+using SoNeat.src.Utils;
 
 namespace SoNeat.src.GameLogic
 {
     public enum ObstacleType
     {
         Crab,
-        Rock,
         Bat,
         Spike
     }
@@ -25,13 +25,11 @@ namespace SoNeat.src.GameLogic
                 type = (ObstacleType)_random.Next(0, Enum.GetValues(typeof(ObstacleType)).Length);
             }
 
-            string spritesFolderPath = Path.Combine("assets", "images");
-            string folderPath = Path.Combine(spritesFolderPath, type.ToString()!);
+            string folderPath = Utility.NormalizePath("assets/images/" + type.ToString());
 
             return type switch
             {
                 ObstacleType.Crab => new Crab(SplashKit.ScreenWidth(), 560, gameSpeed, gameSpeed, folderPath),
-                ObstacleType.Rock => new Rock(SplashKit.ScreenWidth(), 604, gameSpeed, gameSpeed, folderPath),
                 ObstacleType.Bat => CreateBatObstacle(gameSpeed, folderPath),
                 ObstacleType.Spike => new Spike(SplashKit.ScreenWidth(), 583, gameSpeed, gameSpeed, folderPath),
                 _ => throw new ArgumentException("Invalid obstacle type")
