@@ -38,6 +38,12 @@ namespace SoNeat.src.GameLogic
         public virtual void Draw()
         {
             Sprite.Draw(X, Y);
+            // DrawOutline();
+        }
+
+        public virtual void DrawOutline()
+        {
+            SplashKit.DrawRectangle(Color.Red, X, Y, CurrentBitmap.Width, CurrentBitmap.Height);
         }
 
         public virtual void Move()

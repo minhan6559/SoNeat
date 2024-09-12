@@ -5,6 +5,7 @@ using System.Linq;
 
 using SplashKitSDK;
 using SoNeat.src.Utils;
+using System.Text.RegularExpressions;
 
 namespace SoNeat.src.GameLogic
 {
@@ -12,7 +13,8 @@ namespace SoNeat.src.GameLogic
     {
         Crab,
         Bat,
-        Spike
+        Spike,
+        Hog
     }
 
     public class ObstacleFactory
@@ -30,29 +32,30 @@ namespace SoNeat.src.GameLogic
             return type switch
             {
                 ObstacleType.Crab => new Crab(SplashKit.ScreenWidth(), 560, gameSpeed, gameSpeed, folderPath),
-                ObstacleType.Bat => CreateBatObstacle(gameSpeed, folderPath),
+                ObstacleType.Bat => new Bat(SplashKit.ScreenWidth(), CreateRandomBatY(), CreateRandomBatSpeed(gameSpeed), gameSpeed, folderPath),
                 ObstacleType.Spike => new Spike(SplashKit.ScreenWidth(), 583, gameSpeed, gameSpeed, folderPath),
+                ObstacleType.Hog => new Hog(SplashKit.ScreenWidth(), 459, gameSpeed, gameSpeed, folderPath),
                 _ => throw new ArgumentException("Invalid obstacle type")
             };
         }
 
-        // Create Bat obstacle randomly
-        public static Obstacle CreateBatObstacle(float gameSpeed, string folderPath)
+        // Create Bat Speed randomly
+        private static float CreateRandomBatSpeed(float gameSpeed)
         {
-            float randomY;
+            return (float)(_random.NextDouble() * (0.25 * gameSpeed) + gameSpeed);
+        }
 
+        // Create Bat Y randomly
+        private static float CreateRandomBatY()
+        {
             if (_random.NextDouble() < 0.5)
             {
-                randomY = 465;
+                return 465;
             }
             else
             {
-                randomY = 348;
+                return 348;
             }
-
-            float randomSpeed = (float)(_random.NextDouble() * (0.25 * gameSpeed) + gameSpeed);
-
-            return new Bat(SplashKit.ScreenWidth(), randomY, randomSpeed, gameSpeed, folderPath);
         }
     }
 }

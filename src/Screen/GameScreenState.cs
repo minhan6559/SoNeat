@@ -123,7 +123,7 @@ namespace SoNeat.src.Screen
         private void SetNextObstacleInterval()
         {
             // Base interval is reduced as the game speed increases
-            double baseInterval = Math.Max(9000 / _gameSpeed, 600);
+            double baseInterval = Math.Max(9000 / _gameSpeed, 500);
 
             // Add some randomness to the interval
             _nextObstacleInterval = _random.NextDouble() * baseInterval + baseInterval;
