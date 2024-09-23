@@ -59,7 +59,12 @@ namespace SoNeat.src.Screen
 
             _mainMenuBtn = new MyButton("assets/images/GameScreen/main_menu_btn.png", 510, 368);
             _chooseArrow = SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png");
-            _networkDrawer = new NetworkDrawer(6, 2, 220, 15, 660, 320);
+
+            string[] inputLabels = ["Sonic Y Position", "Distance To Next Enemy",
+                                    "Next Enemy Width", "Next Enemy Height",
+                                    "Bat Y Position", "Game Speed"];
+            string[] outputLabels = ["Jump", "Duck"];
+            _networkDrawer = new NetworkDrawer(inputLabels, outputLabels, 220, 10, 660, 320);
         }
 
         public void LoadEnvironment(EnvironmentManager oldEnvironment)

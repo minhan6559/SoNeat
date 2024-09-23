@@ -10,14 +10,14 @@ namespace SoNeat.src.Screen
 {
     public class NetworkDrawer
     {
-        private int _inputSize, _outputSize;
+        private string[] _inputLabels, _outputLabels;
         private double _x, _y;
         private double _panelWidth, _panelHeight;
 
-        public NetworkDrawer(int inputSize, int outputSize, double x, double y, double panelWidth, double panelHeight)
+        public NetworkDrawer(string[] inputLabels, string[] outputLabels, double x, double y, double panelWidth, double panelHeight)
         {
-            _inputSize = inputSize;
-            _outputSize = outputSize;
+            _inputLabels = inputLabels;
+            _outputLabels = outputLabels;
             _x = x;
             _y = y;
             _panelWidth = panelWidth;
@@ -26,14 +26,36 @@ namespace SoNeat.src.Screen
 
         public void Draw(Genome genome)
         {
+            foreach (ConnectionGene connection in genome.Connections.Data)
+            {
+                DrawConnection(connection);
+            }
+
             foreach (NodeGene node in genome.Nodes.Data)
             {
                 DrawNode(node, 10);
             }
 
-            foreach (ConnectionGene connection in genome.Connections.Data)
+            for (int i = 0; i < _inputLabels.Length; i++)
             {
-                DrawConnection(connection);
+                double nodeX = 0.1;
+                double nodeY = (i + 1) / (double)(_inputLabels.Length + 1);
+
+                double labelX = _x + nodeX * _panelWidth - 11 * _inputLabels[i].Length - 5;
+                double labelY = _y + nodeY * _panelHeight - 5;
+
+                SplashKit.DrawText(_inputLabels[i], Color.Black, "MainFont", 10, labelX, labelY);
+            }
+
+            for (int i = 0; i < _outputLabels.Length; i++)
+            {
+                double nodeX = 0.9;
+                double nodeY = (i + 1) / (double)(_outputLabels.Length + 1);
+
+                double labelX = _x + nodeX * _panelWidth + 15;
+                double labelY = _y + nodeY * _panelHeight - 5;
+
+                SplashKit.DrawText(_outputLabels[i], Color.Black, "MainFont", 10, labelX, labelY);
             }
         }
 
@@ -46,6 +68,7 @@ namespace SoNeat.src.Screen
             SplashKit.DrawCircle(Color.Black, x, y, radius);
 
             // SplashKit.DrawText(node.InnovationNum.ToString(), Color.Black, x - 5, y - 5);
+
         }
 
         private void DrawConnection(ConnectionGene connection)
@@ -61,7 +84,7 @@ namespace SoNeat.src.Screen
             Color color;
             if (connection.Enabled)
             {
-                color = Color.RGBAColor(0, 22, 78, Math.Max(0.5, Math.Abs(connection.Weight)) * 255);
+                color = Color.RGBAColor(0, 0, 250, Math.Max(0.5, Math.Abs(connection.Weight)) * 255);
             }
             else
             {

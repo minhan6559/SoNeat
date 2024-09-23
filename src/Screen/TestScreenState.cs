@@ -14,22 +14,22 @@ namespace SoNeat.src.Screen
     {
         public void EnterState()
         {
-            // Neat neat = new Neat(10, 1, 1000);
+            Neat neat = new Neat(10, 1, 1000);
 
-            // double[] input = new double[10];
-            // Random random = new Random();
-            // for (int i = 0; i < 10; i++) input[i] = random.NextDouble();
+            double[] input = new double[10];
+            Random random = new Random();
+            for (int i = 0; i < 10; i++) input[i] = random.NextDouble();
 
-            // for (int i = 0; i < 100; i++)
-            // {
-            //     foreach (Agent c in neat.Agents.Data)
-            //     {
-            //         double score = c.FeedForward(input)![0];
-            //         c.Fitness = score;
-            //     }
-            //     neat.Evolve();
-            //     neat.PrintSpecies();
-            // }
+            for (int i = 0; i < 100; i++)
+            {
+                foreach (Agent c in neat.Agents.Data)
+                {
+                    double score = c.FeedForward(input)![0];
+                    c.Fitness = score;
+                }
+                neat.Evolve();
+                neat.PrintSpecies();
+            }
         }
 
         public void Update()
@@ -39,11 +39,6 @@ namespace SoNeat.src.Screen
 
         public void Draw()
         {
-            // Use DrawingOptions to change line width
-
-            // Draw a line
-            Color color = Color.RGBAColor(0, 255, 0, 255);
-            SplashKit.DrawLine(color, 0, 0, 100, 100);
         }
 
         public void ExitState()
