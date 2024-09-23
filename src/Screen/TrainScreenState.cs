@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SplashKitSDK;
 using SoNeat.src.GameLogic;
 using SoNeat.src.Utils;
-using SoNeat.src.NEAT.NeuralEvolution;
+using SoNeat.src.NEAT;
 
 namespace SoNeat.src.Screen
 {
@@ -40,8 +40,8 @@ namespace SoNeat.src.Screen
         {
             _gameSpeed = 10;
 
-            _population = new Population(1000);
-            _neat = new Neat(6, 2, 1000);
+            _population = new Population(500);
+            _neat = new Neat(6, 2, 500);
             _population.LinkBrains(_neat);
 
             _score = 0;

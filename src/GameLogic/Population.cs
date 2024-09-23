@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SoNeat.src.NEAT.Gene;
-using SoNeat.src.NEAT.NeuralEvolution;
+using SoNeat.src.NEAT;
 
 namespace SoNeat.src.GameLogic
 {
@@ -104,12 +103,12 @@ namespace SoNeat.src.GameLogic
 
         public void LinkBrains(Neat neat)
         {
-            if (_sonics!.Length != neat.Agents.Data.Count)
+            if (_sonics!.Length != neat.Agents.Count)
                 throw new Exception("Population size and NEAT agents size must be the same");
 
             for (int i = 0; i < _sonics!.Length; i++)
             {
-                _sonics[i].Brain = neat.Agents.GetAt(i);
+                _sonics[i].Brain = neat.Agents[i];
             }
         }
     }

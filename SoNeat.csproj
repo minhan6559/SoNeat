@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-
+    <!-- Ignore folder src/OldNeat -->
+    <Compile Remove="src\OldNeat\**\*.cs" />
   </ItemGroup>
 
 </Project>

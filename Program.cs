@@ -1,20 +1,15 @@
 using System;
 using SplashKitSDK;
-using SoNeat.src.NEAT.DataStructures;
-using SoNeat.src.NEAT.Gene;
-using SoNeat.src.NEAT.NeuralEvolution;
+using SoNeat.src.NEAT;
 
 using SoNeat.src.Screen;
 using SoNeat.src.Utils;
 
 namespace SoNeat
 {
-    public class Program
+    public static class Program
     {
-        private static double Normalize(double value, double min, double max, double newMin, double newMax)
-        {
-            return newMin + (value - min) * (newMax - newMin) / (max - min);
-        }
+        public static int NextConnectionNum = 1000;
 
         private static readonly Color BACKGROUND_COLOR = Color.RGBColor(132, 204, 234);
         public static void Main()

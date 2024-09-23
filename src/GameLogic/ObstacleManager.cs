@@ -68,6 +68,7 @@ namespace SoNeat.src.GameLogic
                 obstacle.CheckPassedPlayer(population!.Data![0]);
             }
 
+            int total = 0;
             for (int i = 0; i < population!.Data!.Length; i++)
             {
                 if (population.Data[i].IsDead)
@@ -82,23 +83,32 @@ namespace SoNeat.src.GameLogic
                         if (population.Data[i].IsJumping && _obstacles[j] is Bat)
                         {
                             population.Data[i].JumpOverBats++;
+                            total++;
                         }
                         population.Data[i].IsDead = true;
                         population.Alives--;
                     }
-
-                    if (_obstacles[j].HasPassedPlayer && !_obstacles[j].AlreadyCheckedPass && _obstacles[j] is Bat)
+                    else if (_obstacles[j].HasPassedPlayer && !_obstacles[j].AlreadyCheckedPass && _obstacles[j] is Bat)
                     {
                         if (population.Data[i].IsJumping)
                         {
                             population.Data[i].JumpOverBats++;
+                            total++;
                         }
                         if (population.Data[i].IsDucking)
                         {
                             population.Data[i].DuckUnderBats++;
+                            total++;
                         }
-                        _obstacles[j].AlreadyCheckedPass = true;
                     }
+                }
+            }
+
+            for (int i = 0; i < Math.Min(2, _obstacles.Count); i++)
+            {
+                if (_obstacles[i].HasPassedPlayer)
+                {
+                    _obstacles[i].AlreadyCheckedPass = true;
                 }
             }
 

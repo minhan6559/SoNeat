@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using SplashKitSDK;
-using SoNeat.src.NEAT.NeuralEvolution;
+using SoNeat.src.NEAT;
 
 namespace SoNeat.src.GameLogic
 {
@@ -242,9 +242,9 @@ namespace SoNeat.src.GameLogic
         public void CalculateFitness(double score)
         {
             double fitness = score;
-            fitness -= TotalJumps * 15;
-            fitness += DuckUnderBats * 800;
-            fitness -= JumpOverBats * 200;
+            fitness -= TotalJumps * 5;
+            fitness += DuckUnderBats * 500;
+            fitness -= JumpOverBats * 100;
 
             if (fitness <= 0)
             {

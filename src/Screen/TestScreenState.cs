@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using SoNeat.src.GameLogic;
-using SoNeat.src.NEAT.NeuralEvolution;
+using SoNeat.src.NEAT;
 using SplashKitSDK;
 using SoNeat.src.Utils;
-using SoNeat.src.NEAT.Gene;
 
 namespace SoNeat.src.Screen
 {
@@ -22,7 +21,7 @@ namespace SoNeat.src.Screen
 
             for (int i = 0; i < 100; i++)
             {
-                foreach (Agent c in neat.Agents.Data)
+                foreach (Agent c in neat.Agents)
                 {
                     double score = c.FeedForward(input)![0];
                     c.Fitness = score;
