@@ -9,163 +9,173 @@ using SoNeat.src.Utils;
 
 namespace SoNeat.src.Screen
 {
+    enum GameScreenStateType
+    {
+        OpeningScene,
+        Idle,
+        Playing,
+        GameOver
+    }
+
     public class GameScreenState : IScreenState
     {
         // Game Elements
-        private Ground? _ground;
         private Sonic? _sonic;
-        private List<Obstacle>? _obstacles;
-        private List<Cloud>? _clouds;
+        private ObstacleManager? _obstacleManager;
+        private EnvironmentManager? _environmentManager;
 
         // Game Logic
         private double _score;
         private double _lastScoreMilestone;
         private float _gameSpeed;
         private float _gameSpeedIncrement;
-        private double _nextObstacleInterval;
-        private double _nextCloudInterval;
-        private static readonly SplashKitSDK.Timer _obstacleTimer = new("Obstacle Timer");
-        private static readonly SplashKitSDK.Timer _cloudTimer = new("Cloud Timer");
-        private static readonly Random _random = new Random();
+        private GameScreenStateType _gameStateType;
+
+        // UI
+        private MyButton? _retryBtn;
+        private MyButton? _mainMenuBtn;
+        private Bitmap? _chooseArrow;
+        private Bitmap? _gameOverBitmap;
 
         public void EnterState()
         {
             _gameSpeed = 10;
 
-            _ground = new Ground(0, 634, _gameSpeed);
-            _sonic = new Sonic(52, 509, _ground.Y, _gameSpeed);
-            _obstacles = new List<Obstacle>();
-            _clouds = new List<Cloud>();
-
-            SplashKit.LoadFont("PressStart2P", Utility.NormalizePath("assets/fonts/PressStart2P.ttf"));
+            _sonic = new Sonic(-110, 509, 634, _gameSpeed);
+            _sonic.Sprite.Play("Run");
 
             _score = 0;
             _lastScoreMilestone = 0;
             _gameSpeedIncrement = 0.5f;
 
-            _obstacleTimer.Start();
-            _nextObstacleInterval = 1000;
+            _obstacleManager = new ObstacleManager(_gameSpeed);
+            if (_environmentManager == null)
+                _environmentManager = new EnvironmentManager(_gameSpeed);
 
-            _cloudTimer.Start();
-            _nextCloudInterval = 500;
+            _gameStateType = GameScreenStateType.OpeningScene;
+
+            _retryBtn = new MyButton("assets/images/GameScreen/retry_btn.png", 560, 318);
+            _mainMenuBtn = new MyButton("assets/images/GameScreen/main_menu_btn.png", 510, 368);
+            _chooseArrow = SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png");
+            _gameOverBitmap = SplashKit.LoadBitmap("game_over", "assets/images/GameScreen/game_over.png");
+        }
+
+        public void LoadEnvironment(EnvironmentManager oldEnvironment)
+        {
+            _environmentManager = oldEnvironment;
         }
 
         public void Update()
         {
-            _score += _gameSpeed / 60;
-            if (Math.Floor(_score) >= _lastScoreMilestone + 100)
+            if (_gameStateType != GameScreenStateType.GameOver)
             {
-                _lastScoreMilestone = Math.Floor(_score);
-                UpdateGameSpeed(_gameSpeed + _gameSpeedIncrement);
+                _environmentManager!.Update();
+                _sonic!.Update();
             }
 
-            // Handle game logic, player input, and updates
-            _sonic!.Update();
-            _ground!.Update();
-
-            // Loop Clouds
-            for (int i = 0; i < _clouds!.Count; i++)
+            switch (_gameStateType)
             {
-                _clouds[i].Update();
+                case GameScreenStateType.OpeningScene:
+                    _sonic!.X += 5;
+                    if (_sonic.X >= 52)
+                    {
+                        _sonic.X = 52;
+                        _sonic.Sprite.Play("Idle");
+                        _gameStateType = GameScreenStateType.Idle;
+                    }
+                    break;
+                case GameScreenStateType.Idle:
+                    if (SplashKit.KeyTyped(KeyCode.SpaceKey))
+                    {
+                        _sonic!.IsIdle = false;
+                        UpdateGameSpeed(_gameSpeed);
+                        _gameStateType = GameScreenStateType.Playing;
+                        _obstacleManager!.StartTimer();
+                    }
+                    break;
+                case GameScreenStateType.Playing:
+                    _sonic!.HandleInput();
+                    _score += _gameSpeed / 60;
+                    if (Math.Floor(_score) >= _lastScoreMilestone + 100)
+                    {
+                        _lastScoreMilestone = Math.Floor(_score);
+                        UpdateGameSpeed(_gameSpeed + _gameSpeedIncrement);
+                    }
 
-                if (_clouds[i].IsOffScreen())
-                {
-                    _clouds.RemoveAt(i);
-                    i--;
-                }
-            }
+                    _obstacleManager!.Update(_sonic);
+                    if (_sonic.IsDead)
+                    {
+                        _sonic.Sprite.Play("Dead");
+                        _gameStateType = GameScreenStateType.GameOver;
+                        UpdateGameSpeed(0);
+                    }
+                    break;
+                case GameScreenStateType.GameOver:
+                    if (_retryBtn!.IsClicked())
+                    {
+                        GameScreenState gameScreen = new GameScreenState();
+                        gameScreen.LoadEnvironment(_environmentManager!);
+                        ScreenManager.Instance.SetState(gameScreen);
+                    }
 
-            for (int i = 0; i < _obstacles!.Count; i++)
-            {
-                _obstacles[i].Update();
-
-                if (_obstacles[i].IsColliding(_sonic))
-                {
-                    // ScreenManager.Instance.SetState(new GameScreenState());
-                    Console.WriteLine("Game Over");
-                }
-
-                if (_obstacles[i].IsOffScreen())
-                {
-                    _obstacles.RemoveAt(i);
-                    i--;
-                }
-            }
-
-            // Check if it's time to create a new obstacle
-            if (_obstacleTimer.Ticks > _nextObstacleInterval)
-            {
-                _obstacles.Add(ObstacleFactory.CreateObstacle(_gameSpeed));
-                _obstacleTimer.Reset();
-                SetNextObstacleInterval(); // Set a new random interval for the next obstacle
-            }
-
-            // Check if it's time to create a new cloud
-            if (_cloudTimer.Ticks > _nextCloudInterval)
-            {
-                AddCloud();
-                _cloudTimer.Reset();
-                _nextCloudInterval = _random.NextDouble() * 1000 + 2000; // Set a new random interval for the next cloud
+                    if (_mainMenuBtn!.IsClicked())
+                    {
+                        ScreenManager.Instance.SetState(new MainMenuState());
+                    }
+                    break;
             }
         }
 
-        public void UpdateGameSpeed(float gameSpeed)
+        private void UpdateGameSpeed(float gameSpeed)
         {
             _gameSpeed = gameSpeed;
             _sonic!.UpdateGameSpeed(gameSpeed);
-            _ground!.UpdateGameSpeed(gameSpeed);
-            foreach (Obstacle obstacle in _obstacles!)
-            {
-                obstacle.UpdateGameSpeed(gameSpeed);
-            }
-        }
 
-        private void SetNextObstacleInterval()
-        {
-            // Base interval is reduced as the game speed increases
-            double baseInterval = Math.Max(9000 / _gameSpeed, 500);
-
-            // Add some randomness to the interval
-            _nextObstacleInterval = _random.NextDouble() * baseInterval + baseInterval;
-        }
-
-        private void AddCloud()
-        {
-            float randomY = _random.Next(55, 260);
-            float randomSpeed = (float)(_random.NextDouble() * 1.0f + 3.0f);
-
-            _clouds!.Add(new Cloud(SplashKit.ScreenWidth(), randomY, randomSpeed));
+            _environmentManager!.UpdateGameSpeed(gameSpeed);
+            _obstacleManager!.UpdateGameSpeed(gameSpeed);
         }
 
         public void Draw()
         {
-            // Draw the game elements to the screen
-            foreach (Cloud cloud in _clouds!)
-            {
-                cloud.Draw();
-            }
-
+            _environmentManager!.Draw();
             _sonic!.Draw();
-            _ground!.Draw();
-            foreach (Obstacle obstacle in _obstacles!)
-            {
-                obstacle.Draw();
-            }
+
+            _obstacleManager!.Draw();
 
             DrawScore();
+
+            switch (_gameStateType)
+            {
+                case GameScreenStateType.OpeningScene:
+                    break;
+                case GameScreenStateType.Idle:
+                    SplashKit.DrawText("Press SPACE to start", Color.Black, "MainFont", 24, 400, 300);
+                    break;
+                case GameScreenStateType.Playing:
+                    break;
+                case GameScreenStateType.GameOver:
+                    SplashKit.DrawBitmap(_gameOverBitmap!, 305, 151);
+
+                    _retryBtn!.Draw();
+                    if (_retryBtn.IsHovered())
+                    {
+                        _chooseArrow!.Draw(_retryBtn.X - 40, _retryBtn.Y);
+                    }
+
+                    _mainMenuBtn!.Draw();
+                    if (_mainMenuBtn.IsHovered())
+                    {
+                        _chooseArrow!.Draw(_mainMenuBtn.X - 40, _mainMenuBtn.Y);
+                    }
+                    break;
+            }
         }
 
         public void DrawScore()
         {
-            string scoreStr = Math.Floor(_score).ToString();
+            string scoreStr = Math.Floor(_score).ToString().PadLeft(5, '0');
 
-            // Padding the score with zeros to fit 5 digits
-            while (scoreStr.Length < 5)
-            {
-                scoreStr = "0" + scoreStr;
-            }
-
-            SplashKit.DrawText($"SCORE:{scoreStr}", Color.Black, "PressStart2P", 24, 925, 30);
+            SplashKit.DrawText($"SCORE:{scoreStr}", Color.Black, "MainFont", 24, 975, 30);
         }
 
         public void ExitState()

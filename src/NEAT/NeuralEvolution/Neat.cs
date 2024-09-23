@@ -14,13 +14,13 @@ namespace SoNeat.src.NEAT.NeuralEvolution
         public const double C1 = 1.0f, C2 = 1.0f, C3 = 1.0f;
         public const double CP = 4.0f;
 
-        public const double MUTATE_NODE_PROB = 0.003f, MUTATE_CONNECTION_PROB = 0.01f;
-        public const double MUTATE_WEIGHT_SHIFT_PROB = 0.002f, MUTATE_WEIGHT_RANDOM_PROB = 0.002f;
+        public const double MUTATE_NODE_PROB = 0.01f, MUTATE_CONNECTION_PROB = 0.05f;
+        public const double MUTATE_WEIGHT_PROB = 0.8f, MUTATE_WEIGHT_SHIFT_PROB = 0.9f;
         public const double MUTATE_TOGGLE_PROB = 0.001f;
 
-        public const double SURVIVAL_RATE = 0.8f;
+        public const double SURVIVAL_RATE = 0.4f;
 
-        public const double RANDOM_WEIGHT_STRENGTH = 1.0f, SHIFT_WEIGHT_STRENGTH = 0.3f;
+        public const double RANDOM_WEIGHT_STRENGTH = 1.0f, SHIFT_WEIGHT_STRENGTH = 0.02f;
 
         private Dictionary<ConnectionGene, ConnectionGene> _connectionsMap;
         private RandomHashSet<NodeGene> _nodesHashSet;

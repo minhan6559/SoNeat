@@ -142,10 +142,15 @@ namespace SoNeat.src.NEAT.Gene
                 MutateNode();
             if (rnd.NextDouble() < Neat.MUTATE_CONNECTION_PROB)
                 MutateConnection();
-            if (rnd.NextDouble() < Neat.MUTATE_WEIGHT_RANDOM_PROB)
-                MutateWeightRandom();
-            if (rnd.NextDouble() < Neat.MUTATE_WEIGHT_SHIFT_PROB)
-                MutateWeightShift();
+
+            if (rnd.NextDouble() < Neat.MUTATE_WEIGHT_PROB)
+            {
+                if (rnd.NextDouble() < Neat.MUTATE_WEIGHT_SHIFT_PROB)
+                    MutateWeightShift();
+                else
+                    MutateWeightRandom();
+            }
+
             if (rnd.NextDouble() < Neat.MUTATE_TOGGLE_PROB)
                 MutateToggle();
         }
@@ -239,7 +244,13 @@ namespace SoNeat.src.NEAT.Gene
                 return;
 
             Random rnd = new Random();
-            conn.Weight += (rnd.NextDouble() * 2 - 1) * Neat.SHIFT_WEIGHT_STRENGTH;
+            double newWeight = (rnd.NextDouble() * 2 - 1) * Neat.SHIFT_WEIGHT_STRENGTH + conn.Weight;
+            if (newWeight > 1.0)
+                newWeight = 1.0;
+            else if (newWeight < -1.0)
+                newWeight = -1.0;
+
+            conn.Weight = newWeight;
         }
 
         public void MutateToggle()

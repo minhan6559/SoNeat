@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using SoNeat.src.NEAT.Gene;
 using SoNeat.src.NEAT.Calculation;
-using System.Runtime.InteropServices;
 
 namespace SoNeat.src.NEAT.NeuralEvolution
 {
