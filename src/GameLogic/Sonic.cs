@@ -243,8 +243,8 @@ namespace SoNeat.src.GameLogic
         {
             double fitness = score;
             fitness -= TotalJumps * 5;
-            fitness += DuckUnderBats * 500;
-            fitness -= JumpOverBats * 100;
+            fitness += DuckUnderBats * 100;
+            fitness -= JumpOverBats * 50;
 
             if (fitness <= 0)
             {

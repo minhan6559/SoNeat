@@ -377,7 +377,12 @@ namespace SoNeat.src.NEAT
             for (int i = 0; i < childConns.Count; i++)
             {
                 Connection conn = childConns[i];
-                child.Connections.Add(conn.Clone(child.GetNodeWithInnovationNum(conn.FromNode.InnovationNum)!, child.GetNodeWithInnovationNum(conn.ToNode.InnovationNum)!));
+                child.Connections.Add(
+                    conn.Clone(
+                        child.GetNodeWithInnovationNum(conn.FromNode.InnovationNum)!,
+                        child.GetNodeWithInnovationNum(conn.ToNode.InnovationNum)!
+                    )
+                );
                 child.Connections[i].Enabled = enables[i];
             }
 
@@ -407,7 +412,12 @@ namespace SoNeat.src.NEAT
 
             foreach (Connection conn in _connections)
             {
-                clone.Connections.Add(conn.Clone(clone.GetNodeWithInnovationNum(conn.FromNode.InnovationNum)!, clone.GetNodeWithInnovationNum(conn.ToNode.InnovationNum)!));
+                clone.Connections.Add(
+                    conn.Clone(
+                        clone.GetNodeWithInnovationNum(conn.FromNode.InnovationNum)!,
+                        clone.GetNodeWithInnovationNum(conn.ToNode.InnovationNum)!
+                    )
+                );
             }
 
             clone.TotalLayers = _totalLayers;
