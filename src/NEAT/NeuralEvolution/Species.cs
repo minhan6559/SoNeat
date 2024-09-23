@@ -13,6 +13,8 @@ namespace SoNeat.src.NEAT.NeuralEvolution
         private RandomHashSet<Agent> _agents;
         private Agent _representative; // The agent that represents the species
         private double _fitness; // The average fitness of all agents in the species
+        private double _bestFitness; // The best fitness of the species
+        private int _totalUnimproveGenerations; // The number of generations the species has not improved
 
         public Species(Agent representative)
         {
@@ -20,6 +22,8 @@ namespace SoNeat.src.NEAT.NeuralEvolution
 
             _representative = representative;
             _representative.Species = this;
+            _bestFitness = representative.Fitness;
+            _totalUnimproveGenerations = 0;
             _agents.Add(_representative);
 
             _fitness = 0.0f;
@@ -27,6 +31,8 @@ namespace SoNeat.src.NEAT.NeuralEvolution
 
         public int Count => _agents.Count;
         public double Fitness => _fitness;
+        public double BestFitness => _bestFitness;
+        public int TotalUnimproveGenerations => _totalUnimproveGenerations;
 
         public void Reset()
         {
@@ -73,6 +79,22 @@ namespace SoNeat.src.NEAT.NeuralEvolution
         {
             // Reverse sort the agents by fitness
             _agents.Data.Sort((a, b) => b.CompareTo(a));
+
+            if (_agents.Count <= 1)
+            {
+                _totalUnimproveGenerations = 200; // Extinct species
+                return;
+            }
+
+            if (_agents.GetAt(0).Fitness > _bestFitness)
+            {
+                _bestFitness = _agents.GetAt(0).Fitness;
+                _totalUnimproveGenerations = 0;
+            }
+            else
+            {
+                _totalUnimproveGenerations++;
+            }
 
             int survivors = (int)Math.Ceiling(survivalRate * _agents.Count);
             for (int i = survivors; i < _agents.Count; i++)

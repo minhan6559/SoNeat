@@ -14,7 +14,7 @@ namespace SoNeat.src.NEAT.NeuralEvolution
         public const double C1 = 1.0f, C2 = 1.0f, C3 = 1.0f;
         public const double CP = 4.0f;
 
-        public const double MUTATE_NODE_PROB = 0.01f, MUTATE_CONNECTION_PROB = 0.05f;
+        public const double MUTATE_NODE_PROB = 0.02f, MUTATE_CONNECTION_PROB = 0.05f;
         public const double MUTATE_WEIGHT_PROB = 0.8f, MUTATE_WEIGHT_SHIFT_PROB = 0.9f;
         public const double MUTATE_TOGGLE_PROB = 0.001f;
 
@@ -177,6 +177,19 @@ namespace SoNeat.src.NEAT.NeuralEvolution
                 s.RemoveWeakAgents(SURVIVAL_RATE);
         }
 
+        private void RemoveUnimprovedSpecies()
+        {
+            for (int i = _species.Count - 1; i >= 0; i--)
+            {
+                // Remove species that have not improved for 12  generations
+                if (_species.GetAt(i).TotalUnimproveGenerations >= 12)
+                {
+                    _species.GetAt(i).BeExtinct();
+                    _species.RemoveAt(i);
+                }
+            }
+        }
+
         private void RemoveExtinctSpecies()
         {
             for (int i = _species.Count - 1; i >= 0; i--)
@@ -218,6 +231,7 @@ namespace SoNeat.src.NEAT.NeuralEvolution
         {
             GenerateSpecies();
             RemoveWeakAgents();
+            RemoveUnimprovedSpecies();
             RemoveExtinctSpecies();
             Reproduce();
             Mutate();
