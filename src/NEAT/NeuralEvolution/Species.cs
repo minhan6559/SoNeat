@@ -114,6 +114,14 @@ namespace SoNeat.src.NEAT.NeuralEvolution
             _fitness /= _agents.Count;
         }
 
+        public void FitnessSharing()
+        {
+            foreach (Agent agent in _agents.Data)
+            {
+                agent.Fitness /= _agents.Count;
+            }
+        }
+
         public Genome Reproduce()
         {
             Agent parent1 = _agents.GetRandom();

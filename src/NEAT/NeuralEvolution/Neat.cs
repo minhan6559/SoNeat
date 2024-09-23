@@ -174,7 +174,10 @@ namespace SoNeat.src.NEAT.NeuralEvolution
         private void RemoveWeakAgents()
         {
             foreach (Species s in _species.Data)
+            {
                 s.RemoveWeakAgents(SURVIVAL_RATE);
+                s.FitnessSharing();
+            }
         }
 
         private void RemoveUnimprovedSpecies()
