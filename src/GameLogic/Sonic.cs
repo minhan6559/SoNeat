@@ -149,7 +149,7 @@ namespace SoNeat.src.GameLogic
         public void See(List<Obstacle> obstacles)
         {
             // Sonic Y Position
-            _vision[0] = Y;
+            _vision[0] = Normalize(Y, 296, 509, 0, 1);
 
             // Distance To Next Enemy
             int nextEnemyIndex = -1;
@@ -174,7 +174,7 @@ namespace SoNeat.src.GameLogic
 
             Obstacle closestEnemy = obstacles[nextEnemyIndex];
             double distanceToNextEnemy = Math.Abs(closestEnemy.X - X - CurrentBitmap.Width);
-            _vision[1] = Normalize(distanceToNextEnemy, 0, 1090, 1, 0);
+            _vision[1] = Normalize(distanceToNextEnemy, 0, 1090, 0, 1);
 
             // Next Enemy Width
             double nextEnemyWidth = closestEnemy.CurrentBitmap.Width;
@@ -203,6 +203,10 @@ namespace SoNeat.src.GameLogic
 
         private double Normalize(double value, double min, double max, double newMin, double newMax)
         {
+            if (value < min)
+                return newMin;
+            if (value > max)
+                return newMax;
             return newMin + (value - min) * (newMax - newMin) / (max - min);
         }
 
@@ -238,9 +242,9 @@ namespace SoNeat.src.GameLogic
         public void CalculateFitness(double score)
         {
             double fitness = score;
-            fitness -= TotalJumps * 5;
-            fitness += DuckUnderBats * 250;
-            fitness -= JumpOverBats * 100;
+            fitness -= TotalJumps * 15;
+            fitness += DuckUnderBats * 800;
+            fitness -= JumpOverBats * 200;
 
             if (fitness <= 0)
             {

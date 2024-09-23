@@ -11,6 +11,11 @@ namespace SoNeat
 {
     public class Program
     {
+        private static double Normalize(double value, double min, double max, double newMin, double newMax)
+        {
+            return newMin + (value - min) * (newMax - newMin) / (max - min);
+        }
+
         private static readonly Color BACKGROUND_COLOR = Color.RGBColor(132, 204, 234);
         public static void Main()
         {

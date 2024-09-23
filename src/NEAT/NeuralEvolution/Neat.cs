@@ -177,6 +177,7 @@ namespace SoNeat.src.NEAT.NeuralEvolution
             {
                 s.RemoveWeakAgents(SURVIVAL_RATE);
                 s.FitnessSharing();
+                s.CalculateFitness();
             }
         }
 
