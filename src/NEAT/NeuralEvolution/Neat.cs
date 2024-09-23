@@ -169,6 +169,8 @@ namespace SoNeat.src.NEAT.NeuralEvolution
 
             foreach (Species s in _species.Data)
                 s.CalculateFitness();
+
+            _species.Data.Sort((a, b) => b.Fitness.CompareTo(a.Fitness)); // Sort by fitness descending
         }
 
         private void RemoveWeakAgents()
@@ -183,7 +185,7 @@ namespace SoNeat.src.NEAT.NeuralEvolution
 
         private void RemoveUnimprovedSpecies()
         {
-            for (int i = _species.Count - 1; i >= 0; i--)
+            for (int i = _species.Count - 1; i >= 2; i--)
             {
                 // Remove species that have not improved for 12  generations
                 if (_species.GetAt(i).TotalUnimproveGenerations >= 12)
@@ -196,7 +198,7 @@ namespace SoNeat.src.NEAT.NeuralEvolution
 
         private void RemoveExtinctSpecies()
         {
-            for (int i = _species.Count - 1; i >= 0; i--)
+            for (int i = _species.Count - 1; i >= 1; i--)
             {
                 if (_species.GetAt(i).Count <= 1)
                 {
@@ -206,8 +208,25 @@ namespace SoNeat.src.NEAT.NeuralEvolution
             }
         }
 
+        private void RemoveBadSpecies()
+        {
+            double aveSum = 0;
+            foreach (Species s in _species.Data)
+                aveSum += s.Fitness;
+
+            for (int i = _species.Count - 1; i >= 1; i--)
+            {
+                if (_species.GetAt(i).Fitness / aveSum * _population < 1)
+                {
+                    _species.GetAt(i).BeExtinct();
+                    _species.RemoveAt(i);
+                }
+            }
+        }
+
         private void Reproduce()
         {
+
             RandomSelector<Species> selector = new();
             foreach (Species s in _species.Data)
                 selector.Add(s, s.Fitness);
