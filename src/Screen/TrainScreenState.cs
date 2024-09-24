@@ -44,8 +44,8 @@ namespace SoNeat.src.Screen
             string[] outputLabels = ["Jump", "Duck"];
             _gameSpeed = 10;
 
-            _population = new Population(1000);
-            _neat = new Neat(inputLabels.Length, outputLabels.Length, 1000);
+            _population = new Population(500);
+            _neat = new Neat(inputLabels.Length, outputLabels.Length, 500);
             _population.LinkBrains(_neat);
 
             _score = 0;

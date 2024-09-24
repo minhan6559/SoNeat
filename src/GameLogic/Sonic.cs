@@ -182,7 +182,7 @@ namespace SoNeat.src.GameLogic
 
             // Sonic Y Position
             _vision[0] = Normalize(Y, 296, 509, 1, 0);
-            _vision[1] = Normalize(distanceToNextEnemy, 0, 1090, 1, 0);
+            _vision[1] = Normalize(distanceToNextEnemy, 0, 1250, 1, 0);
             _vision[2] = Normalize(nextEnemyWidth, 0, 150, 0, 1);
             // _vision[2] = Normalize(nextEnemyWidth, 85, 150, 0, 1);
             _vision[3] = Normalize(nextEnemyHeight, 0, 175, 0, 1);
