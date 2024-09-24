@@ -155,7 +155,8 @@ namespace SoNeat.src.NEAT
 
             while (newAgents.Count < _agents.Count)
             {
-                newAgents.Add(_species[0].Reproduce(_innovationHistory));
+                Species species = SelectRandomSpecies();
+                newAgents.Add(species.Reproduce(_innovationHistory));
             }
 
             _agents = newAgents;
@@ -164,6 +165,29 @@ namespace SoNeat.src.NEAT
             {
                 agent.Genome.CreateNetwork();
             }
+        }
+
+        private Species SelectRandomSpecies()
+        {
+            double fitnessSum = 0.0;
+            foreach (Species species in _species)
+            {
+                fitnessSum += species.AverageFitness;
+            }
+
+            double randomValue = new Random().NextDouble() * fitnessSum;
+            double runningSum = 0.0;
+
+            foreach (Species species in _species)
+            {
+                runningSum += species.AverageFitness;
+                if (runningSum > randomValue)
+                {
+                    return species;
+                }
+            }
+
+            return _species[0];
         }
 
         public void PrintSpecies()
