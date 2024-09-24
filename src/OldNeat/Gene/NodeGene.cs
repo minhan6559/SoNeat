@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SoNeat.src.NEAT.Gene
+namespace SoNeat.src.NEAT
 {
     public class NodeGene : Gene
     {

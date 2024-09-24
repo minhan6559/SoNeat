@@ -8,7 +8,7 @@ using SoNeat.src.NEAT.DataStructures;
 using SoNeat.src.NEAT.NeuralEvolution;
 using SoNeat.src.NEAT.Calculation;
 
-namespace SoNeat.src.NEAT.Gene
+namespace SoNeat.src.NEAT
 {
     public class Genome
     {

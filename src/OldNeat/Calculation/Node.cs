@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SoNeat.src.NEAT.Calculation
+namespace SoNeat.src.NEAT
 {
     public class Node : IComparable<Node>
     {

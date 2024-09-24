@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SoNeat.src.NEAT.DataStructures
+namespace SoNeat.src.NEAT
 {
     public class RandomSelector<T>
     {

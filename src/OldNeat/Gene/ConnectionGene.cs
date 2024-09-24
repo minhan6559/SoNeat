@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using SoNeat.src.NEAT.NeuralEvolution;
-
-namespace SoNeat.src.NEAT.Gene
+namespace SoNeat.src.NEAT
 {
     public class ConnectionGene : Gene
     {

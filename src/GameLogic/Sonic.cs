@@ -223,7 +223,7 @@ namespace SoNeat.src.GameLogic
             // Find the highest value in the decision array and its index
             double highestValue = decision.Max();
 
-            if (highestValue < 0.8)
+            if (highestValue < 0.7)
             {
                 StopDucking();
                 return;

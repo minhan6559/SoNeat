@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SoNeat.src.NEAT.Gene;
-using SoNeat.src.NEAT.DataStructures;
 using System.Runtime.Serialization;
 
-namespace SoNeat.src.NEAT.NeuralEvolution
+namespace SoNeat.src.NEAT
 {
     public class Neat
     {

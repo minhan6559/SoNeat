@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SoNeat.src.NEAT.Gene;
 using SoNeat.src.NEAT.DataStructures;
 
-namespace SoNeat.src.NEAT.Calculation
+namespace SoNeat.src.NEAT
 {
     public class Calculator
     {

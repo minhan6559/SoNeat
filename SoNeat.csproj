@@ -10,6 +10,7 @@
   <ItemGroup>
     <!-- Ignore folder src/OldNeat -->
     <Compile Remove="src\OldNeat\**\*.cs" />
+    <!-- <Compile Remove="src\NEAT\**\*.cs" /> -->
   </ItemGroup>
 
 </Project>
