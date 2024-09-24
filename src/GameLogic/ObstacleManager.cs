@@ -21,7 +21,7 @@ namespace SoNeat.src.GameLogic
             _obstacles = new List<Obstacle>();
             _obstacleTimer = new SplashKitSDK.Timer("Obstacle Timer");
             _gameSpeed = initialGameSpeed;
-            _nextObstacleInterval = 1000;
+            _nextObstacleInterval = 50;
             _countObstacles = 0;
         }
 
@@ -46,7 +46,7 @@ namespace SoNeat.src.GameLogic
             }
 
             // Check if it's time to create a new obstacle
-            if (_obstacleTimer.Ticks > (110 - _gameSpeed - _nextObstacleInterval) * 16)
+            if (_obstacleTimer.Ticks > (110 + _gameSpeed - _nextObstacleInterval) * 16)
             {
                 if (_countObstacles < 5 && _random.NextDouble() < 0.75)
                 {
@@ -144,7 +144,7 @@ namespace SoNeat.src.GameLogic
         {
             // double baseInterval = Math.Max(9000 / _gameSpeed, 500);
             // _nextObstacleInterval = _random.NextDouble() * baseInterval + baseInterval;
-            _nextObstacleInterval = _random.Next(-50, 20);
+            _nextObstacleInterval = _random.Next(-31, 31);
         }
 
         public void Draw()
@@ -159,7 +159,7 @@ namespace SoNeat.src.GameLogic
         {
             _obstacles.Clear();
             _obstacleTimer.Reset();
-            _nextObstacleInterval = 1000;
+            _nextObstacleInterval = 50;
             _countObstacles = 0;
         }
     }

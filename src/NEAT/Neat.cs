@@ -17,7 +17,7 @@ namespace SoNeat.src.NEAT
         public const double MUTATE_TOGGLE_PROB = 0.001f;
 
         public const double SURVIVAL_RATE = 0.4f;
-        public const int MAX_NOT_IMPROVED_GENERATIONS = 15;
+        public const int MAX_NOT_IMPROVED_GENERATIONS = 10;
 
         public Neat(int inputSize, int outputSize, int populationSize)
         {
