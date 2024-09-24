@@ -48,7 +48,7 @@ namespace SoNeat.src.GameLogic
         // Create Bat Y randomly
         private static float CreateRandomBatY()
         {
-            if (_random.NextDouble() < 0.65)
+            if (_random.NextDouble() < 0.5)
             {
                 return 348;
             }
