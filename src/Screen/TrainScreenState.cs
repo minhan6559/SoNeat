@@ -86,7 +86,7 @@ namespace SoNeat.src.Screen
                     }
 
                     _obstacleManager!.Update(_population!, _score);
-                    _population!.Update(_obstacleManager!.Obstacles, _score);
+                    _population!.Update(_obstacleManager!.Obstacles);
 
 
                     if (_population!.Alives <= 0)

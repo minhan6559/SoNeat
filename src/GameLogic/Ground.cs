@@ -43,5 +43,10 @@ namespace SoNeat.src.GameLogic
             Sprite.Draw(_groundX1, Y);
             Sprite.Draw(_groundX2, Y);
         }
+
+        public override bool IsOffScreen()
+        {
+            return false;
+        }
     }
 }
