@@ -46,7 +46,7 @@ namespace SoNeat.src.GameLogic
             }
 
             // Check if it's time to create a new obstacle
-            if (_obstacleTimer.Ticks > _nextObstacleInterval)
+            if (_obstacleTimer.Ticks > (110 - _gameSpeed - _nextObstacleInterval) * 16)
             {
                 if (_countObstacles < 3 && _random.NextDouble() < 0.75)
                 {
@@ -142,8 +142,9 @@ namespace SoNeat.src.GameLogic
 
         private void SetNextObstacleInterval()
         {
-            double baseInterval = Math.Max(9000 / _gameSpeed, 500);
-            _nextObstacleInterval = _random.NextDouble() * baseInterval + baseInterval;
+            // double baseInterval = Math.Max(9000 / _gameSpeed, 500);
+            // _nextObstacleInterval = _random.NextDouble() * baseInterval + baseInterval;
+            _nextObstacleInterval = _random.Next(-31, 31);
         }
 
         public void Draw()
