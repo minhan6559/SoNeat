@@ -220,15 +220,20 @@ namespace SoNeat.src.GameLogic
             double[] decision = Brain.FeedForward(_vision)!;
 
             // Find the highest value in the decision array and its index
-            double highestValue = decision.Max();
+            double highestValue = decision[0];
+            int highestIndex = 0;
+
+            if (decision[1] > decision[0])
+            {
+                highestValue = decision[1];
+                highestIndex = 1;
+            }
 
             if (highestValue < 0.7)
             {
                 StopDucking();
                 return;
             }
-
-            int highestIndex = Array.IndexOf(decision, highestValue);
 
             switch (highestIndex)
             {
@@ -244,9 +249,9 @@ namespace SoNeat.src.GameLogic
         public void CalculateFitness(double score)
         {
             double fitness = score;
-            fitness -= TotalJumps * 10;
+            fitness -= TotalJumps * 5;
             fitness += DuckUnderBats * 100;
-            fitness -= JumpOverBats * 50;
+            fitness -= JumpOverBats * 15;
 
             if (fitness <= 0)
             {

@@ -88,14 +88,13 @@ namespace SoNeat.src.GameLogic
                     }
                     else if (_obstacles[j].HasPassedPlayer && !_obstacles[j].AlreadyCheckedPass && _obstacles[j] is Bat)
                     {
+                        if (population.Data[i].IsJumping)
+                        {
+                            population.Data[i].JumpOverBats++;
+                        }
                         if (population.Data[i].IsDucking)
                         {
                             population.Data[i].DuckUnderBats++;
-                        }
-                        // if (population.Data[i].IsJumping)
-                        else
-                        {
-                            population.Data[i].JumpOverBats++;
                         }
                     }
                 }
@@ -144,7 +143,7 @@ namespace SoNeat.src.GameLogic
         {
             // double baseInterval = Math.Max(9000 / _gameSpeed, 500);
             // _nextObstacleInterval = _random.NextDouble() * baseInterval + baseInterval;
-            _nextObstacleInterval = _random.Next(-31, 31);
+            _nextObstacleInterval = _random.Next(-50, 20);
         }
 
         public void Draw()

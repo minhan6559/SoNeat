@@ -171,7 +171,7 @@ namespace SoNeat.src.NEAT
             Console.WriteLine("##########################################");
             foreach (Species s in _species)
             {
-                Console.WriteLine(s + "  " + s.TopFitness + "  " + s.Agents.Count);
+                Console.WriteLine(s + "  " + s.TopFitness + " " + s.AverageFitness + "  " + s.Agents.Count);
             }
         }
     }

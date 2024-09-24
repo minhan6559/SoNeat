@@ -38,10 +38,14 @@ namespace SoNeat.src.Screen
 
         public void EnterState()
         {
+            string[] inputLabels = ["Sonic Y Position", "Distance To Next Enemy",
+                                    "Next Enemy Width", "Next Enemy Height",
+                                    "Bat Y Position", "Game Speed"];
+            string[] outputLabels = ["Jump", "Duck"];
             _gameSpeed = 10;
 
-            _population = new Population(1000);
-            _neat = new Neat(6, 2, 1000);
+            _population = new Population(500);
+            _neat = new Neat(inputLabels.Length, outputLabels.Length, 500);
             _population.LinkBrains(_neat);
 
             _score = 0;
@@ -60,10 +64,6 @@ namespace SoNeat.src.Screen
             _mainMenuBtn = new MyButton("assets/images/GameScreen/main_menu_btn.png", 510, 368);
             _chooseArrow = SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png");
 
-            string[] inputLabels = ["Sonic Y Position", "Distance To Next Enemy",
-                                    "Next Enemy Width", "Next Enemy Height",
-                                    "Bat Y Position", "Game Speed"];
-            string[] outputLabels = ["Jump", "Duck"];
             _networkDrawer = new NetworkDrawer(inputLabels, outputLabels, 220, 10, 660, 320);
         }
 
@@ -123,6 +123,7 @@ namespace SoNeat.src.Screen
         {
             _population!.Reset();
             _neat!.Evolve();
+            // _neat.PrintSpecies();
             _population!.LinkBrains(_neat);
 
             _obstacleManager!.Reset();
