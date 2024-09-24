@@ -24,16 +24,8 @@ namespace SoNeat.src.GameLogic
         {
             if (type == null)
             {
-                // 30% chance of creating a bat
-                // 70% chance of creating other obstacles, not including bats
-                if (_random.NextDouble() < 0.3)
-                {
-                    type = ObstacleType.Bat;
-                }
-                else
-                {
-                    type = (ObstacleType)_random.Next(0, Enum.GetValues(typeof(ObstacleType)).Length - 1);
-                }
+                // Randomly choose an obstacle type based on length of ObstacleType enum
+                type = (ObstacleType)_random.Next(Enum.GetNames(typeof(ObstacleType)).Length);
             }
 
             string folderPath = Utility.NormalizePath("assets/images/" + type.ToString());
