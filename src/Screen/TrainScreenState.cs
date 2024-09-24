@@ -74,15 +74,10 @@ namespace SoNeat.src.Screen
 
         public void Update()
         {
-            if (_gameStateType != TrainScreenStateType.Saving)
-            {
-                _environmentManager!.Update();
-                _population!.Update(_obstacleManager!.Obstacles);
-            }
-
             switch (_gameStateType)
             {
                 case TrainScreenStateType.Training:
+                    _environmentManager!.Update();
                     _score += _gameSpeed / 60;
                     if (Math.Floor(_score) >= _lastScoreMilestone + 100)
                     {
@@ -91,14 +86,8 @@ namespace SoNeat.src.Screen
                     }
 
                     _obstacleManager!.Update(_population!);
+                    _population!.Update(_obstacleManager!.Obstacles, _score);
 
-                    foreach (Sonic sonic in _population!.Data!)
-                    {
-                        if (sonic.IsDead)
-                        {
-                            sonic.CalculateFitness(_score);
-                        }
-                    }
 
                     if (_population!.Alives <= 0)
                     {

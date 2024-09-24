@@ -46,7 +46,7 @@ namespace SoNeat.src.GameLogic
             }
         }
 
-        public void Update(List<Obstacle> obstacles)
+        public void Update(List<Obstacle> obstacles, double score)
         {
             foreach (Sonic sonic in _sonics!)
             {
@@ -55,6 +55,13 @@ namespace SoNeat.src.GameLogic
                     sonic.See(obstacles);
                     sonic.TakeAction();
                     sonic.Update();
+                }
+                else
+                {
+                    if (sonic.IsDead)
+                    {
+                        sonic.CalculateFitness(score);
+                    }
                 }
             }
         }
