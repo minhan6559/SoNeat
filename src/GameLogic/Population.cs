@@ -46,7 +46,7 @@ namespace SoNeat.src.GameLogic
             }
         }
 
-        public void Update(List<Obstacle> obstacles, double score)
+        public void Update(List<Obstacle> obstacles)
         {
             foreach (Sonic sonic in _sonics!)
             {

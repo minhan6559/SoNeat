@@ -13,17 +13,13 @@ namespace SoNeat.src.NEAT
         private int _innovationNum;
         private static Random _random = new Random();
 
-        public Connection(Node fromNode, Node toNode, double weight, bool enabled, int innovationNum)
+        public Connection(Node fromNode, Node toNode, double weight, int innovationNum)
         {
             _fromNode = fromNode;
             _toNode = toNode;
             _weight = weight;
-            _enabled = enabled;
+            _enabled = true;
             _innovationNum = innovationNum;
-        }
-
-        public Connection(Node fromNode, Node toNode, double weight, int innovationNum) : this(fromNode, toNode, weight, true, innovationNum)
-        {
         }
 
         public bool Enabled
