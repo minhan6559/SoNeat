@@ -48,7 +48,7 @@ namespace SoNeat.src.GameLogic
             // Check if it's time to create a new obstacle
             if (_obstacleTimer.Ticks > (110 - _gameSpeed - _nextObstacleInterval) * 16)
             {
-                if (_countObstacles < 3 && _random.NextDouble() < 0.75)
+                if (_countObstacles < 5 && _random.NextDouble() < 0.75)
                 {
                     _obstacles.Add(ObstacleFactory.CreateObstacle(_gameSpeed, ObstacleType.Bat));
                 }
@@ -60,7 +60,7 @@ namespace SoNeat.src.GameLogic
             }
         }
 
-        public void Update(Population population)
+        public void Update(Population population, double score)
         {
             foreach (Obstacle obstacle in _obstacles)
             {
@@ -84,6 +84,7 @@ namespace SoNeat.src.GameLogic
                             population.Data[i].JumpOverBats++;
                         }
                         population.Data[i].IsDead = true;
+                        population.Data[i].Score = score;
                         population.Alives--;
                     }
                     else if (_obstacles[j].HasPassedPlayer && !_obstacles[j].AlreadyCheckedPass && _obstacles[j] is Bat)

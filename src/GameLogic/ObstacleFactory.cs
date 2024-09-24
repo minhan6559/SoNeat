@@ -12,9 +12,9 @@ namespace SoNeat.src.GameLogic
     public enum ObstacleType
     {
         Crab,
-        Bat,
         Spike,
-        Hog
+        Hog,
+        Bat
     }
 
     public class ObstacleFactory
@@ -24,7 +24,16 @@ namespace SoNeat.src.GameLogic
         {
             if (type == null)
             {
-                type = (ObstacleType)_random.Next(0, Enum.GetValues(typeof(ObstacleType)).Length);
+                // 30% chance of creating a bat
+                // 70% chance of creating other obstacles, not including bats
+                if (_random.NextDouble() < 0.3)
+                {
+                    type = ObstacleType.Bat;
+                }
+                else
+                {
+                    type = (ObstacleType)_random.Next(0, Enum.GetValues(typeof(ObstacleType)).Length - 1);
+                }
             }
 
             string folderPath = Utility.NormalizePath("assets/images/" + type.ToString());

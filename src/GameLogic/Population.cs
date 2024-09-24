@@ -56,13 +56,6 @@ namespace SoNeat.src.GameLogic
                     sonic.TakeAction();
                     sonic.Update();
                 }
-                else
-                {
-                    if (sonic.IsDead)
-                    {
-                        sonic.CalculateFitness(score);
-                    }
-                }
             }
         }
 
@@ -93,6 +86,10 @@ namespace SoNeat.src.GameLogic
                 _sonics[i].Sprite.Play("Dead");
                 _sonics[i].Sprite.Play("Run");
                 _sonics[i].IsDead = false;
+
+                _sonics[i].CalculateFitness();
+
+                _sonics[i].Score = 0;
 
                 if (_sonics[i].Fitness > lastBestFitness)
                 {

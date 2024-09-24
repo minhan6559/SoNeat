@@ -85,7 +85,7 @@ namespace SoNeat.src.Screen
                         UpdateGameSpeed(_gameSpeed + _gameSpeedIncrement);
                     }
 
-                    _obstacleManager!.Update(_population!);
+                    _obstacleManager!.Update(_population!, _score);
                     _population!.Update(_obstacleManager!.Obstacles, _score);
 
 
