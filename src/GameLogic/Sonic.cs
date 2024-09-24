@@ -148,10 +148,11 @@ namespace SoNeat.src.GameLogic
 
         public void See(List<Obstacle> obstacles)
         {
-            // Sonic Y Position
-            _vision[0] = Normalize(Y, 296, 509, 0, 1);
+            for (int i = 0; i < _vision.Length; i++)
+            {
+                _vision[i] = 0;
+            }
 
-            // Distance To Next Enemy
             int nextEnemyIndex = -1;
             for (int i = 0; i < obstacles.Count; i++)
             {
@@ -164,32 +165,34 @@ namespace SoNeat.src.GameLogic
 
             if (nextEnemyIndex == -1)
             {
-                _vision[1] = 0;
-                _vision[2] = 0;
-                _vision[3] = 0;
-                _vision[4] = 0;
-                _vision[5] = 0;
                 return;
             }
 
+
+            // Distance To Next Enemy
             Obstacle closestEnemy = obstacles[nextEnemyIndex];
-            double distanceToNextEnemy = Math.Abs(closestEnemy.X - X - CurrentBitmap.Width);
-            _vision[1] = Normalize(distanceToNextEnemy, 0, 1090, 0, 1);
+            double distanceToNextEnemy = Math.Abs(closestEnemy.X + closestEnemy.CurrentBitmap.Width / 2 - X + CurrentBitmap.Width / 2);
 
             // Next Enemy Width
             double nextEnemyWidth = closestEnemy.CurrentBitmap.Width;
-            _vision[2] = Normalize(nextEnemyWidth, 85, 150, 0, 1);
 
             // Next Enemy Height
             double nextEnemyHeight = closestEnemy.CurrentBitmap.Height;
-            _vision[3] = Normalize(nextEnemyHeight, 50, 175, 0, 1);
+
+            // Sonic Y Position
+            _vision[0] = Normalize(Y, 296, 509, 1, 0);
+            _vision[1] = Normalize(distanceToNextEnemy, 0, 1090, 1, 0);
+            _vision[2] = Normalize(nextEnemyWidth, 0, 150, 0, 1);
+            // _vision[2] = Normalize(nextEnemyWidth, 85, 150, 0, 1);
+            _vision[3] = Normalize(nextEnemyHeight, 0, 175, 0, 1);
+            // _vision[3] = Normalize(nextEnemyHeight, 50, 175, 0, 1);
 
             // Bat Y Position
             // Check if next enemy is a bat
             if (closestEnemy is Bat)
             {
-                // _vision[4] = Normalize(Math.Abs(Y - closestEnemy.Y - closestEnemy.CurrentBitmap.Height), 0, 86, 0, 1);
-                _vision[4] = Normalize(closestEnemy.Y, 348, 465, 0, 1);
+                _vision[4] = Normalize(Math.Abs(closestEnemy.Y + closestEnemy.CurrentBitmap.Height - Y), 0, 123, 0, 1);
+                // _vision[4] = Normalize(closestEnemy.Y, 348, 465, 0, 1);
             }
             else
             {
@@ -198,7 +201,6 @@ namespace SoNeat.src.GameLogic
 
             // Game Speed
             _vision[5] = Normalize(GameSpeed, 10, 50, 0, 1);
-
         }
 
         private double Normalize(double value, double min, double max, double newMin, double newMax)
