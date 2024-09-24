@@ -118,7 +118,7 @@ namespace SoNeat.src.GameLogic
                 }
             }
 
-            if (_obstacleTimer.Ticks > _nextObstacleInterval)
+            if (_obstacleTimer.Ticks > (110 - _gameSpeed - _nextObstacleInterval) * 16)
             {
                 _obstacles.Add(ObstacleFactory.CreateObstacle(_gameSpeed));
                 _obstacleTimer.Reset();
