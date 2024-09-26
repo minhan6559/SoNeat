@@ -10,7 +10,7 @@ namespace SoNeat.src.NEAT
     {
         private int _fromNodeId, _toNodeId;
         private int _innovationNum;
-        private HashSet<int> _innovationNumbers;
+        private HashSet<int> _innovationNumbersSet;
 
         public ConnectionHistory(int fromNodeId, int toNodeId, int innovationNum, HashSet<int> innovationNumbers)
         {
@@ -19,18 +19,17 @@ namespace SoNeat.src.NEAT
             _innovationNum = innovationNum;
 
             // Copy the list
-            _innovationNumbers = new HashSet<int>(innovationNumbers);
+            _innovationNumbersSet = new HashSet<int>(innovationNumbers);
         }
 
         public int InnovationNum
         {
             get => _innovationNum;
-            set => _innovationNum = value;
         }
 
         public bool IsMatching(Genome g, Node fromNode, Node toNode)
         {
-            if (g.Connections.Count != _innovationNumbers.Count)
+            if (g.Connections.Count != _innovationNumbersSet.Count)
                 return false;
 
             if (fromNode.InnovationNum != _fromNodeId || toNode.InnovationNum != _toNodeId)
@@ -38,7 +37,7 @@ namespace SoNeat.src.NEAT
 
             for (int i = 0; i < g.Connections.Count; i++)
             {
-                if (!_innovationNumbers.Contains(g.Connections[i].InnovationNum))
+                if (!_innovationNumbersSet.Contains(g.Connections[i].InnovationNum))
                     return false;
             }
 

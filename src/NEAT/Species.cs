@@ -65,7 +65,6 @@ namespace SoNeat.src.NEAT
         public Agent Representative
         {
             get => _representative;
-            set => _representative = value;
         }
 
         public bool IsInSpecies(Genome genome)
@@ -84,7 +83,7 @@ namespace SoNeat.src.NEAT
             return compatibility < COMPATIBILITY_THRESHOLD;
         }
 
-        public double CalculateExcessAndDisjoint(Genome g1, Genome g2)
+        private double CalculateExcessAndDisjoint(Genome g1, Genome g2)
         {
             double matchingGenes = 0;
             foreach (Connection conn1 in g1.Connections)
@@ -102,7 +101,7 @@ namespace SoNeat.src.NEAT
             return g1.Connections.Count + g2.Connections.Count - 2 * matchingGenes;
         }
 
-        public double CalculateAverageWeightDiff(Genome g1, Genome g2)
+        private double CalculateAverageWeightDiff(Genome g1, Genome g2)
         {
             if (g1.Connections.Count == 0 || g2.Connections.Count == 0)
             {

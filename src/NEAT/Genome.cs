@@ -99,7 +99,7 @@ namespace SoNeat.src.NEAT
             }
         }
 
-        public Node? GetNodeWithInnovationNum(int innovationNum)
+        public Node? GetNodeByInnovationNum(int innovationNum)
         {
             foreach (Node node in _nodes)
             {
@@ -155,7 +155,7 @@ namespace SoNeat.src.NEAT
             return outputs;
         }
 
-        public bool IsFullyConnected()
+        private bool IsFullyConnected()
         {
             int maxConnections = 0;
             int[] nodesPerLayer = new int[_totalLayers];
@@ -192,7 +192,7 @@ namespace SoNeat.src.NEAT
             int fromNodeIndex = _random.Next(_nodes.Count);
             int toNodeIndex = _random.Next(_nodes.Count);
 
-            while (CannotConnect(fromNodeIndex, toNodeIndex))
+            while (CannotConnectNodes(fromNodeIndex, toNodeIndex))
             {
                 fromNodeIndex = _random.Next(_nodes.Count);
                 toNodeIndex = _random.Next(_nodes.Count);
@@ -256,7 +256,7 @@ namespace SoNeat.src.NEAT
             ConnectNodes();
         }
 
-        public bool CannotConnect(int fromNodeIndex, int toNodeIndex)
+        private bool CannotConnectNodes(int fromNodeIndex, int toNodeIndex)
         {
             if (_nodes[fromNodeIndex].Layer == _nodes[toNodeIndex].Layer)
                 return true;
@@ -270,7 +270,7 @@ namespace SoNeat.src.NEAT
         public int GetInnovationNum(List<ConnectionHistory> innoHistory, Node fromNode, Node toNode)
         {
             bool isNew = true;
-            int connInnovationNum = Program.NextConnectionNum;
+            int connInnovationNum = Neat.NextConnectionNum;
 
             foreach (ConnectionHistory history in innoHistory)
             {
@@ -291,7 +291,7 @@ namespace SoNeat.src.NEAT
                 }
 
                 innoHistory.Add(new ConnectionHistory(fromNode.InnovationNum, toNode.InnovationNum, connInnovationNum, innovationNumbers));
-                Program.NextConnectionNum++;
+                Neat.NextConnectionNum++;
             }
 
             return connInnovationNum;
@@ -379,8 +379,8 @@ namespace SoNeat.src.NEAT
                 Connection conn = childConns[i];
                 child.Connections.Add(
                     conn.Clone(
-                        child.GetNodeWithInnovationNum(conn.FromNode.InnovationNum)!,
-                        child.GetNodeWithInnovationNum(conn.ToNode.InnovationNum)!
+                        child.GetNodeByInnovationNum(conn.FromNode.InnovationNum)!,
+                        child.GetNodeByInnovationNum(conn.ToNode.InnovationNum)!
                     )
                 );
                 child.Connections[i].Enabled = enables[i];
@@ -414,8 +414,8 @@ namespace SoNeat.src.NEAT
             {
                 clone.Connections.Add(
                     conn.Clone(
-                        clone.GetNodeWithInnovationNum(conn.FromNode.InnovationNum)!,
-                        clone.GetNodeWithInnovationNum(conn.ToNode.InnovationNum)!
+                        clone.GetNodeByInnovationNum(conn.FromNode.InnovationNum)!,
+                        clone.GetNodeByInnovationNum(conn.ToNode.InnovationNum)!
                     )
                 );
             }

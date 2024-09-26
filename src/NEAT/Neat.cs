@@ -7,11 +7,12 @@ namespace SoNeat.src.NEAT
 {
     public class Neat
     {
-        public int _inputSize, _outputSize;
-        public List<Species> _species;
-        public List<Agent> _agents;
-        public List<ConnectionHistory> _innovationHistory;
+        private int _inputSize, _outputSize;
+        private List<Species> _species;
+        private List<Agent> _agents;
+        private List<ConnectionHistory> _innovationHistory;
 
+        public static int NextConnectionNum = 1000;
         public const double MUTATE_NODE_PROB = 0.02f, MUTATE_CONNECTION_PROB = 0.05f;
         public const double MUTATE_WEIGHT_PROB = 0.8f, MUTATE_WEIGHT_SHIFT_PROB = 0.9f;
         public const double MUTATE_TOGGLE_PROB = 0.001f;
@@ -38,7 +39,6 @@ namespace SoNeat.src.NEAT
         public List<Agent> Agents
         {
             get => _agents;
-            set => _agents = value;
         }
 
         public void Evolve()
@@ -51,7 +51,7 @@ namespace SoNeat.src.NEAT
             Reproduce();
         }
 
-        public void CreateSpecies()
+        private void CreateSpecies()
         {
             foreach (Species species in _species)
             {
@@ -80,7 +80,7 @@ namespace SoNeat.src.NEAT
             }
         }
 
-        public void SortSpecies()
+        private void SortSpecies()
         {
             foreach (Species species in _species)
             {
@@ -90,7 +90,7 @@ namespace SoNeat.src.NEAT
             _species.Sort((a, b) => b.TopFitness.CompareTo(a.TopFitness));
         }
 
-        public void KillWeakAgents()
+        private void KillWeakAgents()
         {
             foreach (Species species in _species)
             {
@@ -100,7 +100,7 @@ namespace SoNeat.src.NEAT
             }
         }
 
-        public void KillUnfitSpecies()
+        private void KillUnfitSpecies()
         {
             for (int i = 2; i < _species.Count; i++)
             {
@@ -112,7 +112,7 @@ namespace SoNeat.src.NEAT
             }
         }
 
-        public void KillExtinctSpecies()
+        private void KillExtinctSpecies()
         {
             double averageFitness = CalculateAverageFitnessSum();
 
@@ -126,7 +126,7 @@ namespace SoNeat.src.NEAT
             }
         }
 
-        public double CalculateAverageFitnessSum()
+        private double CalculateAverageFitnessSum()
         {
             double averageFitness = 0.0;
             foreach (Species species in _species)
@@ -137,7 +137,7 @@ namespace SoNeat.src.NEAT
             return averageFitness;
         }
 
-        public void Reproduce()
+        private void Reproduce()
         {
             double averageFitness = CalculateAverageFitnessSum();
             List<Agent> newAgents = new List<Agent>();

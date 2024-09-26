@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="orqxFLYhP0BUc9gmHuvd" name="Page-1">
-        <mxGraphModel dx="2715" dy="1278" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1882" dy="997" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -155,7 +155,7 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="68" value="Node" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-                    <mxGeometry x="10" y="1340" width="270" height="300" as="geometry"/>
+                    <mxGeometry x="80" y="1480" width="270" height="300" as="geometry"/>
                 </mxCell>
                 <mxCell id="69" value="- _innovationNum: int&#10;- _layer: int&#10;- _inputVal: double&#10;- _outputVal: double&#10;- _connections: List&lt;Connection&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="68" vertex="1">
                     <mxGeometry y="26" width="270" height="84" as="geometry"/>
@@ -167,7 +167,7 @@
                     <mxGeometry y="118" width="270" height="182" as="geometry"/>
                 </mxCell>
                 <mxCell id="72" value="Connection" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-                    <mxGeometry x="340" y="1340" width="420" height="300" as="geometry"/>
+                    <mxGeometry x="470" y="1480" width="420" height="280" as="geometry"/>
                 </mxCell>
                 <mxCell id="73" value="- _innovationNum: int&#10;- _fromNode: Node&#10;- _toNode: Node&#10;- _weight: double&#10;- _enabled: bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="72" vertex="1">
                     <mxGeometry y="26" width="420" height="84" as="geometry"/>
@@ -175,8 +175,58 @@
                 <mxCell id="74" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="72" vertex="1">
                     <mxGeometry y="110" width="420" height="8" as="geometry"/>
                 </mxCell>
-                <mxCell id="75" value="+ Connection (Node fromNode, Node toNode, double weight, int innoNum)&#10;&#10;+ InnovationNum: int &lt;&lt;property&gt;&gt;&#10;+ Layer: int &lt;&lt;property&gt;&gt;&#10;+ InputVal: double &lt;&lt;property&gt;&gt;&#10;+ OutputVal: double &lt;&lt;property&gt;&gt;&#10;+ Connections: List&lt;Connection&gt; &lt;&lt;property&gt;&gt;&#10;&#10;+ Sigmoid(double x): double&#10;+ FeedForward()&#10;+ Clone(): Node&#10;+ IsConnectedTo(Node other): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="72" vertex="1">
-                    <mxGeometry y="118" width="420" height="182" as="geometry"/>
+                <mxCell id="75" value="+ Connection (Node fromNode, Node toNode, double weight, int innoNum)&#10;&#10;+ InnovationNum: int &lt;&lt;property&gt;&gt;&#10;+ FromNode: Node &lt;&lt;property&gt;&gt;&#10;+ ToNode: Node &lt;&lt;property&gt;&gt;&#10;+ Weight: double &lt;&lt;property&gt;&gt;&#10;+ Enabled: bool &lt;&lt;property&gt;&gt;&#10;&#10;+ MutateWeight()&#10;+ Clone(Node fromNode, Node toNode) :Connection" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="72" vertex="1">
+                    <mxGeometry y="118" width="420" height="162" as="geometry"/>
+                </mxCell>
+                <mxCell id="76" value="ConnectionHistory" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                    <mxGeometry x="360" y="1800" width="560" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="77" value="- _fromNodeId: int&#10;- _toNodeId: int&#10;- _innovationNum: int&#10;- _innovationNumbersSet: HashSet&lt;int&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="76">
+                    <mxGeometry y="26" width="560" height="74" as="geometry"/>
+                </mxCell>
+                <mxCell id="78" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="76">
+                    <mxGeometry y="100" width="560" height="8" as="geometry"/>
+                </mxCell>
+                <mxCell id="79" value="+ ConnectionHistory(int fromNodeId, int toNode, int innovationNum, HashSet&lt;int&gt; innovationNumbers)&#10;&#10;+ InnovationNum: int &lt;&lt;read-only property&gt;&gt;&#10;+ IsMatching(Genome g, Node fromNode, Node toNode): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="76">
+                    <mxGeometry y="108" width="560" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="80" value="Genome" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                    <mxGeometry x="960" y="1480" width="500" height="480" as="geometry">
+                        <mxRectangle x="960" y="1480" width="90" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="81" value="- _nodes: List&lt;Node&gt;&#10;- _connections: List&lt;Connection&gt;&#10;- _networkNodes: List&lt;Node&gt;&#10;- _inputSize: int&#10;- _outputSize: int&#10;- _totalLayers: int&#10;- _nextNodeIndex: int&#10;- _biasNodeIndex: int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="80">
+                    <mxGeometry y="26" width="500" height="124" as="geometry"/>
+                </mxCell>
+                <mxCell id="82" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="80">
+                    <mxGeometry y="150" width="500" height="8" as="geometry"/>
+                </mxCell>
+                <mxCell id="83" value="+ Genome(int inputSize, int outputSize, bool isCrossOver)&#10;&#10;+ Nodes: List&lt;Node&gt; &lt;&lt;property&gt;&gt;&#10;+ Connections: List&lt;Connection&gt; &lt;&lt;property&gt;&gt;&#10;+ TotalLayers: int &lt;&lt;property&gt;&gt;&#10;+ NextNodeIndex: int &lt;&lt;property&gt;&gt;&#10;+ BiasNodeIndex: int &lt;&lt;property&gt;&gt;&#10;&#10;- CreateNodes()&#10;- IsFullyConnected(): bool&#10;- CannotConnectNodes(int fromNodeIndex, int toNodeIndex): bool&#10;+ ConnectNodes()&#10;+ GetNodeByInnovationNum(int id): Node&#10;+ CreateNetwork()&#10;+ FeedForward(double[] inputs): double[]&#10;+ AddConnection(List&lt;ConnectionHistory&gt; innoHistory)&#10;+ AddNode(List&lt;ConnectionHistory&gt; innoHistory)&#10;+ GetInnovationNum(List&lt;ConnectionHistory&gt; innoHistory, Node fromNode, Node toNode)&#10;+ Mutate(List&lt;ConnectionHistory&gt; innoHistory)&#10;+ CrossOver(Genome other): Genome&#10;+ GetMatchingConnection(Genome other, int innoNum): int&#10;+ Clone(): Genome&#10;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="80">
+                    <mxGeometry y="158" width="500" height="322" as="geometry"/>
+                </mxCell>
+                <mxCell id="84" value="Species" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                    <mxGeometry x="-360" y="1470" width="350" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="85" value="- _agents: List&lt;Agent&gt;&#10;- _representative: Agent&#10;- _benchmarkGenome: Genome&#10;- _topFitness: double&#10;- _averageFitness: double&#10;- _notImprovedGenerations: int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="84">
+                    <mxGeometry y="26" width="350" height="94" as="geometry"/>
+                </mxCell>
+                <mxCell id="86" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="84">
+                    <mxGeometry y="120" width="350" height="8" as="geometry"/>
+                </mxCell>
+                <mxCell id="87" value="+ Species(Agent representative)&#10;&#10;+ Agents: List&lt;Agent&gt; &lt;&lt;property&gt;&gt;&#10;+ TopFitness: double &lt;&lt;property&gt;&gt;&#10;+ AverageFitness: double &lt;&lt;property&gt;&gt;&#10;+ NotImprovedGenerations: int &lt;&lt;property&gt;&gt;&#10;+ Representative: Agent &lt;&lt;read-only property&gt;&gt;&#10;&#10;- CalculateExcessAndDisjoint(Genome g1, Genome g2): double&#10;- CalculateAverageWeightDiff(Genome g1, Genome g2)&#10;+ IsInSpecies(Genome genome): bool&#10;+ Add(Agent agent)&#10;+ SortAgents()&#10;+ KillWeakAgents()&#10;+ CalculateFitness()&#10;+ FitnessSharing()&#10;+ SelectRandomAgent(): Agent&#10;+ Reproduce(List&lt;ConnectionHistory&gt; innoHistory): Agent" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="84">
+                    <mxGeometry y="128" width="350" height="272" as="geometry"/>
+                </mxCell>
+                <mxCell id="88" value="Neat" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="1830" width="300" height="320" as="geometry"/>
+                </mxCell>
+                <mxCell id="89" value="- _inputSize: int&#10;- _outputSize: int&#10;- _species: List&lt;Species&gt;&#10;- _agents: List&lt;Agent&gt;&#10;- _innovationHistory: List&lt;ConnectionHistory&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="88">
+                    <mxGeometry y="26" width="300" height="84" as="geometry"/>
+                </mxCell>
+                <mxCell id="90" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="88">
+                    <mxGeometry y="110" width="300" height="8" as="geometry"/>
+                </mxCell>
+                <mxCell id="91" value="+ Neat(int inputSize, int ouputSize, int populationSize)&#10;&#10;+ Agents: List&lt;Agent&gt; &lt;&lt;read-only property&gt;&gt;&#10;&#10;- CreateSpecies()&#10;- SortSpecies()&#10;- KillWeakAgents()&#10;- KillUnfitSpecies()&#10;- KillExtinctSpecies()&#10;- CalculateAverageFitnessSum(): double&#10;- Reproduce()&#10;- SelectRandomSpecies()&#10;+ Evolve()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="88">
+                    <mxGeometry y="118" width="300" height="202" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
