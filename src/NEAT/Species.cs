@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+
 namespace SoNeat.src.NEAT
 {
+    [Serializable]
     public class Species
     {
+        [JsonProperty]
         private List<Agent> _agents;
+        [JsonProperty]
         private Agent _representative;
+        [JsonProperty]
         private Genome _benchmarkGenome;
-        private double _topFitness;
-        private double _averageFitness;
+        [JsonProperty]
+        private double _topFitness, _averageFitness;
+        [JsonProperty]
         private int _notImprovedGenerations;
 
         private const double COMPATIBILITY_THRESHOLD = 3.0;
@@ -19,6 +26,17 @@ namespace SoNeat.src.NEAT
         private const double WEIGHT_DIFFERENCE_COEFFICIENT = 0.5;
         private const double SURVIVAL_RATE = 0.5;
         private Random _random = new Random();
+
+        [JsonConstructor]
+        public Species()
+        {
+            _agents = new List<Agent>();
+            _representative = new Agent(new Genome(0, 0, false));
+            _benchmarkGenome = new Genome(0, 0, false);
+            _topFitness = 0.0;
+            _averageFitness = 0.0;
+            _notImprovedGenerations = 0;
+        }
 
         public Species(Agent? representative = null)
         {
@@ -38,30 +56,34 @@ namespace SoNeat.src.NEAT
             }
         }
 
+        [JsonIgnore]
         public List<Agent> Agents
         {
             get => _agents;
             set => _agents = value;
         }
 
+        [JsonIgnore]
         public double TopFitness
         {
             get => _topFitness;
             set => _topFitness = value;
         }
 
+        [JsonIgnore]
         public double AverageFitness
         {
             get => _averageFitness;
             set => _averageFitness = value;
         }
 
+        [JsonIgnore]
         public int NotImprovedGenerations
         {
             get => _notImprovedGenerations;
-            set => _notImprovedGenerations = value;
         }
 
+        [JsonIgnore]
         public Agent Representative
         {
             get => _representative;

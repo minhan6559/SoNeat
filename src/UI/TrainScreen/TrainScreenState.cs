@@ -8,7 +8,7 @@ using SoNeat.src.GameLogic;
 using SoNeat.src.Utils;
 using SoNeat.src.NEAT;
 
-namespace SoNeat.src.Screen
+namespace SoNeat.src.UI.TrainScreen
 {
     public enum TrainScreenStateType
     {
@@ -36,6 +36,12 @@ namespace SoNeat.src.Screen
         private Bitmap? _chooseArrow;
         private NetworkDrawer? _networkDrawer;
 
+        public EnvironmentManager? EnvironmentManager
+        {
+            get => _environmentManager;
+            set => _environmentManager = value;
+        }
+
         public void EnterState()
         {
             string[] inputLabels = ["Sonic Y Position", "Distance To Next Enemy",
@@ -44,16 +50,16 @@ namespace SoNeat.src.Screen
             string[] outputLabels = ["Jump", "Duck"];
             _gameSpeed = 10;
 
-            _population = new Population(1000);
-            _neat = new Neat(inputLabels.Length, outputLabels.Length, 1000);
-            _population.LinkBrains(_neat);
+            _population = new Population(500);
+            _neat = new Neat(inputLabels.Length, outputLabels.Length, 500);
+            // _neat = Neat.DeserializeFromJson("neat.json");
+            _population.LinkBrains(_neat!);
 
             _score = 0;
             _lastScoreMilestone = 0;
             _gameSpeedIncrement = 0.5f;
 
             _obstacleManager = new ObstacleManager(_gameSpeed);
-            _obstacleManager.StartTimer();
 
             if (_environmentManager == null)
                 _environmentManager = new EnvironmentManager(_gameSpeed);
@@ -65,11 +71,6 @@ namespace SoNeat.src.Screen
             _chooseArrow = SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png");
 
             _networkDrawer = new NetworkDrawer(inputLabels, outputLabels, 220, 10, 660, 320);
-        }
-
-        public void LoadEnvironment(EnvironmentManager oldEnvironment)
-        {
-            _environmentManager = oldEnvironment;
         }
 
         public void Update()
@@ -93,6 +94,20 @@ namespace SoNeat.src.Screen
                     {
                         Reset();
                     }
+
+                    if (SplashKit.KeyTyped(KeyCode.SKey))
+                    {
+                        _neat!.SerializeToJson("neat.json");
+                        Console.WriteLine(_neat.Species.Count);
+                        Console.WriteLine(_neat.Agents.Count);
+                        Console.WriteLine(_neat.Generation);
+                    }
+
+                    if (SplashKit.KeyTyped(KeyCode.LKey))
+                    {
+                        _neat = Neat.DeserializeFromJson("neat.json");
+                        Reset(true);
+                    }
                     break;
                 default:
                     break;
@@ -108,12 +123,12 @@ namespace SoNeat.src.Screen
             _obstacleManager!.UpdateGameSpeed(gameSpeed);
         }
 
-        public void Reset()
+        public void Reset(bool loadNewNeat = false)
         {
             _population!.Reset();
-            _neat!.Evolve();
-            // _neat.PrintSpecies();
-            _population!.LinkBrains(_neat);
+            if (!loadNewNeat)
+                _neat!.Evolve();
+            _population!.LinkBrains(_neat!);
 
             _obstacleManager!.Reset();
             _score = 0;
@@ -130,7 +145,7 @@ namespace SoNeat.src.Screen
             _obstacleManager!.Draw();
 
             DrawTrainingInfo();
-            _networkDrawer!.Draw(_population!.BestBrain);
+            _networkDrawer!.Draw(_neat!.BestAgent.Genome);
 
             switch (_gameStateType)
             {
@@ -155,7 +170,7 @@ namespace SoNeat.src.Screen
 
             SplashKit.DrawText($"ALIVE:{_population!.Alives}", Color.Black, "MainFont", 24, 975, 65);
 
-            SplashKit.DrawText($"GEN:{_population!.Generation}", Color.Black, "MainFont", 24, 1023, 101);
+            SplashKit.DrawText($"GEN:{_neat!.Generation}", Color.Black, "MainFont", 24, 1023, 101);
         }
 
         public void ExitState()

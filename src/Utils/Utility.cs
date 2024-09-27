@@ -21,58 +21,27 @@ namespace SoNeat.src.Utils
             return path.Replace(incorrectSeparator, correctSeparator);
         }
 
-        // public static void SerializeObject<T>(T serializableObject, string fileName)
-        // {
-        //     if (serializableObject == null) { return; }
+        public static double Sigmoid(double x)
+        {
+            return 1.0f / (1.0f + Math.Exp(-4.9 * x));
+        }
 
-        //     try
-        //     {
-        //         XmlDocument xmlDocument = new XmlDocument();
-        //         XmlSerializer serializer = new XmlSerializer(serializableObject.GetType());
-        //         using (MemoryStream stream = new MemoryStream())
-        //         {
-        //             serializer.Serialize(stream, serializableObject);
-        //             stream.Position = 0;
-        //             xmlDocument.Load(stream);
-        //             xmlDocument.Save(fileName);
-        //         }
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         //Log exception here
-        //     }
-        // }
+        public static double RandomGaussian()
+        {
+            Random _random = new Random();
+            double u1 = 1.0 - _random.NextDouble(); // uniform(0,1) random number
+            double u2 = 1.0 - _random.NextDouble();
+            double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);  // standard normal distributed value
+            return randStdNormal;
+        }
 
-        // public static T DeSerializeObject<T>(string fileName)
-        // {
-        //     if (string.IsNullOrEmpty(fileName)) { return default; }
-
-        //     T objectOut = default;
-
-        //     try
-        //     {
-        //         XmlDocument xmlDocument = new XmlDocument();
-        //         xmlDocument.Load(fileName);
-        //         string xmlString = xmlDocument.OuterXml;
-
-        //         using (StringReader read = new StringReader(xmlString))
-        //         {
-        //             Type outType = typeof(T);
-
-        //             XmlSerializer serializer = new XmlSerializer(outType);
-        //             using (XmlReader reader = new XmlTextReader(read))
-        //             {
-        //                 objectOut = (T)serializer.Deserialize(reader);
-        //             }
-        //         }
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         Console.WriteLine(ex.Message);
-        //         //Log exception here
-        //     }
-
-        //     return objectOut;
-        // }
+        public static double Normalize(double value, double min, double max, double newMin, double newMax)
+        {
+            if (value < min)
+                return newMin;
+            if (value > max)
+                return newMax;
+            return newMin + (value - min) * (newMax - newMin) / (max - min);
+        }
     }
 }

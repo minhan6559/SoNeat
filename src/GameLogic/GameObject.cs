@@ -13,7 +13,7 @@ namespace SoNeat.src.GameLogic
         public float Y { get; set; }
         public float GameSpeed { get; set; }
         public float Speed { get; set; }
-        public MySprite Sprite { get; set; }
+        protected MySprite Sprite { get; set; }
         public Bitmap CurrentBitmap => Sprite.CurrentBitmap;
 
         public GameObject(float x, float y, float speed, float gameSpeed, string folderPath)
@@ -39,12 +39,16 @@ namespace SoNeat.src.GameLogic
         public virtual void Draw()
         {
             Sprite.Draw(X, Y);
-            // DrawOutline();
         }
 
         public virtual void DrawOutline()
         {
             SplashKit.DrawRectangle(Color.Red, X, Y, CurrentBitmap.Width, CurrentBitmap.Height);
+        }
+
+        public virtual void PlayAnimation(string animation)
+        {
+            Sprite.Play(animation);
         }
 
         public virtual void Move()

@@ -8,8 +8,7 @@ namespace SoNeat.src.GameLogic
     public class ObstacleManager
     {
         private List<Obstacle> _obstacles;
-        private readonly SplashKitSDK.Timer _obstacleTimer;
-        private double _nextObstacleInterval;
+        private int _nextObstacleInterval;
         private float _gameSpeed;
         private int _countObstacles;
         private static readonly Random _random = new Random();
@@ -19,7 +18,6 @@ namespace SoNeat.src.GameLogic
         public ObstacleManager(float initialGameSpeed)
         {
             _obstacles = new List<Obstacle>();
-            _obstacleTimer = new SplashKitSDK.Timer("Obstacle Timer");
             _gameSpeed = initialGameSpeed;
             _nextObstacleInterval = 50;
             _countObstacles = 0;
@@ -37,27 +35,10 @@ namespace SoNeat.src.GameLogic
                     sonic.IsDead = true;
                     Console.WriteLine("Game Over");
                 }
-
-                if (_obstacles[i].IsOffScreen())
-                {
-                    _obstacles.RemoveAt(i);
-                    i--;
-                }
             }
 
-            // Check if it's time to create a new obstacle
-            if (_obstacleTimer.Ticks > (110 + _gameSpeed - _nextObstacleInterval) * 16)
-            {
-                if (_countObstacles < 5 && _random.NextDouble() < 0.75)
-                {
-                    _obstacles.Add(ObstacleFactory.CreateObstacle(_gameSpeed, ObstacleType.Bat));
-                }
-                else
-                    _obstacles.Add(ObstacleFactory.CreateObstacle(_gameSpeed));
-                _countObstacles++;
-                _obstacleTimer.Reset();
-                SetNextObstacleInterval();
-            }
+            RemoveOffScreenObstacles();
+            CheckTimer();
         }
 
         public void Update(Population population, double score)
@@ -109,21 +90,8 @@ namespace SoNeat.src.GameLogic
                 }
             }
 
-            for (int i = 0; i < _obstacles.Count; i++)
-            {
-                if (_obstacles[i].IsOffScreen())
-                {
-                    _obstacles.RemoveAt(i);
-                    break;
-                }
-            }
-
-            if (_obstacleTimer.Ticks > (110 - _gameSpeed - _nextObstacleInterval) * 16)
-            {
-                _obstacles.Add(ObstacleFactory.CreateObstacle(_gameSpeed));
-                _obstacleTimer.Reset();
-                SetNextObstacleInterval();
-            }
+            RemoveOffScreenObstacles();
+            CheckTimer();
         }
 
         public void UpdateGameSpeed(float gameSpeed)
@@ -135,9 +103,16 @@ namespace SoNeat.src.GameLogic
             }
         }
 
-        public void StartTimer()
+        private void RemoveOffScreenObstacles()
         {
-            _obstacleTimer.Start();
+            for (int i = 0; i < _obstacles.Count; i++)
+            {
+                if (_obstacles[i].IsOffScreen())
+                {
+                    _obstacles.RemoveAt(i);
+                    i--;
+                }
+            }
         }
 
         private void SetNextObstacleInterval()
@@ -145,6 +120,24 @@ namespace SoNeat.src.GameLogic
             // double baseInterval = Math.Max(9000 / _gameSpeed, 500);
             // _nextObstacleInterval = _random.NextDouble() * baseInterval + baseInterval;
             _nextObstacleInterval = _random.Next(-31, 31);
+        }
+
+        public void CheckTimer()
+        {
+            // Check if it's time to create a new obstacle
+            if (_nextObstacleInterval > 111 - _gameSpeed)
+            {
+                if (_countObstacles < 3 && _random.NextDouble() < 0.4)
+                {
+                    _obstacles.Add(ObstacleFactory.CreateObstacle(_gameSpeed, ObstacleType.Bat));
+                }
+                else
+                    _obstacles.Add(ObstacleFactory.CreateObstacle(_gameSpeed));
+                _countObstacles++;
+                SetNextObstacleInterval();
+            }
+
+            _nextObstacleInterval++;
         }
 
         public void Draw()
@@ -158,7 +151,6 @@ namespace SoNeat.src.GameLogic
         public void Reset()
         {
             _obstacles.Clear();
-            _obstacleTimer.Reset();
             _nextObstacleInterval = 50;
             _countObstacles = 0;
         }

@@ -26,7 +26,6 @@ namespace SoNeat.src.Utils
             LoadSettings(folderPath);
         }
 
-        public Dictionary<string, List<Bitmap>> Animations => _animations;
         public Bitmap CurrentBitmap => _animations[_current_animation][_current_animation_frame];
 
         private void LoadSettings(string folderPath)

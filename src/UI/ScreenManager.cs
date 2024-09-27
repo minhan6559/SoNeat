@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SoNeat.src.Screen
+namespace SoNeat.src.UI
 {
     // Singleton
     public class ScreenManager
@@ -33,7 +33,8 @@ namespace SoNeat.src.Screen
 
         public void SetState(IScreenState state)
         {
-            _currentState?.ExitState();
+            if (_currentState != null)
+                _currentState.ExitState();
             _currentState = state;
             _currentState.EnterState();
         }

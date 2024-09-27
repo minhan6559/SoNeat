@@ -7,7 +7,7 @@ using SoNeat.src.NEAT;
 using SplashKitSDK;
 using SoNeat.src.Utils;
 
-namespace SoNeat.src.Screen
+namespace SoNeat.src.UI
 {
     public class TestScreenState : IScreenState
     {

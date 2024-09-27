@@ -2,14 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SoNeat.src.NEAT
 {
+    [Serializable]
     public class Agent
     {
+        [JsonProperty]
         private Genome _genome;
+
+        [JsonProperty]
         private double _fitness;
 
+        [JsonConstructor]
+        public Agent()
+        {
+            _genome = new Genome(0, 0, false);
+            _fitness = 0.0;
+        }
 
         public Agent(Genome genome)
         {
@@ -23,12 +34,13 @@ namespace SoNeat.src.NEAT
             _fitness = 0.0;
         }
 
+        [JsonIgnore]
         public Genome Genome
         {
             get => _genome;
-            set => _genome = value;
         }
 
+        [JsonIgnore]
         public double Fitness
         {
             get => _fitness;

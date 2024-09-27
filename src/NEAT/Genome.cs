@@ -3,17 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+
 namespace SoNeat.src.NEAT
 {
+    [Serializable]
     public class Genome
     {
+        [JsonProperty]
         private List<Node> _nodes;
+        [JsonProperty]
         private List<Connection> _connections;
+        [JsonProperty]
         private int _inputSize, _outputSize;
+        [JsonProperty]
         private int _totalLayers;
+        [JsonProperty]
         private int _nextNodeIndex, _biasNodeIndex;
+        [JsonProperty]
         private List<Node> _networkNodes;
+
         private static Random _random = new Random();
+
+        [JsonConstructor]
+        public Genome()
+        {
+            _nodes = new List<Node>();
+            _connections = new List<Connection>();
+            _inputSize = 0;
+            _outputSize = 0;
+            _totalLayers = 0;
+            _nextNodeIndex = 0;
+            _biasNodeIndex = -1;
+            _networkNodes = new List<Node>();
+        }
 
         public Genome(int inputSize, int outputSize, bool isCrossOver)
         {
@@ -34,30 +57,35 @@ namespace SoNeat.src.NEAT
             CreateNodes();
         }
 
+        [JsonIgnore]
         public List<Node> Nodes
         {
             get => _nodes;
             set => _nodes = value;
         }
 
+        [JsonIgnore]
         public List<Connection> Connections
         {
             get => _connections;
             set => _connections = value;
         }
 
+        [JsonIgnore]
         public int TotalLayers
         {
             get => _totalLayers;
             set => _totalLayers = value;
         }
 
+        [JsonIgnore]
         public int NextNodeIndex
         {
             get => _nextNodeIndex;
             set => _nextNodeIndex = value;
         }
 
+        [JsonIgnore]
         public int BiasNodeIndex
         {
             get => _biasNodeIndex;

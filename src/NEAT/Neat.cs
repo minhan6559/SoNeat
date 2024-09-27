@@ -1,24 +1,47 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using Newtonsoft.Json;
+using SoNeat.src.Utils;
 
 namespace SoNeat.src.NEAT
 {
+    [Serializable]
     public class Neat
     {
-        private int _inputSize, _outputSize;
+        [JsonProperty]
+        private int _inputSize, _outputSize, _generation;
+        [JsonProperty]
         private List<Species> _species;
+        [JsonProperty]
         private List<Agent> _agents;
+        [JsonProperty]
         private List<ConnectionHistory> _innovationHistory;
+        [JsonProperty]
+        private Agent _bestAgent;
 
-        public static int NextConnectionNum = 1000;
+        [JsonIgnore]
+        public static int NextConnectionNum { get; set; } = 1000;
+
         public const double MUTATE_NODE_PROB = 0.02f, MUTATE_CONNECTION_PROB = 0.05f;
         public const double MUTATE_WEIGHT_PROB = 0.8f, MUTATE_WEIGHT_SHIFT_PROB = 0.9f;
         public const double MUTATE_TOGGLE_PROB = 0.001f;
 
         public const double SURVIVAL_RATE = 0.5f;
         public const int MAX_NOT_IMPROVED_GENERATIONS = 15;
+
+        [JsonConstructor]
+        public Neat()
+        {
+            _inputSize = 0;
+            _outputSize = 0;
+            _species = new List<Species>();
+            _agents = new List<Agent>();
+            _innovationHistory = new List<ConnectionHistory>();
+            _generation = 0;
+            _bestAgent = new Agent();
+        }
 
         public Neat(int inputSize, int outputSize, int populationSize)
         {
@@ -27,6 +50,7 @@ namespace SoNeat.src.NEAT
             _species = new List<Species>();
             _agents = new List<Agent>();
             _innovationHistory = new List<ConnectionHistory>();
+            _generation = 0;
 
             for (int i = 0; i < populationSize; i++)
             {
@@ -34,21 +58,44 @@ namespace SoNeat.src.NEAT
                 agent.Mutate(_innovationHistory);
                 _agents.Add(agent);
             }
+
+            _bestAgent = _agents[0];
         }
 
+        [JsonIgnore]
         public List<Agent> Agents
         {
             get => _agents;
+        }
+
+        [JsonIgnore]
+        public List<Species> Species
+        {
+            get => _species;
+        }
+
+        [JsonIgnore]
+        public Agent BestAgent
+        {
+            get => _bestAgent;
+        }
+
+        [JsonIgnore]
+        public int Generation
+        {
+            get => _generation;
         }
 
         public void Evolve()
         {
             CreateSpecies();
             SortSpecies();
+            SetBestAgent();
             KillWeakAgents();
             KillUnfitSpecies();
             KillExtinctSpecies();
             Reproduce();
+            _generation++;
         }
 
         private void CreateSpecies()
@@ -90,6 +137,20 @@ namespace SoNeat.src.NEAT
             _species.Sort((a, b) => b.TopFitness.CompareTo(a.TopFitness));
         }
 
+        private void SetBestAgent()
+        {
+            // Find the best agent among all species by using the first agent of each species
+            Agent agent = _species[0].Agents[0];
+            foreach (Species species in _species)
+            {
+                if (species.Agents[0].Fitness > agent.Fitness)
+                {
+                    agent = species.Agents[0];
+                }
+            }
+            _bestAgent = agent.Clone();
+        }
+
         private void KillWeakAgents()
         {
             foreach (Species species in _species)
@@ -128,13 +189,7 @@ namespace SoNeat.src.NEAT
 
         private double CalculateAverageFitnessSum()
         {
-            double averageFitness = 0.0;
-            foreach (Species species in _species)
-            {
-                averageFitness += species.AverageFitness;
-            }
-
-            return averageFitness;
+            return _species.Sum(s => s.AverageFitness);
         }
 
         private void Reproduce()
@@ -169,12 +224,7 @@ namespace SoNeat.src.NEAT
 
         private Species SelectRandomSpecies()
         {
-            double fitnessSum = 0.0;
-            foreach (Species species in _species)
-            {
-                fitnessSum += species.AverageFitness;
-            }
-
+            double fitnessSum = _species.Sum(s => s.AverageFitness);
             double randomValue = new Random().NextDouble() * fitnessSum;
             double runningSum = 0.0;
 
@@ -195,8 +245,35 @@ namespace SoNeat.src.NEAT
             Console.WriteLine("##########################################");
             foreach (Species s in _species)
             {
-                Console.WriteLine(s + "  " + s.TopFitness + " " + s.AverageFitness + "  " + s.Agents.Count);
+                Console.WriteLine($"{s} {s.TopFitness} {s.AverageFitness} {s.Agents.Count}");
             }
+        }
+
+        public void SerializeToJson(string filePath)
+        {
+            filePath = Utility.NormalizePath(filePath);
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            };
+
+            string jsonString = JsonConvert.SerializeObject(this, settings);
+            File.WriteAllText(filePath, jsonString);
+        }
+
+        public static Neat? DeserializeFromJson(string filePath)
+        {
+            filePath = Utility.NormalizePath(filePath);
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            };
+
+            string jsonString = File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<Neat>(jsonString, settings);
         }
     }
 }

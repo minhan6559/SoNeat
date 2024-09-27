@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using SplashKitSDK;
 using SoNeat.src.NEAT;
+using SoNeat.src.Utils;
 
 namespace SoNeat.src.GameLogic
 {
@@ -14,6 +15,7 @@ namespace SoNeat.src.GameLogic
         private bool _isIdle, _isJumping, _isDucking, _isHoldJump, _isDead;
         private float _velocityY, _floorY, _gravity;
         private double[] _vision = new double[6];
+        private Agent? _brain;
 
         public Sonic(float x, float y, float floorY, float gameSpeed, string folderPath = DEFAULT_FOLDER_PATH)
                     : base(x, y, 0, gameSpeed, folderPath)
@@ -31,11 +33,10 @@ namespace SoNeat.src.GameLogic
             TotalJumps = 0;
             DuckUnderBats = 0;
             JumpOverBats = 0;
-            Brain = null;
+            _brain = null;
         }
 
 
-        public Agent? Brain { get; set; }
         public int TotalJumps { get; set; }
         public int DuckUnderBats { get; set; }
         public int JumpOverBats { get; set; }
@@ -45,10 +46,26 @@ namespace SoNeat.src.GameLogic
         public bool IsDucking => _isDucking;
         public double Fitness
         {
-            get => Brain!.Fitness;
-            set => Brain!.Fitness = value;
+            get
+            {
+                if (Brain == null)
+                    return 0;
+                return Brain.Fitness;
+            }
+
+            set
+            {
+                if (Brain != null)
+                    Brain.Fitness = value;
+            }
         }
         public double Score { get; set; }
+
+        public Agent? Brain
+        {
+            get => _brain;
+            set => _brain = value;
+        }
 
         public override void Update()
         {
@@ -97,6 +114,7 @@ namespace SoNeat.src.GameLogic
             if (SplashKit.KeyDown(KeyCode.SpaceKey))
             {
                 Jump();
+                StopDucking();
                 _isHoldJump = true;
             }
 
@@ -181,18 +199,18 @@ namespace SoNeat.src.GameLogic
             double nextEnemyHeight = closestEnemy.CurrentBitmap.Height;
 
             // Sonic Y Position
-            _vision[0] = Normalize(Y, 296, 509, 1, 0);
-            _vision[1] = Normalize(distanceToNextEnemy, 0, 1250, 1, 0);
-            _vision[2] = Normalize(nextEnemyWidth, 0, 150, 0, 1);
+            _vision[0] = Utility.Normalize(Y, 296, 509, 1, 0);
+            _vision[1] = Utility.Normalize(distanceToNextEnemy, 0, 1250, 1, 0);
+            _vision[2] = Utility.Normalize(nextEnemyWidth, 0, 150, 0, 1);
             // _vision[2] = Normalize(nextEnemyWidth, 85, 150, 0, 1);
-            _vision[3] = Normalize(nextEnemyHeight, 0, 175, 0, 1);
+            _vision[3] = Utility.Normalize(nextEnemyHeight, 0, 175, 0, 1);
             // _vision[3] = Normalize(nextEnemyHeight, 50, 175, 0, 1);
 
             // Bat Y Position
             // Check if next enemy is a bat
             if (closestEnemy is Bat)
             {
-                _vision[4] = Normalize(Math.Abs(closestEnemy.Y + closestEnemy.CurrentBitmap.Height - Y), 0, 123, 0, 1);
+                _vision[4] = Utility.Normalize(Math.Abs(closestEnemy.Y + closestEnemy.CurrentBitmap.Height - Y), 0, 123, 0, 1);
                 // _vision[4] = Normalize(closestEnemy.Y, 348, 465, 0, 1);
             }
             else
@@ -201,24 +219,15 @@ namespace SoNeat.src.GameLogic
             }
 
             // Game Speed
-            _vision[5] = Normalize(GameSpeed, 10, 50, 0, 1);
-        }
-
-        private double Normalize(double value, double min, double max, double newMin, double newMax)
-        {
-            if (value < min)
-                return newMin;
-            if (value > max)
-                return newMax;
-            return newMin + (value - min) * (newMax - newMin) / (max - min);
+            _vision[5] = Utility.Normalize(GameSpeed, 10, 50, 0, 1);
         }
 
         public void TakeAction()
         {
-            if (Brain == null)
+            if (_brain == null)
                 return;
 
-            double[] decision = Brain.FeedForward(_vision)!;
+            double[] decision = _brain.FeedForward(_vision)!;
 
             // Find the highest value in the decision array and its index
             double highestValue = decision.Max();
@@ -258,7 +267,15 @@ namespace SoNeat.src.GameLogic
                 fitness *= fitness;
             }
 
-            Brain!.Fitness = fitness;
+            _brain!.Fitness = fitness;
+        }
+
+        public void ResetFitnessElements()
+        {
+            TotalJumps = 0;
+            DuckUnderBats = 0;
+            JumpOverBats = 0;
+            Score = 0;
         }
 
         public bool IsOnGround()

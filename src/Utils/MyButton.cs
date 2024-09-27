@@ -9,7 +9,7 @@ namespace SoNeat.src.Utils
 {
     public class MyButton
     {
-        public Bitmap ButtonBitmap { get; set; }
+        private Bitmap _buttonBitmap;
         public double X { get; set; }
         public double Y { get; set; }
 
@@ -19,11 +19,11 @@ namespace SoNeat.src.Utils
             string BitmapName = Path.GetFileNameWithoutExtension(bitmapPath);
             if (SplashKit.HasBitmap(BitmapName))
             {
-                ButtonBitmap = SplashKit.BitmapNamed(BitmapName);
+                _buttonBitmap = SplashKit.BitmapNamed(BitmapName);
             }
             else
             {
-                ButtonBitmap = SplashKit.LoadBitmap(BitmapName, bitmapPath);
+                _buttonBitmap = SplashKit.LoadBitmap(BitmapName, bitmapPath);
             }
             X = x;
             Y = y;
@@ -31,7 +31,7 @@ namespace SoNeat.src.Utils
 
         public void Draw()
         {
-            SplashKit.DrawBitmap(ButtonBitmap, X, Y);
+            SplashKit.DrawBitmap(_buttonBitmap, X, Y);
         }
 
         public bool IsClicked()
@@ -39,8 +39,8 @@ namespace SoNeat.src.Utils
             if (SplashKit.MouseClicked(MouseButton.LeftButton))
             {
                 Point2D pt = SplashKit.MousePosition();
-                return (pt.X >= X) && (pt.X <= (X + ButtonBitmap.Width))
-                    && (pt.Y >= Y) && (pt.Y <= (Y + ButtonBitmap.Height));
+                return (pt.X >= X) && (pt.X <= (X + _buttonBitmap.Width))
+                    && (pt.Y >= Y) && (pt.Y <= (Y + _buttonBitmap.Height));
             }
             return false;
         }
@@ -48,8 +48,8 @@ namespace SoNeat.src.Utils
         public bool IsHovered()
         {
             Point2D pt = SplashKit.MousePosition();
-            return (pt.X >= X) && (pt.X <= (X + ButtonBitmap.Width))
-                && (pt.Y >= Y) && (pt.Y <= (Y + ButtonBitmap.Height));
+            return (pt.X >= X) && (pt.X <= (X + _buttonBitmap.Width))
+                && (pt.Y >= Y) && (pt.Y <= (Y + _buttonBitmap.Height));
         }
     }
 }

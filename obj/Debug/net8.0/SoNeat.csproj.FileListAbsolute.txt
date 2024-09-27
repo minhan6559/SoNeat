@@ -43,3 +43,6 @@ C:\Users\Admin\Desktop\SoNeat\obj\Debug\net8.0\refint\SoNeat.dll
 C:\Users\Admin\Desktop\SoNeat\obj\Debug\net8.0\SoNeat.pdb
 C:\Users\Admin\Desktop\SoNeat\obj\Debug\net8.0\SoNeat.genruntimeconfig.cache
 C:\Users\Admin\Desktop\SoNeat\obj\Debug\net8.0\ref\SoNeat.dll
+C:\Users\Admin\Desktop\SoNeat\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Admin\Desktop\SoNeat\obj\Debug\net8.0\SoNeat.csproj.AssemblyReference.cache
+C:\Users\Admin\Desktop\SoNeat\obj\Debug\net8.0\SoNeat.csproj.Up2Date

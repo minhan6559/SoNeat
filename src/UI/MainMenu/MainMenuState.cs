@@ -1,8 +1,10 @@
 using SplashKitSDK;
 using SoNeat.src.Utils;
 using SoNeat.src.GameLogic;
+using SoNeat.src.UI.GameScreen;
+using SoNeat.src.UI.TrainScreen;
 
-namespace SoNeat.src.Screen
+namespace SoNeat.src.UI.MainMenu
 {
     public class MainMenuState : IScreenState
     {
@@ -32,14 +34,14 @@ namespace SoNeat.src.Screen
             if (_playBtn!.IsClicked())
             {
                 GameScreenState gameScreen = new GameScreenState();
-                gameScreen.LoadEnvironment(_environmentManager!);
+                gameScreen.EnvironmentManager = _environmentManager!;
                 ScreenManager.Instance.SetState(gameScreen);
             }
 
             if (_trainBtn!.IsClicked())
             {
                 TrainScreenState trainScreen = new TrainScreenState();
-                trainScreen.LoadEnvironment(_environmentManager!);
+                trainScreen.EnvironmentManager = _environmentManager!;
                 ScreenManager.Instance.SetState(trainScreen);
             }
 

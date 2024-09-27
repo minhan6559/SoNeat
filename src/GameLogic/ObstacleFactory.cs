@@ -29,13 +29,13 @@ namespace SoNeat.src.GameLogic
             }
 
             string folderPath = Utility.NormalizePath("assets/images/" + type.ToString());
-
+            float xSpawn = SplashKit.ScreenWidth() + 100;
             return type switch
             {
-                ObstacleType.Crab => new Crab(SplashKit.ScreenWidth(), 560, gameSpeed, gameSpeed, folderPath),
-                ObstacleType.Bat => new Bat(SplashKit.ScreenWidth(), CreateRandomBatY(), CreateRandomBatSpeed(gameSpeed), gameSpeed, folderPath),
-                ObstacleType.Spike => new Spike(SplashKit.ScreenWidth(), 583, gameSpeed, gameSpeed, folderPath),
-                ObstacleType.Hog => new Hog(SplashKit.ScreenWidth(), 459, gameSpeed, gameSpeed, folderPath),
+                ObstacleType.Crab => new Crab(xSpawn, 560, gameSpeed, gameSpeed, folderPath),
+                ObstacleType.Bat => new Bat(xSpawn, CreateRandomBatY(), CreateRandomBatSpeed(gameSpeed), gameSpeed, folderPath),
+                ObstacleType.Spike => new Spike(xSpawn, 583, gameSpeed, gameSpeed, folderPath),
+                ObstacleType.Hog => new Hog(xSpawn, 459, gameSpeed, gameSpeed, folderPath),
                 _ => throw new ArgumentException("Invalid obstacle type")
             };
         }

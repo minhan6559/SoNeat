@@ -3,15 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+using SoNeat.src.Utils;
+
 namespace SoNeat.src.NEAT
 {
+    [Serializable]
     public class Connection
     {
+        [JsonProperty]
         private Node _fromNode, _toNode;
+        [JsonProperty]
         private double _weight;
+        [JsonProperty]
         private bool _enabled;
+        [JsonProperty]
         private int _innovationNum;
         private static Random _random = new Random();
+
+        [JsonConstructor]
+        public Connection()
+        {
+            _fromNode = new Node(0);
+            _toNode = new Node(0);
+            _weight = 0;
+            _enabled = true;
+            _innovationNum = 0;
+        }
 
         public Connection(Node fromNode, Node toNode, double weight, int innovationNum)
         {
@@ -22,30 +40,35 @@ namespace SoNeat.src.NEAT
             _innovationNum = innovationNum;
         }
 
+        [JsonIgnore]
         public bool Enabled
         {
             get => _enabled;
             set => _enabled = value;
         }
 
+        [JsonIgnore]
         public int InnovationNum
         {
             get => _innovationNum;
             set => _innovationNum = value;
         }
 
+        [JsonIgnore]
         public double Weight
         {
             get => _weight;
             set => _weight = value;
         }
 
+        [JsonIgnore]
         public Node FromNode
         {
             get => _fromNode;
             set => _fromNode = value;
         }
 
+        [JsonIgnore]
         public Node ToNode
         {
             get => _toNode;
@@ -56,7 +79,7 @@ namespace SoNeat.src.NEAT
         {
             if (_random.NextDouble() < Neat.MUTATE_WEIGHT_SHIFT_PROB)
             {
-                _weight += RandomGaussian() / 50.0f;
+                _weight += Utility.RandomGaussian() / 50.0f;
 
                 if (_weight > 1)
                     _weight = 1;
@@ -67,14 +90,6 @@ namespace SoNeat.src.NEAT
             {
                 _weight = _random.NextDouble() * 2 - 1;
             }
-        }
-
-        private double RandomGaussian()
-        {
-            double u1 = 1.0 - _random.NextDouble(); // uniform(0,1) random number
-            double u2 = 1.0 - _random.NextDouble();
-            double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);  // standard normal distributed value
-            return randStdNormal;
         }
 
         public Connection Clone(Node fromNode, Node toNode)

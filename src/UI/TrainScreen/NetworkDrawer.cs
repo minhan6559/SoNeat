@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SoNeat.src.NEAT;
 using SplashKitSDK;
 
-namespace SoNeat.src.Screen
+namespace SoNeat.src.UI.TrainScreen
 {
     public class NetworkDrawer
     {
@@ -24,8 +24,11 @@ namespace SoNeat.src.Screen
             _panelHeight = panelHeight;
         }
 
-        public void Draw(Genome genome)
+        public void Draw(Genome? genome)
         {
+            if (genome == null)
+                return;
+
             CalculateNodePositions(genome);
             foreach (NEAT.Connection connection in genome.Connections)
             {
