@@ -8,7 +8,7 @@ namespace SoNeat.src.GameLogic
 {
     public class Population
     {
-        private readonly Sonic[]? _sonics;
+        private Sonic[]? _sonics;
         private int _alives;
 
         public Sonic[]? Data => _sonics;
@@ -71,7 +71,7 @@ namespace SoNeat.src.GameLogic
                 _sonics[i].IsDead = false;
 
                 _sonics[i].CalculateFitness();
-                _sonics[i].ResetFitnessElements();
+                // _sonics[i].ResetFitnessElements();
             }
             _alives = _sonics.Length;
         }

@@ -24,11 +24,11 @@ namespace SoNeat.src.NEAT
         [JsonConstructor]
         public Connection()
         {
-            _fromNode = new Node(0);
-            _toNode = new Node(0);
-            _weight = 0;
-            _enabled = true;
-            _innovationNum = 0;
+            // _fromNode = new Node(0);
+            // _toNode = new Node(0);
+            // _weight = 0;
+            // _enabled = true;
+            // _innovationNum = 0;
         }
 
         public Connection(Node fromNode, Node toNode, double weight, int innovationNum)

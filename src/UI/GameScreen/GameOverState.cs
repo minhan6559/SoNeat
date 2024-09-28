@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SoNeat.src.UI.MainMenu;
+using SoNeat.src.Utils;
 using SplashKitSDK;
 
 namespace SoNeat.src.UI.GameScreen
@@ -18,14 +19,14 @@ namespace SoNeat.src.UI.GameScreen
 
         public void Update()
         {
-            if (_context.RetryBtn!.IsClicked())
+            if (_context.Buttons!["RetryButton"].IsClicked())
             {
                 GameScreenState gameScreen = new GameScreenState();
                 gameScreen.EnvironmentManager = _context.EnvironmentManager;
                 ScreenManager.Instance.SetState(gameScreen);
             }
 
-            if (_context.MainMenuBtn!.IsClicked())
+            if (_context.Buttons!["MainMenuButton"].IsClicked())
             {
                 ScreenManager.Instance.SetState(new MainMenuState());
             }
@@ -33,18 +34,15 @@ namespace SoNeat.src.UI.GameScreen
 
         public void Draw()
         {
-            SplashKit.DrawBitmap(_context.GameOverBitmap!, 305, 151);
+            SplashKit.DrawBitmap(_context.UIBitmaps!["GameOver"], 305, 151);
 
-            _context.RetryBtn!.Draw();
-            if (_context.RetryBtn.IsHovered())
+            foreach (MyButton button in _context.Buttons!.Values)
             {
-                _context.ChooseArrow!.Draw(_context.RetryBtn.X - 40, _context.RetryBtn.Y);
-            }
-
-            _context.MainMenuBtn!.Draw();
-            if (_context.MainMenuBtn.IsHovered())
-            {
-                _context.ChooseArrow!.Draw(_context.MainMenuBtn.X - 40, _context.MainMenuBtn.Y);
+                button.Draw();
+                if (button.IsHovered())
+                {
+                    SplashKit.DrawBitmap(_context.UIBitmaps!["ChooseArrow"], button.X - 40, button.Y);
+                }
             }
         }
     }

@@ -18,8 +18,8 @@ namespace SoNeat.src.NEAT
         [JsonConstructor]
         public Agent()
         {
-            _genome = new Genome(0, 0, false);
-            _fitness = 0.0;
+            // _genome = new Genome(0, 0, false);
+            // _fitness = 0.0;
         }
 
         public Agent(Genome genome)
@@ -54,7 +54,7 @@ namespace SoNeat.src.NEAT
 
         public Agent Crossover(Agent other)
         {
-            Agent child = new Agent(_genome.CrossOver(other._genome));
+            Agent child = new Agent(_genome.CrossOver(other.Genome));
             child.Genome.CreateNetwork();
             return child;
         }

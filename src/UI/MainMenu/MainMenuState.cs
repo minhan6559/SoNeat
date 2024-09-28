@@ -8,21 +8,30 @@ namespace SoNeat.src.UI.MainMenu
 {
     public class MainMenuState : IScreenState
     {
-        private MyButton? _playBtn;
-        private MyButton? _trainBtn;
-        private MyButton? _exitBtn;
-        private Bitmap? _title;
-        private Bitmap? _chooseArrow;
+        private Dictionary<string, MyButton>? _buttons;
+        private Dictionary<string, Bitmap>? _uiBitmaps;
         private EnvironmentManager? _environmentManager;
+
+        public EnvironmentManager? EnvironmentManager
+        {
+            get => _environmentManager;
+            set => _environmentManager = value;
+        }
 
         public void EnterState()
         {
-            _playBtn = new MyButton("assets/images/MainMenu/play.png", 581, 322);
-            _trainBtn = new MyButton("assets/images/MainMenu/train.png", 537, 370);
-            _exitBtn = new MyButton("assets/images/MainMenu/exit.png", 581, 418);
+            _buttons = new Dictionary<string, MyButton>
+            {
+                { "PlayButton", new MyButton("assets/images/MainMenu/play.png", 581, 322) },
+                { "TrainButton", new MyButton("assets/images/MainMenu/train.png", 537, 370) },
+                { "ExitButton", new MyButton("assets/images/MainMenu/exit.png", 581, 418) }
+            };
 
-            _title = SplashKit.LoadBitmap("title", "assets/images/MainMenu/title.png");
-            _chooseArrow = SplashKit.LoadBitmap("choose_arrow", "assets/images/MainMenu/choose_arrow.png");
+            _uiBitmaps = new Dictionary<string, Bitmap>()
+            {
+                { "Title", SplashKit.LoadBitmap("title", "assets/images/MainMenu/title.png") },
+                { "ChooseArrow", SplashKit.LoadBitmap("choose_arrow", "assets/images/MainMenu/choose_arrow.png") }
+            };
 
             _environmentManager = new EnvironmentManager(0);
         }
@@ -31,21 +40,21 @@ namespace SoNeat.src.UI.MainMenu
         {
             _environmentManager!.Update();
 
-            if (_playBtn!.IsClicked())
+            if (_buttons!["PlayButton"].IsClicked())
             {
                 GameScreenState gameScreen = new GameScreenState();
                 gameScreen.EnvironmentManager = _environmentManager!;
                 ScreenManager.Instance.SetState(gameScreen);
             }
 
-            if (_trainBtn!.IsClicked())
+            if (_buttons!["TrainButton"].IsClicked())
             {
                 TrainScreenState trainScreen = new TrainScreenState();
                 trainScreen.EnvironmentManager = _environmentManager!;
                 ScreenManager.Instance.SetState(trainScreen);
             }
 
-            if (_exitBtn!.IsClicked())
+            if (_buttons!["ExitButton"].IsClicked())
             {
                 SplashKit.CloseAllWindows();
             }
@@ -54,24 +63,16 @@ namespace SoNeat.src.UI.MainMenu
         public void Draw()
         {
             _environmentManager!.Draw();
-            _title!.Draw(415, 161);
+            _uiBitmaps!["Title"].Draw(415, 161);
 
-            _playBtn!.Draw();
-            if (_playBtn.IsHovered())
+            // Loop through the buttons and draw them
+            foreach (MyButton button in _buttons!.Values)
             {
-                _chooseArrow!.Draw(_playBtn.X - 40, _playBtn.Y);
-            }
-
-            _trainBtn!.Draw();
-            if (_trainBtn.IsHovered())
-            {
-                _chooseArrow!.Draw(_trainBtn.X - 40, _trainBtn.Y);
-            }
-
-            _exitBtn!.Draw();
-            if (_exitBtn.IsHovered())
-            {
-                _chooseArrow!.Draw(_exitBtn.X - 40, _exitBtn.Y);
+                button.Draw();
+                if (button.IsHovered())
+                {
+                    _uiBitmaps!["ChooseArrow"].Draw(button.X - 40, button.Y);
+                }
             }
         }
 

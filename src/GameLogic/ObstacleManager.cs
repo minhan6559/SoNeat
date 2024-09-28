@@ -127,7 +127,7 @@ namespace SoNeat.src.GameLogic
             // Check if it's time to create a new obstacle
             if (_nextObstacleInterval > 111 - _gameSpeed)
             {
-                if (_countObstacles < 3 && _random.NextDouble() < 0.4)
+                if (_countObstacles < 3 && _random.NextDouble() < 0.3)
                 {
                     _obstacles.Add(ObstacleFactory.CreateObstacle(_gameSpeed, ObstacleType.Bat));
                 }

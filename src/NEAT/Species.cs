@@ -30,12 +30,12 @@ namespace SoNeat.src.NEAT
         [JsonConstructor]
         public Species()
         {
-            _agents = new List<Agent>();
-            _representative = new Agent(new Genome(0, 0, false));
-            _benchmarkGenome = new Genome(0, 0, false);
-            _topFitness = 0.0;
-            _averageFitness = 0.0;
-            _notImprovedGenerations = 0;
+            // _agents = new List<Agent>();
+            // _representative = new Agent(new Genome(0, 0, false));
+            // _benchmarkGenome = new Genome(0, 0, false);
+            // _topFitness = 0.0;
+            // _averageFitness = 0.0;
+            // _notImprovedGenerations = 0;
         }
 
         public Species(Agent? representative = null)

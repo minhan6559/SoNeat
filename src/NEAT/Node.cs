@@ -17,9 +17,9 @@ namespace SoNeat.src.NEAT
         private int _layer;
         [JsonProperty]
         private double _inputVal, _outputVal;
-        [JsonIgnore]
+        [JsonProperty]
         public double X { get; set; } = 0;
-        [JsonIgnore]
+        [JsonProperty]
         public double Y { get; set; } = 0;
         [JsonProperty]
         private List<Connection> _connections;
@@ -27,11 +27,11 @@ namespace SoNeat.src.NEAT
         [JsonConstructor]
         public Node()
         {
-            _innovationNum = 0;
-            _layer = 0;
-            _inputVal = 0;
-            _outputVal = 0;
-            _connections = new List<Connection>();
+            // _innovationNum = 0;
+            // _layer = 0;
+            // _inputVal = 0;
+            // _outputVal = 0;
+            // _connections = new List<Connection>();
         }
 
         public Node(int innovationNum)

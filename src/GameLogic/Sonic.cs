@@ -44,21 +44,6 @@ namespace SoNeat.src.GameLogic
         public bool IsDead { get => _isDead; set => _isDead = value; }
         public bool IsJumping => _isJumping;
         public bool IsDucking => _isDucking;
-        public double Fitness
-        {
-            get
-            {
-                if (Brain == null)
-                    return 0;
-                return Brain.Fitness;
-            }
-
-            set
-            {
-                if (Brain != null)
-                    Brain.Fitness = value;
-            }
-        }
         public double Score { get; set; }
 
         public Agent? Brain

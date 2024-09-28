@@ -15,10 +15,8 @@ namespace SoNeat.src.UI.GameScreen
         public double LastScoreMilestone { get; set; }
         public float GameSpeed { get; set; }
         public float GameSpeedIncrement { get; private set; }
-        public MyButton? RetryBtn { get; private set; }
-        public MyButton? MainMenuBtn { get; private set; }
-        public Bitmap? ChooseArrow { get; private set; }
-        public Bitmap? GameOverBitmap { get; private set; }
+        public Dictionary<string, MyButton>? Buttons { get; private set; }
+        public Dictionary<string, Bitmap>? UIBitmaps { get; private set; }
 
         public void EnterState()
         {
@@ -33,10 +31,17 @@ namespace SoNeat.src.UI.GameScreen
             EnvironmentManager ??= new EnvironmentManager(GameSpeed);
 
             // Initialize UI elements
-            RetryBtn = new MyButton("assets/images/GameScreen/retry_btn.png", 560, 318);
-            MainMenuBtn = new MyButton("assets/images/GameScreen/main_menu_btn.png", 510, 368);
-            ChooseArrow = SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png");
-            GameOverBitmap = SplashKit.LoadBitmap("game_over", "assets/images/GameScreen/game_over.png");
+            Buttons = new Dictionary<string, MyButton>
+            {
+                { "RetryButton", new MyButton("assets/images/GameScreen/retry_btn.png", 560, 318) },
+                { "MainMenuButton", new MyButton("assets/images/GameScreen/main_menu_btn.png", 510, 368) }
+            };
+
+            UIBitmaps = new Dictionary<string, Bitmap>
+            {
+                { "ChooseArrow", SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png")},
+                { "GameOver", SplashKit.LoadBitmap("game_over", "assets/images/GameScreen/game_over.png")}
+            };
 
             // Set initial state
             _currentState = new OpeningSceneState(this);

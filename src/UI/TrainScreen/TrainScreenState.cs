@@ -7,13 +7,15 @@ using SplashKitSDK;
 using SoNeat.src.GameLogic;
 using SoNeat.src.Utils;
 using SoNeat.src.NEAT;
+using SoNeat.src.UI.MainMenu;
 
 namespace SoNeat.src.UI.TrainScreen
 {
     public enum TrainScreenStateType
     {
+        LoadModel,
         Training,
-        Saving
+        Paused
     }
 
     public class TrainScreenState : IScreenState
@@ -32,9 +34,12 @@ namespace SoNeat.src.UI.TrainScreen
         private TrainScreenStateType _gameStateType;
 
         // UI
-        private MyButton? _mainMenuBtn;
-        private Bitmap? _chooseArrow;
+        private Dictionary<string, MyButton>? _buttons;
+        private Dictionary<string, Bitmap>? _uiBitmaps;
         private NetworkDrawer? _networkDrawer;
+        private string _modelName = "Enter Model Name Here";
+        private string _errorMessage = "";
+        private string _successMessage = "";
 
         public EnvironmentManager? EnvironmentManager
         {
@@ -51,9 +56,8 @@ namespace SoNeat.src.UI.TrainScreen
             _gameSpeed = 10;
 
             _population = new Population(500);
-            _neat = new Neat(inputLabels.Length, outputLabels.Length, 500);
-            // _neat = Neat.DeserializeFromJson("neat.json");
-            _population.LinkBrains(_neat!);
+            // _neat = new Neat(inputLabels.Length, outputLabels.Length, 500);
+            // _population.LinkBrains(_neat!);
 
             _score = 0;
             _lastScoreMilestone = 0;
@@ -61,52 +65,103 @@ namespace SoNeat.src.UI.TrainScreen
 
             _obstacleManager = new ObstacleManager(_gameSpeed);
 
-            if (_environmentManager == null)
-                _environmentManager = new EnvironmentManager(_gameSpeed);
+            _environmentManager ??= new EnvironmentManager(_gameSpeed);
 
-            _gameStateType = TrainScreenStateType.Training;
-            UpdateGameSpeed(_gameSpeed);
+            _gameStateType = TrainScreenStateType.LoadModel;
+            UpdateGameSpeed(0);
 
-            _mainMenuBtn = new MyButton("assets/images/GameScreen/main_menu_btn.png", 510, 368);
-            _chooseArrow = SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png");
+            _buttons = new Dictionary<string, MyButton>
+            {
+                { "MainMenuButton", new MyButton("assets/images/TrainScreen/main_menu_btn.png", 526, 403) },
+                { "ChooseModelButton", new MyButton("assets/images/TrainScreen/choose_model_btn.png", 504, 317)},
+                { "SaveModelButton", new MyButton("assets/images/TrainScreen/save_model.png", 527, 317)},
+                { "ResumeButton", new MyButton("assets/images/TrainScreen/resume_btn.png", 557, 358)},
+                { "RetrainButton", new MyButton("assets/images/TrainScreen/retrain_btn.png", 547, 358)}
+            };
+
+            _uiBitmaps = new Dictionary<string, Bitmap>
+            {
+                { "ChooseArrow", SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png")},
+                { "LoadModelTitle", SplashKit.LoadBitmap("load_model_title", "assets/images/TrainScreen/load_model_title.png")},
+                { "PausedTitle", SplashKit.LoadBitmap("paused_title", "assets/images/TrainScreen/pause_title.png")}
+            };
 
             _networkDrawer = new NetworkDrawer(inputLabels, outputLabels, 220, 10, 660, 320);
         }
 
         public void Update()
         {
+            _environmentManager!.Update();
             switch (_gameStateType)
             {
+                case TrainScreenStateType.LoadModel:
+                    GetModelNameFromTextBox();
+                    if (_buttons!["ChooseModelButton"].IsClicked() && CheckValidModelName())
+                    {
+                        UpdateGameSpeed(_gameSpeed);
+                        _neat = Neat.DeserializeFromJson($"saved_models/{_modelName}.json");
+                        _population!.LinkBrains(_neat!);
+                        _gameStateType = TrainScreenStateType.Training;
+                        _modelName = "Enter Model Name Here";
+                    }
+
+                    if (_buttons!["RetrainButton"].IsClicked())
+                    {
+                        UpdateGameSpeed(_gameSpeed);
+                        Neat.NextConnectionNum = 1000;
+                        _neat = new Neat(6, 2, 500);
+                        _population!.LinkBrains(_neat!);
+                        _gameStateType = TrainScreenStateType.Training;
+                    }
+
+                    if (_buttons!["MainMenuButton"].IsClicked())
+                    {
+                        MainMenuState mainMenuState = new MainMenuState();
+                        mainMenuState.EnvironmentManager = _environmentManager;
+                        ScreenManager.Instance.SetState(mainMenuState);
+                    }
+                    break;
                 case TrainScreenStateType.Training:
-                    _environmentManager!.Update();
                     _score += _gameSpeed / 60;
                     if (Math.Floor(_score) >= _lastScoreMilestone + 100)
                     {
                         _lastScoreMilestone = Math.Floor(_score);
-                        UpdateGameSpeed(_gameSpeed + _gameSpeedIncrement);
+                        _gameSpeed += _gameSpeedIncrement;
+                        UpdateGameSpeed(_gameSpeed);
                     }
 
                     _obstacleManager!.Update(_population!, _score);
                     _population!.Update(_obstacleManager!.Obstacles);
 
-
                     if (_population!.Alives <= 0)
-                    {
                         Reset();
+
+                    if (SplashKit.KeyTyped(KeyCode.EscapeKey))
+                    {
+                        UpdateGameSpeed(0);
+                        _gameStateType = TrainScreenStateType.Paused;
+                    }
+                    break;
+                case TrainScreenStateType.Paused:
+                    GetModelNameFromTextBox();
+                    if (_buttons!["ResumeButton"].IsClicked())
+                    {
+                        _successMessage = "";
+                        _gameStateType = TrainScreenStateType.Training;
+                        UpdateGameSpeed(_gameSpeed);
                     }
 
-                    if (SplashKit.KeyTyped(KeyCode.SKey))
+                    if (_buttons!["MainMenuButton"].IsClicked())
                     {
-                        _neat!.SerializeToJson("neat.json");
-                        Console.WriteLine(_neat.Species.Count);
-                        Console.WriteLine(_neat.Agents.Count);
-                        Console.WriteLine(_neat.Generation);
+                        MainMenuState mainMenuState = new MainMenuState();
+                        mainMenuState.EnvironmentManager = _environmentManager;
+                        ScreenManager.Instance.SetState(mainMenuState);
                     }
 
-                    if (SplashKit.KeyTyped(KeyCode.LKey))
+                    if (_buttons!["SaveModelButton"].IsClicked())
                     {
-                        _neat = Neat.DeserializeFromJson("neat.json");
-                        Reset(true);
+                        _neat!.SerializeToJson($"saved_models/{_modelName}.json");
+                        _successMessage = "Model saved successfully";
                     }
                     break;
                 default:
@@ -116,18 +171,16 @@ namespace SoNeat.src.UI.TrainScreen
 
         private void UpdateGameSpeed(float gameSpeed)
         {
-            _gameSpeed = gameSpeed;
             _population!.UpdateGameSpeed(gameSpeed);
 
             _environmentManager!.UpdateGameSpeed(gameSpeed);
             _obstacleManager!.UpdateGameSpeed(gameSpeed);
         }
 
-        public void Reset(bool loadNewNeat = false)
+        public void Reset()
         {
             _population!.Reset();
-            if (!loadNewNeat)
-                _neat!.Evolve();
+            _neat!.Evolve();
             _population!.LinkBrains(_neat!);
 
             _obstacleManager!.Reset();
@@ -141,24 +194,45 @@ namespace SoNeat.src.UI.TrainScreen
         public void Draw()
         {
             _environmentManager!.Draw();
-
             _obstacleManager!.Draw();
-
-            DrawTrainingInfo();
-            _networkDrawer!.Draw(_neat!.BestAgent.Genome);
 
             switch (_gameStateType)
             {
-                case TrainScreenStateType.Training:
-                    _population!.Draw();
-                    break;
-                case TrainScreenStateType.Saving:
-
-                    _mainMenuBtn!.Draw();
-                    if (_mainMenuBtn.IsHovered())
+                case TrainScreenStateType.LoadModel:
+                    _uiBitmaps!["LoadModelTitle"].Draw(278, 145);
+                    DrawError();
+                    // Loop through these buttons: ChooseModelButton, MainMenuButton, RetrainButton
+                    foreach (string buttonName in new string[] { "ChooseModelButton", "MainMenuButton", "RetrainButton" })
                     {
-                        _chooseArrow!.Draw(_mainMenuBtn.X - 40, _mainMenuBtn.Y);
+                        MyButton button = _buttons![buttonName];
+                        button.Draw();
+                        if (button.IsHovered())
+                        {
+                            SplashKit.DrawBitmap(_uiBitmaps!["ChooseArrow"], button.X - 40, button.Y);
+                        }
                     }
+                    SplashKit.DrawInterface();
+                    break;
+                case TrainScreenStateType.Training:
+                    DrawTrainingInfo();
+                    _population!.Draw();
+                    _networkDrawer!.Draw(_neat!.BestAgent.Genome);
+                    break;
+                case TrainScreenStateType.Paused:
+                    _uiBitmaps!["PausedTitle"].Draw(410, 145);
+                    DrawSuccess();
+                    _population!.Draw();
+                    // Loop through these buttons: ResumeButton, MainMenuButton, SaveModelButton
+                    foreach (string buttonName in new string[] { "ResumeButton", "MainMenuButton", "SaveModelButton" })
+                    {
+                        MyButton button = _buttons![buttonName];
+                        button.Draw();
+                        if (button.IsHovered())
+                        {
+                            SplashKit.DrawBitmap(_uiBitmaps!["ChooseArrow"], button.X - 40, button.Y);
+                        }
+                    }
+                    SplashKit.DrawInterface();
                     break;
             }
         }
@@ -171,6 +245,42 @@ namespace SoNeat.src.UI.TrainScreen
             SplashKit.DrawText($"ALIVE:{_population!.Alives}", Color.Black, "MainFont", 24, 975, 65);
 
             SplashKit.DrawText($"GEN:{_neat!.Generation}", Color.Black, "MainFont", 24, 1023, 101);
+        }
+
+        public void DrawError()
+        {
+            if (_errorMessage != "")
+            {
+                SplashKit.DrawText(_errorMessage, SplashKit.RGBColor(194, 0, 0), "MainFont", 12, 535, 239);
+            }
+        }
+
+        public void DrawSuccess()
+        {
+            if (_successMessage != "")
+            {
+                SplashKit.DrawText(_successMessage, SplashKit.RGBColor(0, 79, 172), "MainFont", 12, 487, 239);
+            }
+        }
+
+        public bool CheckValidModelName()
+        {
+            // Check if the model name is existing in saved_models folder
+            if (File.Exists(Utility.NormalizePath($"saved_models/{_modelName}.json")))
+            {
+                _errorMessage = "";
+                return true;
+            }
+            else
+            {
+                _errorMessage = "Model not found!";
+                return false;
+            }
+        }
+
+        public void GetModelNameFromTextBox()
+        {
+            _modelName = SplashKit.TextBox(_modelName, new Rectangle() { X = 465, Y = 264, Width = 320, Height = 32 });
         }
 
         public void ExitState()

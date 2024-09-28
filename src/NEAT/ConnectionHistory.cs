@@ -19,10 +19,10 @@ namespace SoNeat.src.NEAT
         [JsonConstructor]
         public ConnectionHistory()
         {
-            _fromNodeId = 0;
-            _toNodeId = 0;
-            _innovationNum = 0;
-            _innovationNumbersSet = new HashSet<int>();
+            // _fromNodeId = 0;
+            // _toNodeId = 0;
+            // _innovationNum = 0;
+            // _innovationNumbersSet = null;
         }
 
         public ConnectionHistory(int fromNodeId, int toNodeId, int innovationNum, HashSet<int> innovationNumbers)

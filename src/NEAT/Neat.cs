@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using Newtonsoft.Json;
 using SoNeat.src.Utils;
+using Newtonsoft.Json.Linq;
 
 namespace SoNeat.src.NEAT
 {
@@ -34,13 +35,13 @@ namespace SoNeat.src.NEAT
         [JsonConstructor]
         public Neat()
         {
-            _inputSize = 0;
-            _outputSize = 0;
-            _species = new List<Species>();
-            _agents = new List<Agent>();
-            _innovationHistory = new List<ConnectionHistory>();
-            _generation = 0;
-            _bestAgent = new Agent();
+            // _inputSize = 0;
+            // _outputSize = 0;
+            // _species = new List<Species>();
+            // _agents = new List<Agent>();
+            // _innovationHistory = new List<ConnectionHistory>();
+            // _generation = 0;
+            // _bestAgent = new Agent();
         }
 
         public Neat(int inputSize, int outputSize, int populationSize)
@@ -139,13 +140,14 @@ namespace SoNeat.src.NEAT
 
         private void SetBestAgent()
         {
-            // Find the best agent among all species by using the first agent of each species
-            Agent agent = _species[0].Agents[0];
-            foreach (Species species in _species)
+            // Loop through all agents
+            Agent agent = _agents[0];
+            agent.Fitness = 0;
+            foreach (Agent a in _agents)
             {
-                if (species.Agents[0].Fitness > agent.Fitness)
+                if (a.Fitness > agent.Fitness)
                 {
-                    agent = species.Agents[0];
+                    agent = a;
                 }
             }
             _bestAgent = agent.Clone();
@@ -259,7 +261,10 @@ namespace SoNeat.src.NEAT
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             };
 
-            string jsonString = JsonConvert.SerializeObject(this, settings);
+            JObject jObject = JObject.FromObject(this, JsonSerializer.Create(settings));
+            jObject.Add("NextConnectionNum", Neat.NextConnectionNum);
+
+            string jsonString = jObject.ToString();
             File.WriteAllText(filePath, jsonString);
         }
 
@@ -273,7 +278,15 @@ namespace SoNeat.src.NEAT
             };
 
             string jsonString = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<Neat>(jsonString, settings);
+            JObject jObject = JObject.Parse(jsonString);
+
+            if (jObject.TryGetValue("NextConnectionNum", out JToken? nextConnectionNumToken))
+            {
+                Neat.NextConnectionNum = nextConnectionNumToken.Value<int>();
+                jObject.Remove("NextConnectionNum");
+            }
+
+            return jObject.ToObject<Neat>(JsonSerializer.Create(settings));
         }
     }
 }

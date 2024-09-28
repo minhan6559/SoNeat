@@ -16,6 +16,8 @@ namespace SoNeat
             Window window = new Window("SoNeat", 1250, 720);
             ScreenManager.Instance.SetState(new MainMenuState());
             SplashKit.LoadFont("MainFont", Utility.NormalizePath("assets/fonts/PressStart2P.ttf"));
+            SplashKit.SetInterfaceFont("MainFont");
+            SplashKit.SetInterfaceFontSize(12);
 
             while (true)
             {
