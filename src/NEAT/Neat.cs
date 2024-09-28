@@ -12,15 +12,15 @@ namespace SoNeat.src.NEAT
     public class Neat
     {
         [JsonProperty]
-        private int _inputSize, _outputSize, _generation;
+        private int _inputSize, _outputSize, _generation, _populationSize;
         [JsonProperty]
-        private List<Species> _species;
+        private List<Species>? _species;
         [JsonProperty]
-        private List<Agent> _agents;
+        private List<Agent>? _agents;
         [JsonProperty]
-        private List<ConnectionHistory> _innovationHistory;
+        private List<ConnectionHistory>? _innovationHistory;
         [JsonProperty]
-        private Agent _bestAgent;
+        private Agent? _bestAgent;
 
         [JsonIgnore]
         public static int NextConnectionNum { get; set; } = 1000;
@@ -37,17 +37,18 @@ namespace SoNeat.src.NEAT
         {
             // _inputSize = 0;
             // _outputSize = 0;
-            // _species = new List<Species>();
-            // _agents = new List<Agent>();
-            // _innovationHistory = new List<ConnectionHistory>();
+            // _species! = new List<Species>();
+            // _agents! = new List<Agent>();
+            // _innovationHistory! = new List<ConnectionHistory>();
             // _generation = 0;
-            // _bestAgent = new Agent();
+            // _bestAgent! = new Agent();
         }
 
         public Neat(int inputSize, int outputSize, int populationSize)
         {
             _inputSize = inputSize;
             _outputSize = outputSize;
+            _populationSize = populationSize;
             _species = new List<Species>();
             _agents = new List<Agent>();
             _innovationHistory = new List<ConnectionHistory>();
@@ -56,29 +57,29 @@ namespace SoNeat.src.NEAT
             for (int i = 0; i < populationSize; i++)
             {
                 Agent agent = new Agent(_inputSize, _outputSize);
-                agent.Mutate(_innovationHistory);
-                _agents.Add(agent);
+                agent.Mutate(_innovationHistory!);
+                _agents!.Add(agent);
             }
 
-            _bestAgent = _agents[0];
+            _bestAgent = _agents![0];
         }
 
         [JsonIgnore]
         public List<Agent> Agents
         {
-            get => _agents;
+            get => _agents!;
         }
 
         [JsonIgnore]
         public List<Species> Species
         {
-            get => _species;
+            get => _species!;
         }
 
         [JsonIgnore]
         public Agent BestAgent
         {
-            get => _bestAgent;
+            get => _bestAgent!;
         }
 
         [JsonIgnore]
@@ -101,16 +102,16 @@ namespace SoNeat.src.NEAT
 
         private void CreateSpecies()
         {
-            foreach (Species species in _species)
+            foreach (Species species in _species!)
             {
                 species.Agents.Clear();
             }
 
-            foreach (Agent agent in _agents)
+            foreach (Agent agent in _agents!)
             {
                 bool speciesFound = false;
 
-                foreach (Species species in _species)
+                foreach (Species species in _species!)
                 {
                     if (species.IsInSpecies(agent.Genome))
                     {
@@ -123,27 +124,27 @@ namespace SoNeat.src.NEAT
                 if (!speciesFound)
                 {
                     Species newSpecies = new Species(agent);
-                    _species.Add(newSpecies);
+                    _species!.Add(newSpecies);
                 }
             }
         }
 
         private void SortSpecies()
         {
-            foreach (Species species in _species)
+            foreach (Species species in _species!)
             {
                 species.SortAgents();
             }
 
-            _species.Sort((a, b) => b.TopFitness.CompareTo(a.TopFitness));
+            _species!.Sort((a, b) => b.TopFitness.CompareTo(a.TopFitness));
         }
 
         private void SetBestAgent()
         {
             // Loop through all agents
-            Agent agent = _agents[0];
+            Agent agent = _agents![0];
             agent.Fitness = 0;
-            foreach (Agent a in _agents)
+            foreach (Agent a in _agents!)
             {
                 if (a.Fitness > agent.Fitness)
                 {
@@ -155,7 +156,7 @@ namespace SoNeat.src.NEAT
 
         private void KillWeakAgents()
         {
-            foreach (Species species in _species)
+            foreach (Species species in _species!)
             {
                 species.KillWeakAgents();
                 species.FitnessSharing();
@@ -165,11 +166,11 @@ namespace SoNeat.src.NEAT
 
         private void KillUnfitSpecies()
         {
-            for (int i = 2; i < _species.Count; i++)
+            for (int i = 2; i < _species!.Count; i++)
             {
-                if (_species[i].NotImprovedGenerations >= MAX_NOT_IMPROVED_GENERATIONS)
+                if (_species![i].NotImprovedGenerations >= MAX_NOT_IMPROVED_GENERATIONS)
                 {
-                    _species.RemoveAt(i);
+                    _species!.RemoveAt(i);
                     i--;
                 }
             }
@@ -179,11 +180,11 @@ namespace SoNeat.src.NEAT
         {
             double averageFitness = CalculateAverageFitnessSum();
 
-            for (int i = 1; i < _species.Count; i++)
+            for (int i = 1; i < _species!.Count; i++)
             {
-                if (_species[i].AverageFitness / averageFitness * _agents.Count < 1)
+                if (_species![i].AverageFitness / averageFitness * _agents!.Count < 1)
                 {
-                    _species.RemoveAt(i);
+                    _species!.RemoveAt(i);
                     i--;
                 }
             }
@@ -191,7 +192,7 @@ namespace SoNeat.src.NEAT
 
         private double CalculateAverageFitnessSum()
         {
-            return _species.Sum(s => s.AverageFitness);
+            return _species!.Sum(s => s.AverageFitness);
         }
 
         private void Reproduce()
@@ -199,26 +200,26 @@ namespace SoNeat.src.NEAT
             double averageFitness = CalculateAverageFitnessSum();
             List<Agent> newAgents = new List<Agent>();
 
-            foreach (Species species in _species)
+            foreach (Species species in _species!)
             {
-                int breed = (int)Math.Floor(species.AverageFitness / averageFitness * _agents.Count) - 1;
+                int breed = (int)Math.Floor(species.AverageFitness / averageFitness * _agents!.Count) - 1;
                 newAgents.Add(species.Representative.Clone());
 
                 for (int i = 0; i < breed; i++)
                 {
-                    newAgents.Add(species.Reproduce(_innovationHistory));
+                    newAgents.Add(species.Reproduce(_innovationHistory!));
                 }
             }
 
-            while (newAgents.Count < _agents.Count)
+            while (newAgents.Count < _populationSize)
             {
                 Species species = SelectRandomSpecies();
-                newAgents.Add(species.Reproduce(_innovationHistory));
+                newAgents.Add(species.Reproduce(_innovationHistory!));
             }
 
             _agents = newAgents;
 
-            foreach (Agent agent in _agents)
+            foreach (Agent agent in _agents!)
             {
                 agent.Genome.CreateNetwork();
             }
@@ -226,11 +227,11 @@ namespace SoNeat.src.NEAT
 
         private Species SelectRandomSpecies()
         {
-            double fitnessSum = _species.Sum(s => s.AverageFitness);
+            double fitnessSum = _species!.Sum(s => s.AverageFitness);
             double randomValue = new Random().NextDouble() * fitnessSum;
             double runningSum = 0.0;
 
-            foreach (Species species in _species)
+            foreach (Species species in _species!)
             {
                 runningSum += species.AverageFitness;
                 if (runningSum > randomValue)
@@ -239,13 +240,13 @@ namespace SoNeat.src.NEAT
                 }
             }
 
-            return _species[0];
+            return _species![0];
         }
 
         public void PrintSpecies()
         {
             Console.WriteLine("##########################################");
-            foreach (Species s in _species)
+            foreach (Species s in _species!)
             {
                 Console.WriteLine($"{s} {s.TopFitness} {s.AverageFitness} {s.Agents.Count}");
             }

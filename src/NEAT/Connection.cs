@@ -12,7 +12,7 @@ namespace SoNeat.src.NEAT
     public class Connection
     {
         [JsonProperty]
-        private Node _fromNode, _toNode;
+        private Node? _fromNode, _toNode;
         [JsonProperty]
         private double _weight;
         [JsonProperty]
@@ -64,14 +64,14 @@ namespace SoNeat.src.NEAT
         [JsonIgnore]
         public Node FromNode
         {
-            get => _fromNode;
+            get => _fromNode!;
             set => _fromNode = value;
         }
 
         [JsonIgnore]
         public Node ToNode
         {
-            get => _toNode;
+            get => _toNode!;
             set => _toNode = value;
         }
 

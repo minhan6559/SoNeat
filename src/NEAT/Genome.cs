@@ -11,9 +11,9 @@ namespace SoNeat.src.NEAT
     public class Genome
     {
         [JsonProperty]
-        private List<Node> _nodes;
+        private List<Node>? _nodes;
         [JsonProperty]
-        private List<Connection> _connections;
+        private List<Connection>? _connections;
         [JsonProperty]
         private int _inputSize, _outputSize;
         [JsonProperty]
@@ -21,15 +21,15 @@ namespace SoNeat.src.NEAT
         [JsonProperty]
         private int _nextNodeIndex, _biasNodeIndex;
         [JsonProperty]
-        private List<Node> _networkNodes;
+        private List<Node>? _networkNodes;
 
         private static Random _random = new Random();
 
         [JsonConstructor]
         public Genome()
         {
-            // _nodes = new List<Node>();
-            // _connections = new List<Connection>();
+            // _nodes! = new List<Node>();
+            // _connections! = new List<Connection>();
             // _inputSize = 0;
             // _outputSize = 0;
             // _totalLayers = 0;
@@ -60,14 +60,14 @@ namespace SoNeat.src.NEAT
         [JsonIgnore]
         public List<Node> Nodes
         {
-            get => _nodes;
+            get => _nodes!;
             set => _nodes = value;
         }
 
         [JsonIgnore]
         public List<Connection> Connections
         {
-            get => _connections;
+            get => _connections!;
             set => _connections = value;
         }
 
@@ -96,32 +96,32 @@ namespace SoNeat.src.NEAT
         {
             for (int i = 0; i < _inputSize; i++)
             {
-                _nodes.Add(new Node(i));
+                _nodes!.Add(new Node(i));
                 _nextNodeIndex++;
-                _nodes[i].Layer = 0;
+                _nodes![i].Layer = 0;
             }
 
             for (int i = 0; i < _outputSize; i++)
             {
-                _nodes.Add(new Node(i + _inputSize));
+                _nodes!.Add(new Node(i + _inputSize));
                 _nextNodeIndex++;
-                _nodes[i + _inputSize].Layer = 1;
+                _nodes![i + _inputSize].Layer = 1;
             }
 
-            _nodes.Add(new Node(_nextNodeIndex));
+            _nodes!.Add(new Node(_nextNodeIndex));
             _biasNodeIndex = _nextNodeIndex;
             _nextNodeIndex++;
-            _nodes[_biasNodeIndex].Layer = 0;
+            _nodes![_biasNodeIndex].Layer = 0;
         }
 
         public void ConnectNodes()
         {
-            foreach (Node node in _nodes)
+            foreach (Node node in _nodes!)
             {
                 node.Connections.Clear();
             }
 
-            foreach (Connection connection in _connections)
+            foreach (Connection connection in _connections!)
             {
                 connection.FromNode.Connections.Add(connection);
             }
@@ -129,7 +129,7 @@ namespace SoNeat.src.NEAT
 
         public Node? GetNodeByInnovationNum(int innovationNum)
         {
-            foreach (Node node in _nodes)
+            foreach (Node node in _nodes!)
             {
                 if (node.InnovationNum == innovationNum)
                     return node;
@@ -141,11 +141,11 @@ namespace SoNeat.src.NEAT
         public void CreateNetwork()
         {
             ConnectNodes();
-            _networkNodes.Clear();
+            _networkNodes!.Clear();
 
             for (int i = 0; i < _totalLayers; i++)
             {
-                foreach (Node node in _nodes)
+                foreach (Node node in _nodes!)
                 {
                     if (node.Layer == i)
                     {
@@ -159,12 +159,12 @@ namespace SoNeat.src.NEAT
         {
             for (int i = 0; i < _inputSize; i++)
             {
-                _nodes[i].OutputVal = inputs[i];
+                _nodes![i].OutputVal = inputs[i];
             }
 
-            _nodes[_biasNodeIndex].OutputVal = 1;
+            _nodes![_biasNodeIndex].OutputVal = 1;
 
-            foreach (Node node in _networkNodes)
+            foreach (Node node in _networkNodes!)
             {
                 node.FeedForward();
             }
@@ -172,7 +172,7 @@ namespace SoNeat.src.NEAT
             double[] outputs = new double[_outputSize];
             for (int i = 0; i < _outputSize; i++)
             {
-                outputs[i] = _nodes[i + _inputSize].OutputVal;
+                outputs[i] = _nodes![i + _inputSize].OutputVal;
             }
 
             foreach (Node node in _networkNodes)
@@ -193,7 +193,7 @@ namespace SoNeat.src.NEAT
                 nodesPerLayer[i] = 0;
             }
 
-            foreach (Node node in _nodes)
+            foreach (Node node in _nodes!)
             {
                 nodesPerLayer[node.Layer]++;
             }
@@ -209,7 +209,7 @@ namespace SoNeat.src.NEAT
                 maxConnections += nodesPerLayer[i] * totalNodesPrevious;
             }
 
-            return maxConnections <= _connections.Count;
+            return maxConnections <= _connections!.Count;
         }
 
         public void AddConnection(List<ConnectionHistory> innoHistory)
@@ -217,32 +217,32 @@ namespace SoNeat.src.NEAT
             if (IsFullyConnected())
                 return;
 
-            int fromNodeIndex = _random.Next(_nodes.Count);
-            int toNodeIndex = _random.Next(_nodes.Count);
+            int fromNodeIndex = _random.Next(_nodes!.Count);
+            int toNodeIndex = _random.Next(_nodes!.Count);
 
             while (CannotConnectNodes(fromNodeIndex, toNodeIndex))
             {
-                fromNodeIndex = _random.Next(_nodes.Count);
-                toNodeIndex = _random.Next(_nodes.Count);
+                fromNodeIndex = _random.Next(_nodes!.Count);
+                toNodeIndex = _random.Next(_nodes!.Count);
             }
 
-            if (_nodes[fromNodeIndex].Layer > _nodes[toNodeIndex].Layer)
+            if (_nodes![fromNodeIndex].Layer > _nodes![toNodeIndex].Layer)
             {
                 int temp = fromNodeIndex;
                 fromNodeIndex = toNodeIndex;
                 toNodeIndex = temp;
             }
 
-            int connInnovationNum = GetInnovationNum(innoHistory, _nodes[fromNodeIndex], _nodes[toNodeIndex]);
+            int connInnovationNum = GetInnovationNum(innoHistory, _nodes![fromNodeIndex], _nodes![toNodeIndex]);
 
-            _connections.Add(new Connection(_nodes[fromNodeIndex], _nodes[toNodeIndex], _random.NextDouble() * 2 - 1, connInnovationNum));
+            _connections!.Add(new Connection(_nodes![fromNodeIndex], _nodes![toNodeIndex], _random.NextDouble() * 2 - 1, connInnovationNum));
 
             ConnectNodes();
         }
 
         public void AddNode(List<ConnectionHistory> innoHistory)
         {
-            if (_connections.Count == 0)
+            if (_connections!.Count == 0)
             {
                 AddConnection(innoHistory);
                 return;
@@ -251,26 +251,26 @@ namespace SoNeat.src.NEAT
             int randomConnectionIndex;
             do
             {
-                randomConnectionIndex = _random.Next(_connections.Count);
-            } while (_connections.Count != 1 && _connections[randomConnectionIndex].FromNode == _nodes[_biasNodeIndex]);
+                randomConnectionIndex = _random.Next(_connections!.Count);
+            } while (_connections!.Count != 1 && _connections![randomConnectionIndex].FromNode == _nodes![_biasNodeIndex]);
 
-            Connection conn = _connections[randomConnectionIndex];
+            Connection conn = _connections![randomConnectionIndex];
             conn.Enabled = false;
 
             Node midNode = new Node(_nextNodeIndex);
             _nextNodeIndex++;
-            _nodes.Add(midNode);
-            midNode.Layer = _nodes[conn.FromNode.InnovationNum].Layer + 1;
+            _nodes!.Add(midNode);
+            midNode.Layer = _nodes![conn.FromNode.InnovationNum].Layer + 1;
 
-            _connections.Add(new Connection(conn.FromNode, midNode, 1, GetInnovationNum(innoHistory, conn.FromNode, midNode)));
+            _connections!.Add(new Connection(conn.FromNode, midNode, 1, GetInnovationNum(innoHistory, conn.FromNode, midNode)));
 
-            _connections.Add(new Connection(midNode, conn.ToNode, conn.Weight, GetInnovationNum(innoHistory, midNode, conn.ToNode)));
+            _connections!.Add(new Connection(midNode, conn.ToNode, conn.Weight, GetInnovationNum(innoHistory, midNode, conn.ToNode)));
 
-            _connections.Add(new Connection(_nodes[_biasNodeIndex], midNode, 0, GetInnovationNum(innoHistory, _nodes[_biasNodeIndex], midNode)));
+            _connections!.Add(new Connection(_nodes![_biasNodeIndex], midNode, 0, GetInnovationNum(innoHistory, _nodes![_biasNodeIndex], midNode)));
 
             if (midNode.Layer == conn.ToNode.Layer)
             {
-                foreach (Node node in _nodes)
+                foreach (Node node in _nodes!)
                 {
                     if (node.Layer >= midNode.Layer && node != midNode)
                     {
@@ -286,10 +286,10 @@ namespace SoNeat.src.NEAT
 
         private bool CannotConnectNodes(int fromNodeIndex, int toNodeIndex)
         {
-            if (_nodes[fromNodeIndex].Layer == _nodes[toNodeIndex].Layer)
+            if (_nodes![fromNodeIndex].Layer == _nodes![toNodeIndex].Layer)
                 return true;
 
-            if (_nodes[fromNodeIndex].IsConnectedTo(_nodes[toNodeIndex]))
+            if (_nodes![fromNodeIndex].IsConnectedTo(_nodes![toNodeIndex]))
                 return true;
 
             return false;
@@ -313,7 +313,7 @@ namespace SoNeat.src.NEAT
             if (isNew)
             {
                 HashSet<int> innovationNumbers = new HashSet<int>();
-                foreach (Connection connection in _connections)
+                foreach (Connection connection in _connections!)
                 {
                     innovationNumbers.Add(connection.InnovationNum);
                 }
@@ -327,7 +327,7 @@ namespace SoNeat.src.NEAT
 
         public void Mutate(List<ConnectionHistory> innoHistory)
         {
-            if (_connections.Count == 0)
+            if (_connections!.Count == 0)
             {
                 AddConnection(innoHistory);
                 return;
@@ -335,7 +335,7 @@ namespace SoNeat.src.NEAT
 
             if (_random.NextDouble() < Neat.MUTATE_WEIGHT_PROB)
             {
-                foreach (Connection connection in _connections)
+                foreach (Connection connection in _connections!)
                 {
                     connection.MutateWeight();
                 }
@@ -364,7 +364,7 @@ namespace SoNeat.src.NEAT
             List<Connection> childConns = new();
             List<bool> enables = new();
 
-            foreach (Connection conn in _connections)
+            foreach (Connection conn in _connections!)
             {
                 bool isEnabled = true;
 
@@ -397,7 +397,7 @@ namespace SoNeat.src.NEAT
                 enables.Add(isEnabled);
             }
 
-            foreach (Node node in _nodes)
+            foreach (Node node in _nodes!)
             {
                 child.Nodes.Add(node.Clone());
             }
@@ -433,12 +433,12 @@ namespace SoNeat.src.NEAT
         {
             Genome clone = new Genome(_inputSize, _outputSize, true);
 
-            foreach (Node node in _nodes)
+            foreach (Node node in _nodes!)
             {
                 clone.Nodes.Add(node.Clone());
             }
 
-            foreach (Connection conn in _connections)
+            foreach (Connection conn in _connections!)
             {
                 clone.Connections.Add(
                     conn.Clone(

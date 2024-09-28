@@ -11,11 +11,11 @@ namespace SoNeat.src.NEAT
     public class Species
     {
         [JsonProperty]
-        private List<Agent> _agents;
+        private List<Agent>? _agents;
         [JsonProperty]
-        private Agent _representative;
+        private Agent? _representative;
         [JsonProperty]
-        private Genome _benchmarkGenome;
+        private Genome? _benchmarkGenome;
         [JsonProperty]
         private double _topFitness, _averageFitness;
         [JsonProperty]
@@ -59,7 +59,7 @@ namespace SoNeat.src.NEAT
         [JsonIgnore]
         public List<Agent> Agents
         {
-            get => _agents;
+            get => _agents!;
             set => _agents = value;
         }
 
@@ -86,13 +86,13 @@ namespace SoNeat.src.NEAT
         [JsonIgnore]
         public Agent Representative
         {
-            get => _representative;
+            get => _representative!;
         }
 
         public bool IsInSpecies(Genome genome)
         {
-            double excessDisjoint = CalculateExcessAndDisjoint(genome, _benchmarkGenome);
-            double averageWeightDiff = CalculateAverageWeightDiff(genome, _benchmarkGenome);
+            double excessDisjoint = CalculateExcessAndDisjoint(genome, _benchmarkGenome!);
+            double averageWeightDiff = CalculateAverageWeightDiff(genome, _benchmarkGenome!);
 
             double genomeNormalizer = genome.Connections.Count - 20;
             if (genomeNormalizer < 1)
@@ -156,12 +156,12 @@ namespace SoNeat.src.NEAT
 
         public void Add(Agent agent)
         {
-            _agents.Add(agent);
+            _agents!.Add(agent);
         }
 
         public void SortAgents()
         {
-            _agents.Sort((a, b) => b.Fitness.CompareTo(a.Fitness));
+            _agents!.Sort((a, b) => b.Fitness.CompareTo(a.Fitness));
 
             if (_agents.Count == 0)
             {
@@ -184,7 +184,7 @@ namespace SoNeat.src.NEAT
 
         public void KillWeakAgents()
         {
-            if (_agents.Count <= 1)
+            if (_agents!.Count <= 1)
             {
                 _notImprovedGenerations = Neat.MAX_NOT_IMPROVED_GENERATIONS;
                 return;
@@ -197,7 +197,7 @@ namespace SoNeat.src.NEAT
         public void CalculateFitness()
         {
             _averageFitness = 0.0;
-            foreach (Agent agent in _agents)
+            foreach (Agent agent in _agents!)
             {
                 _averageFitness += agent.Fitness;
             }
@@ -206,7 +206,7 @@ namespace SoNeat.src.NEAT
 
         public void FitnessSharing()
         {
-            foreach (Agent agent in _agents)
+            foreach (Agent agent in _agents!)
             {
                 agent.Fitness /= _agents.Count;
             }
@@ -215,7 +215,7 @@ namespace SoNeat.src.NEAT
         public Agent SelectRandomAgent()
         {
             double totalFitness = 0;
-            foreach (Agent agent in _agents)
+            foreach (Agent agent in _agents!)
             {
                 totalFitness += agent.Fitness;
             }

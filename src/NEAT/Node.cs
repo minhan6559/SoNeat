@@ -22,7 +22,7 @@ namespace SoNeat.src.NEAT
         [JsonProperty]
         public double Y { get; set; } = 0;
         [JsonProperty]
-        private List<Connection> _connections;
+        private List<Connection>? _connections;
 
         [JsonConstructor]
         public Node()
@@ -74,7 +74,7 @@ namespace SoNeat.src.NEAT
         [JsonIgnore]
         public List<Connection> Connections
         {
-            get => _connections;
+            get => _connections!;
             set => _connections = value;
         }
 
@@ -85,7 +85,7 @@ namespace SoNeat.src.NEAT
                 _outputVal = Utility.Sigmoid(_inputVal);
             }
 
-            for (int i = 0; i < _connections.Count; i++)
+            for (int i = 0; i < _connections!.Count; i++)
             {
                 if (_connections[i].Enabled)
                 {
@@ -113,7 +113,7 @@ namespace SoNeat.src.NEAT
                 return node.IsConnectedTo(this);
             }
 
-            for (int i = 0; i < _connections.Count; i++)
+            for (int i = 0; i < _connections!.Count; i++)
             {
                 if (_connections[i].ToNode == node)
                 {

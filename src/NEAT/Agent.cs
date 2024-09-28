@@ -10,7 +10,7 @@ namespace SoNeat.src.NEAT
     public class Agent
     {
         [JsonProperty]
-        private Genome _genome;
+        private Genome? _genome;
 
         [JsonProperty]
         private double _fitness;
@@ -37,7 +37,7 @@ namespace SoNeat.src.NEAT
         [JsonIgnore]
         public Genome Genome
         {
-            get => _genome;
+            get => _genome!;
         }
 
         [JsonIgnore]
@@ -49,25 +49,25 @@ namespace SoNeat.src.NEAT
 
         public double[]? FeedForward(params double[] inputs)
         {
-            return _genome.FeedForward(inputs);
+            return _genome!.FeedForward(inputs);
         }
 
         public Agent Crossover(Agent other)
         {
-            Agent child = new Agent(_genome.CrossOver(other.Genome));
+            Agent child = new Agent(_genome!.CrossOver(other.Genome));
             child.Genome.CreateNetwork();
             return child;
         }
 
         public void Mutate(List<ConnectionHistory> innovationHistory)
         {
-            _genome.Mutate(innovationHistory);
+            _genome!.Mutate(innovationHistory);
             _genome.CreateNetwork();
         }
 
         public Agent Clone()
         {
-            Agent child = new Agent(_genome.Clone());
+            Agent child = new Agent(_genome!.Clone());
             child.Genome.CreateNetwork();
             return child;
         }

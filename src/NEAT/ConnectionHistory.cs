@@ -14,7 +14,7 @@ namespace SoNeat.src.NEAT
         [JsonProperty]
         private int _fromNodeId, _toNodeId, _innovationNum;
         [JsonProperty]
-        private HashSet<int> _innovationNumbersSet;
+        private HashSet<int>? _innovationNumbersSet;
 
         [JsonConstructor]
         public ConnectionHistory()
@@ -43,7 +43,7 @@ namespace SoNeat.src.NEAT
 
         public bool IsMatching(Genome g, Node fromNode, Node toNode)
         {
-            if (g.Connections.Count != _innovationNumbersSet.Count)
+            if (g.Connections.Count != _innovationNumbersSet!.Count)
                 return false;
 
             if (fromNode.InnovationNum != _fromNodeId || toNode.InnovationNum != _toNodeId)
