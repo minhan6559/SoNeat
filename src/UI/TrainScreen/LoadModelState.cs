@@ -24,7 +24,7 @@ namespace SoNeat.src.UI.TrainScreen
                 _context.Neat = Neat.DeserializeFromJson($"saved_models/{_context.ModelName}.json");
                 _context.Population!.LinkBrains(_context.Neat!);
                 _context.SetState(new TrainingState(_context));
-                _context.ModelName = "Enter Model Name Here";
+                _context.ModelName = "Enter Model Name";
             }
 
             if (_context.Buttons!["RetrainButton"].IsClicked())
@@ -39,7 +39,7 @@ namespace SoNeat.src.UI.TrainScreen
             if (_context.Buttons!["MainMenuButton"].IsClicked())
             {
                 MainMenuState mainMenuState = new MainMenuState();
-                mainMenuState.EnvironmentManager = _context.EnvironmentManager;
+                mainMenuState.EnvironmentSpawner = _context.EnvironmentSpawner;
                 ScreenManager.Instance.SetState(mainMenuState);
             }
         }

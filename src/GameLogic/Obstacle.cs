@@ -23,5 +23,10 @@ namespace SoNeat.src.GameLogic
                 HasPassedPlayer = true;
             }
         }
+
+        public virtual bool IsColliding(GameObject other)
+        {
+            return CurrentBitmap.BitmapCollision(X, Y, other.CurrentBitmap, other.X, other.Y);
+        }
     }
 }

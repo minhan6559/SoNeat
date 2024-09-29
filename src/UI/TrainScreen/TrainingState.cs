@@ -21,20 +21,13 @@ namespace SoNeat.src.UI.TrainScreen
                 _context.UpdateGameSpeed(_context.GameSpeed);
             }
 
-            _context.ObstacleManager!.Update(_context.Population!, _context.Score);
-            _context.Population!.Update(_context.ObstacleManager.Obstacles);
+            _context.ObstacleSpawner!.Update(_context.Population!);
+            _context.Population!.Update(_context.ObstacleSpawner.Obstacles);
 
             if (_context.Population.Alives <= 0)
                 _context.Reset();
 
-            if (_context.IsFastForward)
-            {
-                ScreenManager.FrameRate = 600;
-            }
-            else
-            {
-                ScreenManager.FrameRate = 60;
-            }
+            ScreenManager.FrameRate = _context.IsFastForward ? 600 : 60;
 
             if (SplashKit.KeyTyped(KeyCode.EscapeKey))
             {
@@ -51,9 +44,16 @@ namespace SoNeat.src.UI.TrainScreen
 
         public void Draw()
         {
+            DrawKeyboardShorcut();
             _context.DrawTrainingInfo();
             _context.Population!.Draw();
             _context.NetworkDrawer!.Draw(_context.Neat!.BestAgent.Genome);
+        }
+
+        private void DrawKeyboardShorcut()
+        {
+            SplashKit.DrawText("F-Toggle Fast Forward", Color.Black, "MainFont", 15, 925, 145);
+            SplashKit.DrawText("ESC-Pause", Color.Black, "MainFont", 15, 1015, 175);
         }
     }
 }

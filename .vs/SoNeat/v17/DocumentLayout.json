@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\Admin\\Desktop\\SoNeat\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{390498F5-572B-4EF7-BB3E-9AB1F869D32E}|SoNeat.csproj|c:\\users\\admin\\desktop\\soneat\\src\\ui\\gamescreen\\gamescreenstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{390498F5-572B-4EF7-BB3E-9AB1F869D32E}|SoNeat.csproj|solutionrelative:src\\ui\\gamescreen\\gamescreenstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{390498F5-572B-4EF7-BB3E-9AB1F869D32E}|SoNeat.csproj|c:\\users\\admin\\desktop\\soneat\\src\\ui\\mainmenu\\mainmenustate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{390498F5-572B-4EF7-BB3E-9AB1F869D32E}|SoNeat.csproj|solutionrelative:src\\ui\\mainmenu\\mainmenustate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{390498F5-572B-4EF7-BB3E-9AB1F869D32E}|SoNeat.csproj|c:\\users\\admin\\desktop\\soneat\\src\\ui\\gamescreen\\gameoverstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{390498F5-572B-4EF7-BB3E-9AB1F869D32E}|SoNeat.csproj|solutionrelative:src\\ui\\gamescreen\\gameoverstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -36,19 +44,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "GameScreenState.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\SoNeat\\src\\UI\\GameScreen\\GameScreenState.cs",
+              "RelativeDocumentMoniker": "src\\UI\\GameScreen\\GameScreenState.cs",
+              "ToolTip": "C:\\Users\\Admin\\Desktop\\SoNeat\\src\\UI\\GameScreen\\GameScreenState.cs",
+              "RelativeToolTip": "src\\UI\\GameScreen\\GameScreenState.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBEAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-29T10:06:46.33Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainMenuState.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\SoNeat\\src\\UI\\MainMenu\\MainMenuState.cs",
+              "RelativeDocumentMoniker": "src\\UI\\MainMenu\\MainMenuState.cs",
+              "ToolTip": "C:\\Users\\Admin\\Desktop\\SoNeat\\src\\UI\\MainMenu\\MainMenuState.cs",
+              "RelativeToolTip": "src\\UI\\MainMenu\\MainMenuState.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-29T10:06:05.032Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "GameOverState.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\SoNeat\\src\\UI\\GameScreen\\GameOverState.cs",
               "RelativeDocumentMoniker": "src\\UI\\GameScreen\\GameOverState.cs",
               "ToolTip": "C:\\Users\\Admin\\Desktop\\SoNeat\\src\\UI\\GameScreen\\GameOverState.cs",
               "RelativeToolTip": "src\\UI\\GameScreen\\GameOverState.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAkAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-27T07:19:36.009Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Bat.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\SoNeat\\src\\GameLogic\\Bat.cs",
               "RelativeDocumentMoniker": "src\\GameLogic\\Bat.cs",
@@ -56,12 +90,11 @@
               "RelativeToolTip": "src\\GameLogic\\Bat.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-27T07:19:20.285Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-27T07:19:20.285Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Species.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\NEATRex\\src\\NEAT\\NeuralEvolution\\Species.cs",
               "RelativeDocumentMoniker": "..\\NEATRex\\src\\NEAT\\NeuralEvolution\\Species.cs",
@@ -73,7 +106,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\SoNeat\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -81,12 +114,11 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-22T12:14:16.26Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-22T12:14:16.26Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Agent.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\NEATRex\\src\\NEAT\\NeuralEvolution\\Agent.cs",
               "RelativeDocumentMoniker": "..\\NEATRex\\src\\NEAT\\NeuralEvolution\\Agent.cs",
@@ -98,7 +130,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Neat.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Desktop\\NEATRex\\src\\NEAT\\NeuralEvolution\\Neat.cs",
               "RelativeDocumentMoniker": "..\\NEATRex\\src\\NEAT\\NeuralEvolution\\Neat.cs",

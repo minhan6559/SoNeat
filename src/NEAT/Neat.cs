@@ -71,12 +71,6 @@ namespace SoNeat.src.NEAT
         }
 
         [JsonIgnore]
-        public List<Species> Species
-        {
-            get => _species!;
-        }
-
-        [JsonIgnore]
         public Agent BestAgent
         {
             get => _bestAgent!;

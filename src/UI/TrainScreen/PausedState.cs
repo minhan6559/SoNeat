@@ -26,7 +26,7 @@ namespace SoNeat.src.UI.TrainScreen
             if (_context.Buttons!["MainMenuButton"].IsClicked())
             {
                 MainMenuState mainMenuState = new MainMenuState();
-                mainMenuState.EnvironmentManager = _context.EnvironmentManager;
+                mainMenuState.EnvironmentSpawner = _context.EnvironmentSpawner;
                 ScreenManager.Instance.SetState(mainMenuState);
             }
 

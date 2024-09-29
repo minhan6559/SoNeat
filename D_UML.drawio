@@ -110,7 +110,7 @@
                 <mxCell id="36" value="+ Sonic (float x, float y, float floorY, float gameSpeed)&#10;&#10;+ IsIdle: bool &lt;&lt;property&gt;&gt;&#10;+ IsDead: bool &lt;&lt;property&gt;&gt;&#10;+ IsJumping: bool &lt;&lt;read-only property&gt;&gt;&#10;+ IsDucking: bool &lt;&lt;read-only property&gt;&gt;&#10;&#10;+ Move(): &lt;&lt;override&gt;&gt;&#10;+ HandleInput()&#10;+ Jump()&#10;+ Duck()&#10;+ StopDucking()&#10;+ Run()&#10;+ Dead()&#10;+ IsOnGround(): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="33" vertex="1">
                     <mxGeometry y="148" width="300" height="222" as="geometry"/>
                 </mxCell>
-                <mxCell id="40" value="ObstacleManager" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+                <mxCell id="40" value="ObstacleSpawner" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
                     <mxGeometry x="5" y="990" width="270" height="280" as="geometry"/>
                 </mxCell>
                 <mxCell id="41" value="- _obstacles: List&lt;Obstacle&gt;&#10;- _obstacleTimer: Timer&#10;- _nextObstacleInterval: double&#10;- _gameSpeed: float&#10;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="40" vertex="1">
@@ -119,10 +119,10 @@
                 <mxCell id="42" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="40" vertex="1">
                     <mxGeometry y="100" width="270" height="8" as="geometry"/>
                 </mxCell>
-                <mxCell id="43" value="+ ObstacleManager(float gameSpeed)&#10;&#10;+ Obstacles: List&lt;Obstacle&gt;&#10;&#10;+ Update(Sonic sonic)&#10;+ Update(Population population, double score)&#10;+ UpdateGameSpeed(double speed)&#10;+ KillPlayer(Sonic sonic)&#10;- SetNextObstacleInterval()&#10;+ Draw()&#10;+ RemoveOffScreen()&#10;+ Reset()&#10;&#10;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="40" vertex="1">
+                <mxCell id="43" value="+ ObstacleSpawner(float gameSpeed)&#10;&#10;+ Obstacles: List&lt;Obstacle&gt;&#10;&#10;+ Update(Sonic sonic)&#10;+ Update(Population population, double score)&#10;+ UpdateGameSpeed(double speed)&#10;+ KillPlayer(Sonic sonic)&#10;- SetNextObstacleInterval()&#10;+ Draw()&#10;+ RemoveOffScreen()&#10;+ Reset()&#10;&#10;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="40" vertex="1">
                     <mxGeometry y="108" width="270" height="172" as="geometry"/>
                 </mxCell>
-                <mxCell id="44" value="EnvironmentManager" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+                <mxCell id="44" value="EnvironmentSpawner" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
                     <mxGeometry x="440" y="990" width="270" height="220" as="geometry"/>
                 </mxCell>
                 <mxCell id="45" value="- _clouds: List&lt;Clouds&gt;&#10;- _ground: Ground&#10;- _cloudTimer&#10;- _nextCloudInterval: double&#10;- _gameSpeed: float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="44" vertex="1">
@@ -131,7 +131,7 @@
                 <mxCell id="46" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="44" vertex="1">
                     <mxGeometry y="110" width="270" height="8" as="geometry"/>
                 </mxCell>
-                <mxCell id="47" value="+ EnvironmentManager(float gameSpeed)&#10;&#10;+ Update()&#10;+ UpdateGameSpeed(double speed)&#10;- SetNextCloudInterval()&#10;+ Draw()&#10;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="44" vertex="1">
+                <mxCell id="47" value="+ EnvironmentSpawner(float gameSpeed)&#10;&#10;+ Update()&#10;+ UpdateGameSpeed(double speed)&#10;- SetNextCloudInterval()&#10;+ Draw()&#10;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="44" vertex="1">
                     <mxGeometry y="118" width="270" height="102" as="geometry"/>
                 </mxCell>
                 <mxCell id="57" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;strokeWidth=1;endArrow=block;endFill=0;endSize=12;" parent="1" source="48" target="2" edge="1">

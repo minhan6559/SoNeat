@@ -34,21 +34,13 @@ namespace SoNeat.src.GameLogic
             _lifeSpan = 0;
             _score = 0;
 
-            TotalJumps = 0;
-            DuckUnderBats = 0;
-            JumpOverBats = 0;
             _brain = null;
         }
 
-
-        public int TotalJumps { get; set; }
-        public int DuckUnderBats { get; set; }
-        public int JumpOverBats { get; set; }
         public bool IsIdle { get => _isIdle; set => _isIdle = value; }
         public bool IsDead { get => _isDead; set => _isDead = value; }
         public bool IsJumping => _isJumping;
         public bool IsDucking => _isDucking;
-        public double Score { get; set; }
 
         public Agent? Brain
         {
@@ -127,14 +119,13 @@ namespace SoNeat.src.GameLogic
             _velocityY = 22;
             _gravity = 1.2f;
             _isJumping = true;
-            TotalJumps++;
 
             if (_isDucking)
             {
                 StopDucking();
             }
 
-            Sprite.Play("Jump");
+            PlayAnimation("Jump");
         }
 
         public void Duck()
@@ -145,7 +136,7 @@ namespace SoNeat.src.GameLogic
             _isDucking = true;
             _gravity = 5;
 
-            Sprite.Play("Duck");
+            PlayAnimation("Duck");
             if (!_isJumping)
                 Y = _floorY - CurrentBitmap.Height;
         }
@@ -157,7 +148,7 @@ namespace SoNeat.src.GameLogic
 
         public void Run()
         {
-            Sprite.Play("Run");
+            PlayAnimation("Run");
         }
 
         public void See(List<Obstacle> obstacles)
@@ -248,19 +239,6 @@ namespace SoNeat.src.GameLogic
 
         public void CalculateFitness()
         {
-            // double fitness = Score;
-            // fitness -= TotalJumps * 5;
-            // fitness += DuckUnderBats * 100;
-            // fitness -= JumpOverBats * 50;
-
-            // if (fitness <= 0)
-            // {
-            //     fitness = 0;
-            // }
-            // else
-            // {
-            //     fitness *= fitness;
-            // }
             double fitness = _score * _score;
 
             _brain!.Fitness = fitness;
@@ -268,10 +246,6 @@ namespace SoNeat.src.GameLogic
 
         public void ResetFitnessElements()
         {
-            // TotalJumps = 0;
-            // DuckUnderBats = 0;
-            // JumpOverBats = 0;
-            // Score = 0;
             _score = 0;
             _lifeSpan = 0;
         }

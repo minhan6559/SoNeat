@@ -22,13 +22,15 @@ namespace SoNeat.src.UI.GameScreen
             if (_context.Buttons!["RetryButton"].IsClicked())
             {
                 GameScreenState gameScreen = new GameScreenState();
-                gameScreen.EnvironmentManager = _context.EnvironmentManager;
+                gameScreen.EnvironmentSpawner = _context.EnvironmentSpawner;
                 ScreenManager.Instance.SetState(gameScreen);
             }
 
             if (_context.Buttons!["MainMenuButton"].IsClicked())
             {
-                ScreenManager.Instance.SetState(new MainMenuState());
+                MainMenuState mainMenuState = new MainMenuState();
+                mainMenuState.EnvironmentSpawner = _context.EnvironmentSpawner;
+                ScreenManager.Instance.SetState(mainMenuState);
             }
         }
 

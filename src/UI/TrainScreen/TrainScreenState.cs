@@ -11,8 +11,8 @@ namespace SoNeat.src.UI.TrainScreen
         private ITrainState? _currentState;
         public Population? Population { get; private set; }
         public Neat? Neat { get; set; }
-        public ObstacleManager? ObstacleManager { get; private set; }
-        public EnvironmentManager? EnvironmentManager { get; set; }
+        public ObstacleSpawner? ObstacleSpawner { get; private set; }
+        public EnvironmentSpawner? EnvironmentSpawner { get; set; }
         public double Score { get; set; }
         public double LastScoreMilestone { get; set; }
         public float GameSpeed { get; set; }
@@ -20,7 +20,7 @@ namespace SoNeat.src.UI.TrainScreen
         public Dictionary<string, MyButton>? Buttons { get; private set; }
         public Dictionary<string, Bitmap>? UiBitmaps { get; private set; }
         public NetworkDrawer? NetworkDrawer { get; private set; }
-        public string ModelName { get; set; } = "Enter Model Name Here";
+        public string ModelName { get; set; } = "Enter Model Name";
         public string ErrorMessage { get; set; } = "";
         public string SuccessMessage { get; set; } = "";
         public bool IsFastForward { get; set; } = false;
@@ -37,8 +37,8 @@ namespace SoNeat.src.UI.TrainScreen
             Score = 0;
             LastScoreMilestone = 0;
             GameSpeedIncrement = 0.5f;
-            ObstacleManager = new ObstacleManager(GameSpeed);
-            EnvironmentManager ??= new EnvironmentManager(GameSpeed);
+            ObstacleSpawner = new ObstacleSpawner(GameSpeed);
+            EnvironmentSpawner ??= new EnvironmentSpawner(GameSpeed);
 
             InitializeButtons();
             InitializeUiBitmaps();
@@ -53,8 +53,8 @@ namespace SoNeat.src.UI.TrainScreen
             Buttons = new Dictionary<string, MyButton>
             {
                 { "MainMenuButton", new MyButton("assets/images/TrainScreen/main_menu_btn.png", 526, 403) },
-                { "ChooseModelButton", new MyButton("assets/images/TrainScreen/choose_model_btn.png", 504, 317)},
-                { "SaveModelButton", new MyButton("assets/images/TrainScreen/save_model.png", 527, 317)},
+                { "ChooseModelButton", new MyButton("assets/images/TrainScreen/choose_model_btn.png", 491, 314)},
+                { "SaveModelButton", new MyButton("assets/images/TrainScreen/save_model.png", 522, 315)},
                 { "ResumeButton", new MyButton("assets/images/TrainScreen/resume_btn.png", 557, 358)},
                 { "RetrainButton", new MyButton("assets/images/TrainScreen/retrain_btn.png", 547, 358)}
             };
@@ -72,14 +72,14 @@ namespace SoNeat.src.UI.TrainScreen
 
         public void Update()
         {
-            EnvironmentManager!.Update();
+            EnvironmentSpawner!.Update();
             _currentState!.Update();
         }
 
         public void Draw()
         {
-            EnvironmentManager!.Draw();
-            ObstacleManager!.Draw();
+            EnvironmentSpawner!.Draw();
+            ObstacleSpawner!.Draw();
             _currentState!.Draw();
         }
 
@@ -91,8 +91,8 @@ namespace SoNeat.src.UI.TrainScreen
         public void UpdateGameSpeed(float gameSpeed)
         {
             Population!.UpdateGameSpeed(gameSpeed);
-            EnvironmentManager!.UpdateGameSpeed(gameSpeed);
-            ObstacleManager!.UpdateGameSpeed(gameSpeed);
+            EnvironmentSpawner!.UpdateGameSpeed(gameSpeed);
+            ObstacleSpawner!.UpdateGameSpeed(gameSpeed);
         }
 
         public void Reset()
@@ -100,7 +100,7 @@ namespace SoNeat.src.UI.TrainScreen
             Population!.Reset();
             Neat!.Evolve();
             Population.LinkBrains(Neat);
-            ObstacleManager!.Reset();
+            ObstacleSpawner!.Reset();
             Score = 0;
             LastScoreMilestone = 0;
             GameSpeed = 10;
@@ -141,14 +141,14 @@ namespace SoNeat.src.UI.TrainScreen
             }
             else
             {
-                ErrorMessage = "Model not found!";
+                ErrorMessage = "Model not found";
                 return false;
             }
         }
 
         public void GetModelNameFromTextBox()
         {
-            ModelName = SplashKit.TextBox(ModelName, new Rectangle() { X = 465, Y = 264, Width = 320, Height = 32 });
+            ModelName = SplashKit.TextBox(ModelName, new Rectangle() { X = 491, Y = 264, Width = 263, Height = 32 });
         }
 
         public void ExitState()

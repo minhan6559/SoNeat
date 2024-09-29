@@ -56,11 +56,6 @@ namespace SoNeat.src.GameLogic
             X -= Speed;
         }
 
-        public virtual bool IsColliding(GameObject other)
-        {
-            return CurrentBitmap.BitmapCollision(X, Y, other.CurrentBitmap, other.X, other.Y);
-        }
-
         public virtual bool IsOffScreen()
         {
             return X + CurrentBitmap.Width < 0;
