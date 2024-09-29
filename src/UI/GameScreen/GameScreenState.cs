@@ -33,8 +33,8 @@ namespace SoNeat.src.UI.GameScreen
             // Initialize UI elements
             Buttons = new Dictionary<string, MyButton>
             {
-                { "RetryButton", new MyButton("assets/images/GameScreen/retry_btn.png", 560, 318) },
-                { "MainMenuButton", new MyButton("assets/images/GameScreen/main_menu_btn.png", 510, 368) }
+                { "RetryButton", new MyButton("assets/images/GameScreen/retry_btn.png", 562, 318) },
+                { "MainMenuButton", new MyButton("assets/images/GameScreen/game_main_menu_btn.png", 512, 368) }
             };
 
             UIBitmaps = new Dictionary<string, Bitmap>
@@ -52,6 +52,7 @@ namespace SoNeat.src.UI.GameScreen
             EnvironmentSpawner!.Update();
             Sonic!.Update();
             _currentState!.Update();
+            SaveHighScore();
         }
 
         public void Draw()
@@ -78,7 +79,31 @@ namespace SoNeat.src.UI.GameScreen
         private void DrawScore()
         {
             string scoreStr = Math.Floor(Score).ToString().PadLeft(5, '0');
-            SplashKit.DrawText($"SCORE:{scoreStr}", Color.Black, "MainFont", 24, 975, 30);
+            SplashKit.DrawText($"SCORE:{scoreStr}", Color.Black, "MainFont", 20, 1024, 27);
+
+            // Draw highscore from file
+            string highScore = GetHighScore().ToString().PadLeft(5, '0');
+            SplashKit.DrawText($"HIGHSCORE:{highScore}", Color.Black, "MainFont", 20, 944, 59);
+        }
+
+        private void SaveHighScore()
+        {
+            string filePath = Utility.NormalizePath("save_contents/highscore.txt");
+            if (Score > GetHighScore())
+            {
+                File.WriteAllText(filePath, Math.Floor(Score).ToString());
+            }
+        }
+
+        private double GetHighScore()
+        {
+            string filePath = Utility.NormalizePath("save_contents/highscore.txt");
+            if (!File.Exists(filePath))
+            {
+                File.WriteAllText(filePath, "0");
+            }
+
+            return double.Parse(File.ReadAllText(filePath));
         }
 
         public void ExitState()

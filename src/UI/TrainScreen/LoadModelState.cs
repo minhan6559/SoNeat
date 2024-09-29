@@ -21,7 +21,7 @@ namespace SoNeat.src.UI.TrainScreen
             if (_context.Buttons!["ChooseModelButton"].IsClicked() && _context.CheckValidModelName())
             {
                 _context.UpdateGameSpeed(_context.GameSpeed);
-                _context.Neat = Neat.DeserializeFromJson($"saved_models/{_context.ModelName}.json");
+                _context.Neat = Neat.DeserializeFromJson($"save_contents/{_context.ModelName}.json");
                 _context.Population!.LinkBrains(_context.Neat!);
                 _context.SetState(new TrainingState(_context));
                 _context.ModelName = "Enter Model Name";

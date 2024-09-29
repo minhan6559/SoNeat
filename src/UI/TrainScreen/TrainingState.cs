@@ -44,16 +44,12 @@ namespace SoNeat.src.UI.TrainScreen
 
         public void Draw()
         {
-            DrawKeyboardShorcut();
+            _context.DrawKeyboardShorcut();
             _context.DrawTrainingInfo();
             _context.Population!.Draw();
             _context.NetworkDrawer!.Draw(_context.Neat!.BestAgent.Genome);
         }
 
-        private void DrawKeyboardShorcut()
-        {
-            SplashKit.DrawText("F-Toggle Fast Forward", Color.Black, "MainFont", 15, 925, 145);
-            SplashKit.DrawText("ESC-Pause", Color.Black, "MainFont", 15, 1015, 175);
-        }
+
     }
 }

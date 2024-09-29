@@ -36,7 +36,7 @@ namespace SoNeat.src.UI.GameScreen
 
         public void Draw()
         {
-            SplashKit.DrawBitmap(_context.UIBitmaps!["GameOver"], 305, 151);
+            SplashKit.DrawBitmap(_context.UIBitmaps!["GameOver"], 309, 151);
 
             foreach (MyButton button in _context.Buttons!.Values)
             {

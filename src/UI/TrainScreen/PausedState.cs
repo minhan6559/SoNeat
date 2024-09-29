@@ -32,7 +32,7 @@ namespace SoNeat.src.UI.TrainScreen
 
             if (_context.Buttons!["SaveModelButton"].IsClicked())
             {
-                _context.Neat!.SerializeToJson($"saved_models/{_context.ModelName}.json");
+                _context.Neat!.SerializeToJson($"save_contents/{_context.ModelName}.json");
                 _context.SuccessMessage = "Model saved successfully";
             }
         }

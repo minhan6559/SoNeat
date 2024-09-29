@@ -52,7 +52,7 @@ namespace SoNeat.src.UI.TrainScreen
         {
             Buttons = new Dictionary<string, MyButton>
             {
-                { "MainMenuButton", new MyButton("assets/images/TrainScreen/main_menu_btn.png", 526, 403) },
+                { "MainMenuButton", new MyButton("assets/images/TrainScreen/train_main_menu_btn.png", 525, 403) },
                 { "ChooseModelButton", new MyButton("assets/images/TrainScreen/choose_model_btn.png", 491, 314)},
                 { "SaveModelButton", new MyButton("assets/images/TrainScreen/save_model.png", 522, 315)},
                 { "ResumeButton", new MyButton("assets/images/TrainScreen/resume_btn.png", 557, 358)},
@@ -111,9 +111,15 @@ namespace SoNeat.src.UI.TrainScreen
         public void DrawTrainingInfo()
         {
             string scoreStr = Math.Floor(Score).ToString().PadLeft(5, '0');
-            SplashKit.DrawText($"SCORE:{scoreStr}", Color.Black, "MainFont", 24, 975, 30);
-            SplashKit.DrawText($"ALIVE:{Population!.Alives}", Color.Black, "MainFont", 24, 975, 65);
-            SplashKit.DrawText($"GEN:{Neat!.Generation}", Color.Black, "MainFont", 24, 1023, 101);
+            SplashKit.DrawText($"SCORE:{scoreStr}", Color.Black, "MainFont", 20, 973, 27);
+            SplashKit.DrawText($"ALIVE:{Population!.Alives}", Color.Black, "MainFont", 20, 973, 63);
+            SplashKit.DrawText($"GEN:{Neat!.Generation}", Color.Black, "MainFont", 20, 1013, 99);
+        }
+
+        public void DrawKeyboardShorcut()
+        {
+            SplashKit.DrawText("F-Toggle Fast Forward", Color.Black, "MainFont", 15, 925, 145);
+            SplashKit.DrawText("ESC-Pause", Color.Black, "MainFont", 15, 1015, 175);
         }
 
         public void DrawError()
@@ -134,7 +140,7 @@ namespace SoNeat.src.UI.TrainScreen
 
         public bool CheckValidModelName()
         {
-            if (File.Exists(Utility.NormalizePath($"saved_models/{ModelName}.json")))
+            if (File.Exists(Utility.NormalizePath($"save_contents/{ModelName}.json")))
             {
                 ErrorMessage = "";
                 return true;
