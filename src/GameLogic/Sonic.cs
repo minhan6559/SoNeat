@@ -14,6 +14,7 @@ namespace SoNeat.src.GameLogic
         public const string DEFAULT_FOLDER_PATH = "assets/images/Sonic";
         private bool _isIdle, _isJumping, _isDucking, _isHoldJump, _isDead;
         private float _velocityY, _floorY, _gravity;
+        private int _lifeSpan, _score;
         private double[] _vision = new double[6];
         private Agent? _brain;
 
@@ -29,6 +30,9 @@ namespace SoNeat.src.GameLogic
             _velocityY = 0;
             _floorY = floorY;
             _gravity = 1f;
+
+            _lifeSpan = 0;
+            _score = 0;
 
             TotalJumps = 0;
             DuckUnderBats = 0;
@@ -58,6 +62,12 @@ namespace SoNeat.src.GameLogic
                 Move();
 
             Sprite.Update();
+
+            _lifeSpan++;
+            if (_lifeSpan % 3 == 0)
+            {
+                _score++;
+            }
         }
 
         public override void Move()
@@ -238,29 +248,32 @@ namespace SoNeat.src.GameLogic
 
         public void CalculateFitness()
         {
-            double fitness = Score;
-            fitness -= TotalJumps * 5;
-            fitness += DuckUnderBats * 100;
-            fitness -= JumpOverBats * 50;
+            // double fitness = Score;
+            // fitness -= TotalJumps * 5;
+            // fitness += DuckUnderBats * 100;
+            // fitness -= JumpOverBats * 50;
 
-            if (fitness <= 0)
-            {
-                fitness = 0;
-            }
-            else
-            {
-                fitness *= fitness;
-            }
+            // if (fitness <= 0)
+            // {
+            //     fitness = 0;
+            // }
+            // else
+            // {
+            //     fitness *= fitness;
+            // }
+            double fitness = _score * _score;
 
             _brain!.Fitness = fitness;
         }
 
         public void ResetFitnessElements()
         {
-            TotalJumps = 0;
-            DuckUnderBats = 0;
-            JumpOverBats = 0;
-            Score = 0;
+            // TotalJumps = 0;
+            // DuckUnderBats = 0;
+            // JumpOverBats = 0;
+            // Score = 0;
+            _score = 0;
+            _lifeSpan = 0;
         }
 
         public bool IsOnGround()
