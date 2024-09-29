@@ -1,0 +1,2 @@
+C:\Users\Admin\Desktop\SoNeat\bin\Release\net8.0\win-x86\app.publish\SoNeat.pdb
+C:\Users\Admin\Desktop\SoNeat\bin\Release\net8.0\win-x86\app.publish\SoNeat.exe
