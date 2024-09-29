@@ -27,10 +27,25 @@ namespace SoNeat.src.UI.TrainScreen
             if (_context.Population.Alives <= 0)
                 _context.Reset();
 
+            if (_context.IsFastForward)
+            {
+                ScreenManager.FrameRate = 600;
+            }
+            else
+            {
+                ScreenManager.FrameRate = 60;
+            }
+
             if (SplashKit.KeyTyped(KeyCode.EscapeKey))
             {
+                ScreenManager.FrameRate = 60;
                 _context.UpdateGameSpeed(0);
                 _context.SetState(new PausedState(_context));
+            }
+
+            if (SplashKit.KeyTyped(KeyCode.FKey))
+            {
+                _context.IsFastForward = !_context.IsFastForward;
             }
         }
 

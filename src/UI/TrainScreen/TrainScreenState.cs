@@ -23,6 +23,7 @@ namespace SoNeat.src.UI.TrainScreen
         public string ModelName { get; set; } = "Enter Model Name Here";
         public string ErrorMessage { get; set; } = "";
         public string SuccessMessage { get; set; } = "";
+        public bool IsFastForward { get; set; } = false;
 
         public void EnterState()
         {

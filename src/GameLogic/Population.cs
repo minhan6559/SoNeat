@@ -79,7 +79,10 @@ namespace SoNeat.src.GameLogic
         public void LinkBrains(Neat neat)
         {
             if (_sonics!.Length != neat.Agents.Count)
+            {
+                Console.WriteLine(_sonics.Length + " " + neat.Agents.Count);
                 throw new Exception("Population size and NEAT agents size must be the same");
+            }
 
             for (int i = 0; i < _sonics!.Length; i++)
             {

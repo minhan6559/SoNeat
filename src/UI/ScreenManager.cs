@@ -12,6 +12,14 @@ namespace SoNeat.src.UI
         private static readonly object _lock = new object();
         private IScreenState? _currentState;
 
+        // Global FrameRate property
+        private static int _frameRate = 60; // Default value
+        public static int FrameRate
+        {
+            get { return _frameRate; }
+            set { _frameRate = value; }
+        }
+
         // Private constructor to prevent instantiation
         private ScreenManager() { }
 

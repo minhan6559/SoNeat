@@ -30,7 +30,7 @@ namespace SoNeat
                 window.Clear(BACKGROUND_COLOR);
 
                 ScreenManager.Instance.Draw();
-                SplashKit.RefreshScreen(60);
+                SplashKit.RefreshScreen((uint)ScreenManager.FrameRate);
             }
 
             Console.WriteLine("Goodbye!");

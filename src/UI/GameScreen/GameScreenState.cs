@@ -70,7 +70,6 @@ namespace SoNeat.src.UI.GameScreen
 
         public void UpdateGameSpeed(float gameSpeed)
         {
-            GameSpeed = gameSpeed;
             Sonic!.UpdateGameSpeed(gameSpeed);
             EnvironmentManager!.UpdateGameSpeed(gameSpeed);
             ObstacleManager!.UpdateGameSpeed(gameSpeed);

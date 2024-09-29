@@ -182,7 +182,7 @@ namespace SoNeat.src.NEAT
 
             for (int i = 1; i < _species!.Count; i++)
             {
-                if (_species![i].AverageFitness / averageFitness * _agents!.Count < 1)
+                if ((_species![i].AverageFitness / averageFitness * _agents!.Count) < 1)
                 {
                     _species!.RemoveAt(i);
                     i--;
@@ -215,6 +215,11 @@ namespace SoNeat.src.NEAT
             {
                 Species species = SelectRandomSpecies();
                 newAgents.Add(species.Reproduce(_innovationHistory!));
+            }
+
+            while (newAgents.Count > _populationSize)
+            {
+                newAgents.RemoveAt(newAgents.Count - 1);
             }
 
             _agents = newAgents;
