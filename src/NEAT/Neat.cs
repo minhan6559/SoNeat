@@ -35,13 +35,6 @@ namespace SoNeat.src.NEAT
         [JsonConstructor]
         public Neat()
         {
-            // _inputSize = 0;
-            // _outputSize = 0;
-            // _species! = new List<Species>();
-            // _agents! = new List<Agent>();
-            // _innovationHistory! = new List<ConnectionHistory>();
-            // _generation = 0;
-            // _bestAgent! = new Agent();
         }
 
         public Neat(int inputSize, int outputSize, int populationSize)

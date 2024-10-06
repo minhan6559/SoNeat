@@ -18,8 +18,6 @@ namespace SoNeat.src.NEAT
         [JsonConstructor]
         public Agent()
         {
-            // _genome = new Genome(0, 0, false);
-            // _fitness = 0.0;
         }
 
         public Agent(Genome genome)

@@ -97,6 +97,7 @@ namespace SoNeat.src.UI.TrainScreen
 
         public void Reset()
         {
+            Console.WriteLine(GameSpeed);
             Population!.Reset();
             Neat!.Evolve();
             Population.LinkBrains(Neat);

@@ -27,11 +27,6 @@ namespace SoNeat.src.NEAT
         [JsonConstructor]
         public Node()
         {
-            // _innovationNum = 0;
-            // _layer = 0;
-            // _inputVal = 0;
-            // _outputVal = 0;
-            // _connections = new List<Connection>();
         }
 
         public Node(int innovationNum)

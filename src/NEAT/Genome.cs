@@ -28,14 +28,6 @@ namespace SoNeat.src.NEAT
         [JsonConstructor]
         public Genome()
         {
-            // _nodes! = new List<Node>();
-            // _connections! = new List<Connection>();
-            // _inputSize = 0;
-            // _outputSize = 0;
-            // _totalLayers = 0;
-            // _nextNodeIndex = 0;
-            // _biasNodeIndex = -1;
-            // _networkNodes = new List<Node>();
         }
 
         public Genome(int inputSize, int outputSize, bool isCrossOver)
