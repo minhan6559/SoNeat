@@ -11,8 +11,8 @@ namespace SoNeat.src.UI.TrainScreen
         private ITrainState? _currentState;
         public Population? Population { get; private set; }
         public Neat? Neat { get; set; }
-        public ObstacleSpawner? ObstacleSpawner { get; private set; }
-        public EnvironmentSpawner? EnvironmentSpawner { get; set; }
+        public ObstacleManager? ObstacleManager { get; private set; }
+        public EnvironmentManager? EnvironmentManager { get; set; }
         public double Score { get; set; }
         public double LastScoreMilestone { get; set; }
         public float GameSpeed { get; set; }
@@ -37,8 +37,8 @@ namespace SoNeat.src.UI.TrainScreen
             Score = 0;
             LastScoreMilestone = 0;
             GameSpeedIncrement = 0.5f;
-            ObstacleSpawner = new ObstacleSpawner(GameSpeed);
-            EnvironmentSpawner ??= new EnvironmentSpawner(GameSpeed);
+            ObstacleManager = new ObstacleManager(GameSpeed);
+            EnvironmentManager ??= new EnvironmentManager(GameSpeed);
 
             InitializeButtons();
             InitializeUiBitmaps();
@@ -72,14 +72,14 @@ namespace SoNeat.src.UI.TrainScreen
 
         public void Update()
         {
-            EnvironmentSpawner!.Update();
+            EnvironmentManager!.Update();
             _currentState!.Update();
         }
 
         public void Draw()
         {
-            EnvironmentSpawner!.Draw();
-            ObstacleSpawner!.Draw();
+            EnvironmentManager!.Draw();
+            ObstacleManager!.Draw();
             _currentState!.Draw();
         }
 
@@ -91,8 +91,8 @@ namespace SoNeat.src.UI.TrainScreen
         public void UpdateGameSpeed(float gameSpeed)
         {
             Population!.UpdateGameSpeed(gameSpeed);
-            EnvironmentSpawner!.UpdateGameSpeed(gameSpeed);
-            ObstacleSpawner!.UpdateGameSpeed(gameSpeed);
+            EnvironmentManager!.UpdateGameSpeed(gameSpeed);
+            ObstacleManager!.UpdateGameSpeed(gameSpeed);
         }
 
         public void Reset()
@@ -101,7 +101,7 @@ namespace SoNeat.src.UI.TrainScreen
             Population!.Reset();
             Neat!.Evolve();
             Population.LinkBrains(Neat);
-            ObstacleSpawner!.Reset();
+            ObstacleManager!.Reset();
             Score = 0;
             LastScoreMilestone = 0;
             GameSpeed = 10;

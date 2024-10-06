@@ -10,12 +10,12 @@ namespace SoNeat.src.UI.MainMenu
     {
         private Dictionary<string, MyButton>? _buttons;
         private Dictionary<string, Bitmap>? _uiBitmaps;
-        private EnvironmentSpawner? _environmentSpawner;
+        private EnvironmentManager? _environmentManager;
 
-        public EnvironmentSpawner? EnvironmentSpawner
+        public EnvironmentManager? EnvironmentManager
         {
-            get => _environmentSpawner;
-            set => _environmentSpawner = value;
+            get => _environmentManager;
+            set => _environmentManager = value;
         }
 
         public void EnterState()
@@ -33,24 +33,24 @@ namespace SoNeat.src.UI.MainMenu
                 { "ChooseArrow", SplashKit.LoadBitmap("choose_arrow", "assets/images/MainMenu/choose_arrow.png") }
             };
 
-            _environmentSpawner = new EnvironmentSpawner(0);
+            _environmentManager = new EnvironmentManager(0);
         }
 
         public void Update()
         {
-            _environmentSpawner!.Update();
+            _environmentManager!.Update();
 
             if (_buttons!["PlayButton"].IsClicked())
             {
                 GameScreenState gameScreen = new GameScreenState();
-                gameScreen.EnvironmentSpawner = _environmentSpawner!;
+                gameScreen.EnvironmentManager = _environmentManager!;
                 ScreenManager.Instance.SetState(gameScreen);
             }
 
             if (_buttons!["TrainButton"].IsClicked())
             {
                 TrainScreenState trainScreen = new TrainScreenState();
-                trainScreen.EnvironmentSpawner = _environmentSpawner!;
+                trainScreen.EnvironmentManager = _environmentManager!;
                 ScreenManager.Instance.SetState(trainScreen);
             }
 
@@ -62,7 +62,7 @@ namespace SoNeat.src.UI.MainMenu
 
         public void Draw()
         {
-            _environmentSpawner!.Draw();
+            _environmentManager!.Draw();
             _uiBitmaps!["Title"].Draw(415, 161);
 
             // Loop through the buttons and draw them

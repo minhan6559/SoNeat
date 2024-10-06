@@ -24,7 +24,7 @@ namespace SoNeat.src.UI.GameScreen
                 _context.UpdateGameSpeed(_context.GameSpeed + _context.GameSpeedIncrement);
             }
 
-            _context.ObstacleSpawner!.Update(_context.Sonic);
+            _context.ObstacleManager!.Update(_context.Sonic);
             if (_context.Sonic.IsDead)
             {
                 _context.Sonic.PlayAnimation("Dead");

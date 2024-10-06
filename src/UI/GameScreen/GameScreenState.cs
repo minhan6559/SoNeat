@@ -9,8 +9,8 @@ namespace SoNeat.src.UI.GameScreen
     {
         private IGameState? _currentState;
         public Sonic? Sonic { get; private set; }
-        public ObstacleSpawner? ObstacleSpawner { get; private set; }
-        public EnvironmentSpawner? EnvironmentSpawner { get; set; }
+        public ObstacleManager? ObstacleManager { get; private set; }
+        public EnvironmentManager? EnvironmentManager { get; set; }
         public double Score { get; set; }
         public double LastScoreMilestone { get; set; }
         public float GameSpeed { get; set; }
@@ -27,8 +27,8 @@ namespace SoNeat.src.UI.GameScreen
             Score = 0;
             LastScoreMilestone = 0;
             GameSpeedIncrement = 0.5f;
-            ObstacleSpawner = new ObstacleSpawner(GameSpeed);
-            EnvironmentSpawner ??= new EnvironmentSpawner(GameSpeed);
+            ObstacleManager = new ObstacleManager(GameSpeed);
+            EnvironmentManager ??= new EnvironmentManager(GameSpeed);
 
             // Initialize UI elements
             Buttons = new Dictionary<string, MyButton>
@@ -49,7 +49,7 @@ namespace SoNeat.src.UI.GameScreen
 
         public void Update()
         {
-            EnvironmentSpawner!.Update();
+            EnvironmentManager!.Update();
             Sonic!.Update();
             _currentState!.Update();
             SaveHighScore();
@@ -57,9 +57,9 @@ namespace SoNeat.src.UI.GameScreen
 
         public void Draw()
         {
-            EnvironmentSpawner!.Draw();
+            EnvironmentManager!.Draw();
             Sonic!.Draw();
-            ObstacleSpawner!.Draw();
+            ObstacleManager!.Draw();
             DrawScore();
             _currentState!.Draw();
         }
@@ -72,8 +72,8 @@ namespace SoNeat.src.UI.GameScreen
         public void UpdateGameSpeed(float gameSpeed)
         {
             Sonic!.UpdateGameSpeed(gameSpeed);
-            EnvironmentSpawner!.UpdateGameSpeed(gameSpeed);
-            ObstacleSpawner!.UpdateGameSpeed(gameSpeed);
+            EnvironmentManager!.UpdateGameSpeed(gameSpeed);
+            ObstacleManager!.UpdateGameSpeed(gameSpeed);
         }
 
         private void DrawScore()

@@ -21,8 +21,8 @@ namespace SoNeat.src.UI.TrainScreen
                 _context.UpdateGameSpeed(_context.GameSpeed);
             }
 
-            _context.ObstacleSpawner!.Update(_context.Population!);
-            _context.Population!.Update(_context.ObstacleSpawner.Obstacles);
+            _context.ObstacleManager!.Update(_context.Population!);
+            _context.Population!.Update(_context.ObstacleManager.Obstacles);
 
             if (_context.Population.Alives <= 0)
                 _context.Reset();
