@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SoNeat.src.UI.GameScreen
 {
-    public class OpeningSceneState : IGameState
+    public class OpeningSceneState : ISubScreenState
     {
         private GameScreenState _context;
 

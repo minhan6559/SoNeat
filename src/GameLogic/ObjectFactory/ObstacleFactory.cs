@@ -7,19 +7,14 @@ using SoNeat.src.Utils;
 
 namespace SoNeat.src.GameLogic
 {
-    // Concrete factory implementation
-    public class GameObjectFactory : IGameObjectFactory
+    public class ObstacleFactory : IGameObjectFactory
     {
-        private readonly Random random = new Random();
+        private readonly Random _random = new Random();
 
         public GameObject CreateGameObject(GameObjectType type, float gameSpeed, float xPosition, float yPosition)
         {
             return type switch
             {
-                // Environment objects
-                GameObjectType.Ground => new Ground(xPosition, yPosition, gameSpeed),
-                GameObjectType.Cloud => CreateCloud(xPosition, yPosition, gameSpeed),
-
                 // Obstacles
                 GameObjectType.Crab => CreateObstacle(type, xPosition, 560, gameSpeed),
                 GameObjectType.Spike => CreateObstacle(type, xPosition, 583, gameSpeed),
@@ -30,16 +25,10 @@ namespace SoNeat.src.GameLogic
             };
         }
 
-        private GameObject CreateCloud(float xPosition, float yPosition, float gameSpeed)
-        {
-            float randomSpeed = (float)(random.NextDouble() * 1.0f + 3.0f);
-            return new Cloud(xPosition, yPosition, randomSpeed);
-        }
-
         private GameObject CreateBat(float xPosition, float gameSpeed)
         {
-            float y = random.NextDouble() < 0.5 ? 348 : 465;
-            float speed = (float)(random.NextDouble() * (0.25 * gameSpeed) + gameSpeed);
+            float y = _random.NextDouble() < 0.5 ? 348 : 465;
+            float speed = (float)(_random.NextDouble() * (0.25 * gameSpeed) + gameSpeed);
             string folderPath = GetAssetPath(GameObjectType.Bat);
             return new Bat(xPosition, y, speed, gameSpeed, folderPath);
         }

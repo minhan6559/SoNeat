@@ -7,16 +7,16 @@ namespace SoNeat.src.GameLogic
 {
     public class ObstacleSpawnStrategy : SpawnStrategyBase
     {
-        private readonly Random random = new Random();
+        private readonly Random _random = new Random();
 
-        public ObstacleSpawnStrategy() : base()
+        public ObstacleSpawnStrategy(IGameObjectFactory factory) : base(factory)
         {
         }
 
         public override GameObject CreateGameObject(float gameSpeed, float screenWidth)
         {
-            var type = GetRandomObstacleType();
-            return factory.CreateGameObject(
+            GameObjectType type = GetRandomObstacleType();
+            return Factory.CreateGameObject(
                 type,
                 gameSpeed,
                 screenWidth + 100,
@@ -37,7 +37,7 @@ namespace SoNeat.src.GameLogic
                 GameObjectType.Hog,
                 GameObjectType.Bat
             };
-            return obstacles[random.Next(obstacles.Length)];
+            return obstacles[_random.Next(obstacles.Length)];
         }
     }
 

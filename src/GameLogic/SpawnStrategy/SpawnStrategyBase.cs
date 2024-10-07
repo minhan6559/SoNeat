@@ -8,11 +8,12 @@ namespace SoNeat.src.GameLogic
     // Updated spawn strategies to use the generic factory
     public abstract class SpawnStrategyBase : ISpawnStrategy
     {
-        protected IGameObjectFactory factory;
+        private IGameObjectFactory _factory;
+        protected IGameObjectFactory Factory => _factory;
 
-        protected SpawnStrategyBase()
+        protected SpawnStrategyBase(IGameObjectFactory factory)
         {
-            this.factory = new GameObjectFactory();
+            _factory = factory;
         }
 
         public abstract GameObject CreateGameObject(float gameSpeed, float screenWidth);

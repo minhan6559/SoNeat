@@ -8,7 +8,7 @@ using SplashKitSDK;
 
 namespace SoNeat.src.UI.GameScreen
 {
-    public class GameOverState : IGameState
+    public class GameOverState : ISubScreenState
     {
         private GameScreenState _context;
 
@@ -21,15 +21,13 @@ namespace SoNeat.src.UI.GameScreen
         {
             if (_context.Buttons!["RetryButton"].IsClicked())
             {
-                GameScreenState gameScreen = new GameScreenState();
-                gameScreen.EnvironmentManager = _context.EnvironmentManager;
+                GameScreenState gameScreen = new GameScreenState(_context.EnvironmentManager!);
                 ScreenManager.Instance.SetState(gameScreen);
             }
 
             if (_context.Buttons!["MainMenuButton"].IsClicked())
             {
-                MainMenuState mainMenuState = new MainMenuState();
-                mainMenuState.EnvironmentManager = _context.EnvironmentManager;
+                MainMenuState mainMenuState = new MainMenuState(_context.EnvironmentManager!);
                 ScreenManager.Instance.SetState(mainMenuState);
             }
         }

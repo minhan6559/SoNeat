@@ -5,7 +5,7 @@ using SplashKitSDK;
 
 namespace SoNeat.src.UI.TrainScreen
 {
-    public class LoadModelState : ITrainState
+    public class LoadModelState : ISubScreenState
     {
         private TrainScreenState _context;
 
@@ -20,26 +20,21 @@ namespace SoNeat.src.UI.TrainScreen
             _context.GetModelNameFromTextBox();
             if (_context.Buttons!["ChooseModelButton"].IsClicked() && _context.CheckValidModelName())
             {
-                _context.UpdateGameSpeed(_context.GameSpeed);
-                _context.Neat = Neat.DeserializeFromJson($"save_contents/{_context.ModelName}.json");
-                _context.Population!.LinkBrains(_context.Neat!);
+                _context.ResumeGameSpeed();
+                _context.LoadNeatModel();
                 _context.SetState(new TrainingState(_context));
-                _context.ModelName = "Enter Model Name";
             }
 
             if (_context.Buttons!["RetrainButton"].IsClicked())
             {
-                _context.UpdateGameSpeed(_context.GameSpeed);
-                Neat.NextConnectionNum = 1000;
-                _context.Neat = new Neat(6, 2, 500);
-                _context.Population!.LinkBrains(_context.Neat);
+                _context.ResumeGameSpeed();
+                _context.InitializeNeatModel();
                 _context.SetState(new TrainingState(_context));
             }
 
             if (_context.Buttons!["MainMenuButton"].IsClicked())
             {
-                MainMenuState mainMenuState = new MainMenuState();
-                mainMenuState.EnvironmentManager = _context.EnvironmentManager;
+                MainMenuState mainMenuState = new MainMenuState(_context.EnvironmentManager!);
                 ScreenManager.Instance.SetState(mainMenuState);
             }
         }

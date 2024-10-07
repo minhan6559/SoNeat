@@ -5,19 +5,19 @@ using System.Threading.Tasks;
 
 namespace SoNeat.src.GameLogic
 {
-    public class ObstacleManager : GameManagerBase
+    public class ObstacleManager : ObjectManagerBase
     {
-        public List<Obstacle> Obstacles => gameObjects.Cast<Obstacle>().ToList();
+        public List<Obstacle> Obstacles => GameObjects.Cast<Obstacle>().ToList();
 
         public ObstacleManager(float gameSpeed)
-            : base(gameSpeed, new ObstacleSpawnStrategy())
+            : base(gameSpeed, new ObstacleSpawnStrategy(new ObstacleFactory()))
         {
-            nextSpawnInterval = 50;
+            NextSpawnInterval = 50;
         }
 
         protected override bool ShouldSpawn()
         {
-            return nextSpawnInterval > 111 - gameSpeed;
+            return NextSpawnInterval > 111 - GameSpeed;
         }
 
         public void Update(Sonic sonic)
@@ -51,8 +51,8 @@ namespace SoNeat.src.GameLogic
 
         public void Reset()
         {
-            gameObjects.Clear();
-            nextSpawnInterval = 50;
+            GameObjects.Clear();
+            NextSpawnInterval = 50;
         }
     }
 }

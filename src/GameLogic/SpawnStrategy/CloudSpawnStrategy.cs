@@ -7,14 +7,14 @@ namespace SoNeat.src.GameLogic
 {
     public class CloudSpawnStrategy : SpawnStrategyBase
     {
-        public CloudSpawnStrategy() : base()
+        public CloudSpawnStrategy(IGameObjectFactory factory) : base(factory)
         {
         }
 
         public override GameObject CreateGameObject(float gameSpeed, float screenWidth)
         {
             float randomY = new Random().Next(55, 260);
-            return factory.CreateGameObject(
+            return Factory.CreateGameObject(
                 GameObjectType.Cloud,
                 gameSpeed,
                 screenWidth,

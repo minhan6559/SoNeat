@@ -2,7 +2,7 @@ using SplashKitSDK;
 
 namespace SoNeat.src.UI.TrainScreen
 {
-    public class TrainingState : ITrainState
+    public class TrainingState : ISubScreenState
     {
         private TrainScreenState _context;
 
@@ -13,21 +13,16 @@ namespace SoNeat.src.UI.TrainScreen
 
         public void Update()
         {
-            _context.Score += _context.GameSpeed / 60;
-            if (Math.Floor(_context.Score) >= _context.LastScoreMilestone + 100)
-            {
-                _context.LastScoreMilestone = Math.Floor(_context.Score);
-                _context.GameSpeed += _context.GameSpeedIncrement;
-                _context.UpdateGameSpeed(_context.GameSpeed);
-            }
+            _context.UpdateScore();
+            _context.CheckUpdateGameSpeed();
+            _context.UpdateFrameRate();
 
             _context.ObstacleManager!.Update(_context.Population!);
             _context.Population!.Update(_context.ObstacleManager.Obstacles);
 
-            if (_context.Population.Alives <= 0)
+            if (_context.IsAllDead())
                 _context.Reset();
 
-            ScreenManager.FrameRate = _context.IsFastForward ? 600 : 60;
 
             if (SplashKit.KeyTyped(KeyCode.EscapeKey))
             {
@@ -38,7 +33,7 @@ namespace SoNeat.src.UI.TrainScreen
 
             if (SplashKit.KeyTyped(KeyCode.FKey))
             {
-                _context.IsFastForward = !_context.IsFastForward;
+                _context.ToggleFastForward();
             }
         }
 
@@ -47,9 +42,7 @@ namespace SoNeat.src.UI.TrainScreen
             _context.DrawKeyboardShorcut();
             _context.DrawTrainingInfo();
             _context.Population!.Draw();
-            _context.NetworkDrawer!.Draw(_context.Neat!.BestAgent.Genome);
+            _context.DrawBestNetwork();
         }
-
-
     }
 }

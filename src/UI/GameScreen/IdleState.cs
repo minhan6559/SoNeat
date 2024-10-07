@@ -6,7 +6,7 @@ using SplashKitSDK;
 
 namespace SoNeat.src.UI.GameScreen
 {
-    public class IdleState : IGameState
+    public class IdleState : ISubScreenState
     {
         private GameScreenState _context;
 
@@ -20,7 +20,7 @@ namespace SoNeat.src.UI.GameScreen
             if (SplashKit.KeyTyped(KeyCode.SpaceKey))
             {
                 _context.Sonic!.IsIdle = false;
-                _context.UpdateGameSpeed(_context.GameSpeed);
+                _context.ResumeGameSpeed();
                 _context.SetState(new PlayingState(_context));
             }
         }

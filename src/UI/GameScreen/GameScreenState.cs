@@ -7,37 +7,50 @@ namespace SoNeat.src.UI.GameScreen
 {
     public class GameScreenState : IScreenState
     {
-        private IGameState? _currentState;
-        public Sonic? Sonic { get; private set; }
-        public ObstacleManager? ObstacleManager { get; private set; }
-        public EnvironmentManager? EnvironmentManager { get; set; }
-        public double Score { get; set; }
-        public double LastScoreMilestone { get; set; }
-        public float GameSpeed { get; set; }
-        public float GameSpeedIncrement { get; private set; }
-        public Dictionary<string, MyButton>? Buttons { get; private set; }
-        public Dictionary<string, Bitmap>? UIBitmaps { get; private set; }
+        private ISubScreenState? _currentState;
+        private Sonic? _sonic;
+        private ObstacleManager? _obstacleManager;
+        private EnvironmentManager? _environmentManager;
+        private double _score, _lastScoreMilestone;
+        private float _gameSpeed, _gameSpeedIncrement;
+        private Dictionary<string, MyButton>? _buttons;
+        private Dictionary<string, Bitmap>? _uiBitmaps;
+
+        public Sonic? Sonic => _sonic;
+
+        public ObstacleManager? ObstacleManager => _obstacleManager;
+
+        public EnvironmentManager? EnvironmentManager => _environmentManager;
+
+        public Dictionary<string, MyButton>? Buttons => _buttons;
+
+        public Dictionary<string, Bitmap>? UIBitmaps => _uiBitmaps;
+
+        public GameScreenState(EnvironmentManager? environmentManager = null)
+        {
+            _environmentManager = environmentManager;
+        }
 
         public void EnterState()
         {
             // Initialize game elements
-            GameSpeed = 10;
-            Sonic = new Sonic(-110, 509, 634, GameSpeed);
-            Sonic.PlayAnimation("Run");
-            Score = 0;
-            LastScoreMilestone = 0;
-            GameSpeedIncrement = 0.5f;
-            ObstacleManager = new ObstacleManager(GameSpeed);
-            EnvironmentManager ??= new EnvironmentManager(GameSpeed);
+            _gameSpeed = 10;
+            _sonic = new Sonic(-110, 509, 634, _gameSpeed);
+            _sonic.PlayAnimation("Run");
+            _score = 0;
+            _lastScoreMilestone = 0;
+            _gameSpeedIncrement = 0.5f;
+            _obstacleManager = new ObstacleManager(_gameSpeed);
+            _environmentManager ??= new EnvironmentManager(_gameSpeed);
 
             // Initialize UI elements
-            Buttons = new Dictionary<string, MyButton>
+            _buttons = new Dictionary<string, MyButton>
             {
                 { "RetryButton", new MyButton("assets/images/GameScreen/retry_btn.png", 562, 318) },
                 { "MainMenuButton", new MyButton("assets/images/GameScreen/game_main_menu_btn.png", 512, 368) }
             };
 
-            UIBitmaps = new Dictionary<string, Bitmap>
+            _uiBitmaps = new Dictionary<string, Bitmap>
             {
                 { "ChooseArrow", SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png")},
                 { "GameOver", SplashKit.LoadBitmap("game_over", "assets/images/GameScreen/game_over.png")}
@@ -49,36 +62,61 @@ namespace SoNeat.src.UI.GameScreen
 
         public void Update()
         {
-            EnvironmentManager!.Update();
-            Sonic!.Update();
+            _environmentManager!.Update();
+            _sonic!.Update();
             _currentState!.Update();
             SaveHighScore();
         }
 
         public void Draw()
         {
-            EnvironmentManager!.Draw();
-            Sonic!.Draw();
-            ObstacleManager!.Draw();
+            _environmentManager!.Draw();
+            _sonic!.Draw();
+            _obstacleManager!.Draw();
             DrawScore();
             _currentState!.Draw();
         }
 
-        public void SetState(IGameState newState)
+        public void SetState(ISubScreenState newState)
         {
             _currentState = newState;
         }
 
-        public void UpdateGameSpeed(float gameSpeed)
+        public void UpdateGameSpeed(float _gameSpeed)
         {
-            Sonic!.UpdateGameSpeed(gameSpeed);
-            EnvironmentManager!.UpdateGameSpeed(gameSpeed);
-            ObstacleManager!.UpdateGameSpeed(gameSpeed);
+            _sonic!.UpdateGameSpeed(_gameSpeed);
+            _environmentManager!.UpdateGameSpeed(_gameSpeed);
+            _obstacleManager!.UpdateGameSpeed(_gameSpeed);
+        }
+
+        private void IncreaseGameSpeed()
+        {
+            _gameSpeed += _gameSpeedIncrement;
+            UpdateGameSpeed(_gameSpeed);
+        }
+
+        public void CheckUpdateGameSpeed()
+        {
+            if (Math.Floor(_score) >= _lastScoreMilestone + 100)
+            {
+                _lastScoreMilestone = Math.Floor(_score);
+                IncreaseGameSpeed();
+            }
+        }
+
+        public void ResumeGameSpeed()
+        {
+            UpdateGameSpeed(_gameSpeed);
+        }
+
+        public void UpdateScore()
+        {
+            _score += _gameSpeed / 60;
         }
 
         private void DrawScore()
         {
-            string scoreStr = Math.Floor(Score).ToString().PadLeft(5, '0');
+            string scoreStr = Math.Floor(_score).ToString().PadLeft(5, '0');
             SplashKit.DrawText($"SCORE:{scoreStr}", Color.Black, "MainFont", 20, 1024, 27);
 
             // Draw highscore from file
@@ -89,9 +127,9 @@ namespace SoNeat.src.UI.GameScreen
         private void SaveHighScore()
         {
             string filePath = Utility.NormalizePath("save_contents/highscore.txt");
-            if (Score > GetHighScore())
+            if (_score > GetHighScore())
             {
-                File.WriteAllText(filePath, Math.Floor(Score).ToString());
+                File.WriteAllText(filePath, Math.Floor(_score).ToString());
             }
         }
 

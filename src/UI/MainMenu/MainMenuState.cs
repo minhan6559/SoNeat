@@ -12,10 +12,11 @@ namespace SoNeat.src.UI.MainMenu
         private Dictionary<string, Bitmap>? _uiBitmaps;
         private EnvironmentManager? _environmentManager;
 
-        public EnvironmentManager? EnvironmentManager
+        public EnvironmentManager? EnvironmentManager => _environmentManager;
+
+        public MainMenuState(EnvironmentManager? environmentManager = null)
         {
-            get => _environmentManager;
-            set => _environmentManager = value;
+            _environmentManager = environmentManager;
         }
 
         public void EnterState()
@@ -42,15 +43,13 @@ namespace SoNeat.src.UI.MainMenu
 
             if (_buttons!["PlayButton"].IsClicked())
             {
-                GameScreenState gameScreen = new GameScreenState();
-                gameScreen.EnvironmentManager = _environmentManager!;
+                GameScreenState gameScreen = new GameScreenState(_environmentManager);
                 ScreenManager.Instance.SetState(gameScreen);
             }
 
             if (_buttons!["TrainButton"].IsClicked())
             {
-                TrainScreenState trainScreen = new TrainScreenState();
-                trainScreen.EnvironmentManager = _environmentManager!;
+                TrainScreenState trainScreen = new TrainScreenState(_environmentManager);
                 ScreenManager.Instance.SetState(trainScreen);
             }
 

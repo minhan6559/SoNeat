@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SoNeat.src.UI.GameScreen
 {
-    public class PlayingState : IGameState
+    public class PlayingState : ISubScreenState
     {
         private GameScreenState _context;
 
@@ -17,12 +17,8 @@ namespace SoNeat.src.UI.GameScreen
         public void Update()
         {
             _context.Sonic!.HandleInput();
-            _context.Score += _context.GameSpeed / 60;
-            if (Math.Floor(_context.Score) >= _context.LastScoreMilestone + 100)
-            {
-                _context.LastScoreMilestone = Math.Floor(_context.Score);
-                _context.UpdateGameSpeed(_context.GameSpeed + _context.GameSpeedIncrement);
-            }
+            _context.UpdateScore();
+            _context.CheckUpdateGameSpeed();
 
             _context.ObstacleManager!.Update(_context.Sonic);
             if (_context.Sonic.IsDead)

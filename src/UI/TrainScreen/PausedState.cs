@@ -4,7 +4,7 @@ using SplashKitSDK;
 
 namespace SoNeat.src.UI.TrainScreen
 {
-    public class PausedState : ITrainState
+    public class PausedState : ISubScreenState
     {
         private TrainScreenState _context;
 
@@ -20,20 +20,18 @@ namespace SoNeat.src.UI.TrainScreen
             {
                 _context.SuccessMessage = "";
                 _context.SetState(new TrainingState(_context));
-                _context.UpdateGameSpeed(_context.GameSpeed);
+                _context.ResumeGameSpeed();
             }
 
             if (_context.Buttons!["MainMenuButton"].IsClicked())
             {
-                MainMenuState mainMenuState = new MainMenuState();
-                mainMenuState.EnvironmentManager = _context.EnvironmentManager;
+                MainMenuState mainMenuState = new MainMenuState(_context.EnvironmentManager!);
                 ScreenManager.Instance.SetState(mainMenuState);
             }
 
             if (_context.Buttons!["SaveModelButton"].IsClicked())
             {
-                _context.Neat!.SerializeToJson($"save_contents/{_context.ModelName}.json");
-                _context.SuccessMessage = "Model saved successfully";
+                _context.SaveNeatModel();
             }
         }
 
