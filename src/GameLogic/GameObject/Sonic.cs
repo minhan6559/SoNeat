@@ -161,7 +161,7 @@ namespace SoNeat.src.GameLogic
             int nextEnemyIndex = -1;
             for (int i = 0; i < obstacles.Count; i++)
             {
-                if (!obstacles[i].HasPassedPlayer)
+                if (!obstacles[i].HasPassedPlayer(this))
                 {
                     nextEnemyIndex = i;
                     break;
@@ -170,6 +170,8 @@ namespace SoNeat.src.GameLogic
 
             if (nextEnemyIndex == -1)
             {
+                // All vision values set to 0
+                Array.Fill(_vision, 0);
                 return;
             }
 

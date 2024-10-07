@@ -213,7 +213,6 @@ namespace SoNeat.src.UI.TrainScreen
         public void LoadNeatModel()
         {
             _neat = Neat.DeserializeFromJson($"save_contents/{_modelName}.json");
-            Console.WriteLine(Neat.NextConnectionNum);
             _population!.LinkBrains(_neat!);
             _modelName = "Enter Model Name";
         }
@@ -221,7 +220,6 @@ namespace SoNeat.src.UI.TrainScreen
         public void SaveNeatModel()
         {
             _neat!.SerializeToJson($"save_contents/{_modelName}.json");
-            Console.WriteLine(Neat.NextConnectionNum);
             _successMessage = "Model saved successfully";
         }
 

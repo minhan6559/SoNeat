@@ -1,11 +1,11 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0" version="24.7.16">
   <diagram id="orqxFLYhP0BUc9gmHuvd" name="Page-1">
-    <mxGraphModel dx="3783" dy="1568" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1916" dy="570" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="2" value="&lt;&lt;abstract&gt;&gt;&#xa;GameObject" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-          <mxGeometry x="220" y="280" width="370" height="390" as="geometry" />
+          <mxGeometry x="220" y="280" width="370" height="370" as="geometry" />
         </mxCell>
         <mxCell id="3" value="- _x: float&#xa;- _y: float&#xa;- _gameSpeed: float&#xa;- _speed: float&#xa;- _sprite: MySprite" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="2" vertex="1">
           <mxGeometry y="40" width="370" height="80" as="geometry" />
@@ -13,8 +13,8 @@
         <mxCell id="4" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="2" vertex="1">
           <mxGeometry y="120" width="370" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="5" value="+ GameObject(float x, float y, float speed, string spriteFolderPath)&#xa;&#xa;+ X: float &lt;property&gt;&#xa;+ Y: float &lt;property&gt;&#xa;+ GameSpeed: float &lt;&lt;property&gt;&gt;&#xa;+ Speed: float &lt;&lt;property&gt;&gt;&#xa;+ Sprite: MySprite &lt;&lt;protected property&gt;&gt;&#xa;+ CurrentBitmap: Bitmap &lt;&lt;read-only property&gt;&gt;&#xa;&#xa;+ Update(): &lt;&lt;virtual&gt;&gt;&#xa;+ UpdateGameSpeed(float gameSpeed): &lt;&lt;virtual&gt;&gt;&#xa;+ Draw(): &lt;&lt;virtual&gt;&gt;&#xa;+ DrawOutline(): &lt;&lt;virtual&gt;&gt;&#xa;+ PlayAnimation(string animation) &lt;&lt;virtual&gt;&gt;&#xa;+ Move(): &lt;&lt;virtual&gt;&gt;&#xa;+ IsOffScreen(): bool &lt;&lt;virtual&gt;&gt;&#xa;+ IsColliding(GameObject other): bool &lt;&lt;virtual&gt;&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="2" vertex="1">
-          <mxGeometry y="128" width="370" height="262" as="geometry" />
+        <mxCell id="5" value="+ GameObject(float x, float y, float speed, string spriteFolderPath)&#xa;&#xa;+ X: float &lt;property&gt;&#xa;+ Y: float &lt;property&gt;&#xa;+ GameSpeed: float &lt;&lt;property&gt;&gt;&#xa;+ Speed: float &lt;&lt;property&gt;&gt;&#xa;+ Sprite: MySprite &lt;&lt;protected property&gt;&gt;&#xa;+ CurrentBitmap: Bitmap &lt;&lt;read-only property&gt;&gt;&#xa;&#xa;+ Update(): &lt;&lt;virtual&gt;&gt;&#xa;+ UpdateGameSpeed(float gameSpeed): &lt;&lt;virtual&gt;&gt;&#xa;+ Draw(): &lt;&lt;virtual&gt;&gt;&#xa;+ DrawOutline(): &lt;&lt;virtual&gt;&gt;&#xa;+ PlayAnimation(string animation) &lt;&lt;virtual&gt;&gt;&#xa;+ Move(): &lt;&lt;virtual&gt;&gt;&#xa;+ IsOffScreen(): bool &lt;&lt;virtual&gt;&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="2" vertex="1">
+          <mxGeometry y="128" width="370" height="242" as="geometry" />
         </mxCell>
         <mxCell id="61" style="edgeStyle=none;html=1;strokeWidth=1;endArrow=block;endFill=0;endSize=12;" parent="1" source="9" target="13" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -32,13 +32,13 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="13" value="&lt;&lt;abstract&gt;&gt;&#xa;Obstacle" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-          <mxGeometry x="-30" y="740" width="265" height="150" as="geometry" />
+          <mxGeometry x="-30" y="740" width="280" height="130" as="geometry" />
         </mxCell>
         <mxCell id="15" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="13" vertex="1">
-          <mxGeometry y="50" width="265" height="8" as="geometry" />
+          <mxGeometry y="50" width="280" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="16" value="+ Obstacle(float x, float y, float gameSpeed)&#xa;&#xa;+ HasPassedPlayer: bool &lt;&lt;property&gt;&gt;&#xa;+ AlreadyCheckedPass: bool &lt;&lt;property&gt;&gt;&#xa;&#xa;+ CheckPassedPlayer(Sonic sonic): &lt;&lt;virtual&gt;&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="13" vertex="1">
-          <mxGeometry y="58" width="265" height="92" as="geometry" />
+        <mxCell id="16" value="+ Obstacle(float x, float y, float gameSpeed)&#xa;&#xa;+ HasPassedPlayer(Sonic sonic): bool &lt;&lt;virtual&gt;&gt;&#xa;+ IsColliding(GameObject other): bool &lt;&lt;virtual&gt;&gt;&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="13" vertex="1">
+          <mxGeometry y="58" width="280" height="72" as="geometry" />
         </mxCell>
         <mxCell id="59" style="edgeStyle=none;html=1;strokeWidth=1;endArrow=block;endFill=0;endSize=12;" parent="1" source="17" target="13" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -56,7 +56,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="20" value="Hog" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-          <mxGeometry x="-330" y="940" width="230" height="60" as="geometry" />
+          <mxGeometry x="-330" y="945" width="230" height="60" as="geometry" />
         </mxCell>
         <mxCell id="21" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="20" vertex="1">
           <mxGeometry y="26" width="230" height="8" as="geometry" />
