@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace SoNeat.src.NEAT
 {
     [Serializable]
-    public class Node
+    public class Node : IPrototype<Node>
     {
         [JsonProperty]
         private int _innovationNum;

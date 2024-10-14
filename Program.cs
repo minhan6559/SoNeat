@@ -34,10 +34,6 @@ namespace SoNeat
             }
 
             Console.WriteLine("Goodbye!");
-            // Neat neat = Neat.DeserializeFromJson("neat.json");
-            // Console.WriteLine(neat.Species.Count);
-            // Console.WriteLine(neat.Agents.Count);
-            // Console.WriteLine(neat.Generation);
         }
     }
 }

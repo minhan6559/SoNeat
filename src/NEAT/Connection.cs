@@ -9,7 +9,7 @@ using SoNeat.src.Utils;
 namespace SoNeat.src.NEAT
 {
     [Serializable]
-    public class Connection
+    public class Connection : IPrototype<Connection>
     {
         [JsonProperty]
         private Node? _fromNode, _toNode;
@@ -90,6 +90,13 @@ namespace SoNeat.src.NEAT
         public Connection Clone(Node fromNode, Node toNode)
         {
             Connection clone = new Connection(fromNode, toNode, _weight, _innovationNum);
+            clone.Enabled = _enabled;
+            return clone;
+        }
+
+        public Connection Clone()
+        {
+            Connection clone = new Connection(_fromNode!, _toNode!, _weight, _innovationNum);
             clone.Enabled = _enabled;
             return clone;
         }

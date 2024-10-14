@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace SoNeat.src.NEAT
 {
     [Serializable]
-    public class Genome
+    public class Genome : IPrototype<Genome>
     {
         [JsonProperty]
         private List<Node>? _nodes;
