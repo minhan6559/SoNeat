@@ -1,8 +1,4 @@
-using SoNeat.src.NEAT;
-using System.Text.Json;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml;
-using System.Xml.Serialization;
+using SplashKitSDK;
 
 namespace SoNeat.src.Utils
 {
@@ -42,6 +38,13 @@ namespace SoNeat.src.Utils
             if (value > max)
                 return newMax;
             return newMin + (value - min) * (newMax - newMin) / (max - min);
+        }
+
+        public static void FadeToNewMusic(string newMusic, int fadeInMs, float newVolume)
+        {
+            Music gameMusic = SplashKit.MusicNamed(newMusic);
+            SplashKit.FadeMusicIn(gameMusic, -1, fadeInMs);
+            SplashKit.SetMusicVolume(newVolume);
         }
     }
 }

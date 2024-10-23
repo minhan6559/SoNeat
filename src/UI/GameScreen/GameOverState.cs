@@ -14,6 +14,7 @@ namespace SoNeat.src.UI.GameScreen
 
         public GameOverState(GameScreenState context)
         {
+            Utility.FadeToNewMusic("GameOverMusic", 0, 1.0f);
             _context = context;
         }
 

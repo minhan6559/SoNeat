@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SoNeat.src.Utils;
 
 namespace SoNeat.src.UI.GameScreen
 {
@@ -11,6 +12,7 @@ namespace SoNeat.src.UI.GameScreen
 
         public PlayingState(GameScreenState context)
         {
+            Utility.FadeToNewMusic("GameMusic", 500, 0.4f);
             _context = context;
         }
 

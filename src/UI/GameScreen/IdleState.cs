@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SoNeat.src.Utils;
 using SplashKitSDK;
 
 namespace SoNeat.src.UI.GameScreen
@@ -21,6 +22,7 @@ namespace SoNeat.src.UI.GameScreen
             {
                 _context.Sonic!.IsIdle = false;
                 _context.ResumeGameSpeed();
+
                 _context.SetState(new PlayingState(_context));
             }
         }
