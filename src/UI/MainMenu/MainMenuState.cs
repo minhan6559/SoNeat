@@ -56,6 +56,7 @@ namespace SoNeat.src.UI.MainMenu
             if (_buttons!["ExitButton"].IsClicked())
             {
                 SplashKit.CloseAllWindows();
+                ExitState();
             }
         }
 
@@ -79,6 +80,8 @@ namespace SoNeat.src.UI.MainMenu
         {
             // Clean up the game screen
             Console.WriteLine("Exiting Main Menu State");
+            SplashKit.FreeAllBitmaps();
+            SplashKit.FreeAllFonts();
         }
     }
 }
