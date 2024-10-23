@@ -7,9 +7,10 @@ using SplashKitSDK;
 
 namespace SoNeat.src.Utils
 {
+    // Class for creating buttons
     public class MyButton
     {
-        private Bitmap _buttonBitmap;
+        private Bitmap _buttonBitmap; // Bitmap of the button
         public double X { get; set; }
         public double Y { get; set; }
 
@@ -29,11 +30,13 @@ namespace SoNeat.src.Utils
             Y = y;
         }
 
+        // Draw the button
         public void Draw()
         {
             SplashKit.DrawBitmap(_buttonBitmap, X, Y);
         }
 
+        // Check if the button is clicked
         public bool IsClicked()
         {
             if (SplashKit.MouseClicked(MouseButton.LeftButton))
@@ -45,6 +48,7 @@ namespace SoNeat.src.Utils
             return false;
         }
 
+        // Check if the button is hovered
         public bool IsHovered()
         {
             Point2D pt = SplashKit.MousePosition();

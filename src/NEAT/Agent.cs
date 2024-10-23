@@ -6,14 +6,15 @@ using Newtonsoft.Json;
 
 namespace SoNeat.src.NEAT
 {
+    // Agent class for creating agents
     [Serializable]
     public class Agent : IPrototype<Agent>
     {
         [JsonProperty]
-        private Genome? _genome;
+        private Genome? _genome; // Genome of the agent
 
         [JsonProperty]
-        private double _fitness;
+        private double _fitness; // Fitness of the agent
 
         [JsonConstructor]
         public Agent()
@@ -50,6 +51,7 @@ namespace SoNeat.src.NEAT
             return _genome!.FeedForward(inputs);
         }
 
+        // Create a crossover agent
         public Agent Crossover(Agent other)
         {
             Agent child = new Agent(_genome!.CrossOver(other.Genome));
@@ -57,12 +59,14 @@ namespace SoNeat.src.NEAT
             return child;
         }
 
+        // Mutate the agent
         public void Mutate(List<ConnectionHistory> innovationHistory)
         {
             _genome!.Mutate(innovationHistory);
             _genome.CreateNetwork();
         }
 
+        // Clone the agent
         public Agent Clone()
         {
             Agent child = new Agent(_genome!.Clone());

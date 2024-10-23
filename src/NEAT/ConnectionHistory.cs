@@ -8,13 +8,14 @@ using Newtonsoft.Json;
 
 namespace SoNeat.src.NEAT
 {
+    // Class to store the connection history
     [Serializable]
     public class ConnectionHistory
     {
         [JsonProperty]
-        private int _fromNodeId, _toNodeId, _innovationNum;
+        private int _fromNodeId, _toNodeId, _innovationNum; // From and to node ids and innovation number
         [JsonProperty]
-        private HashSet<int>? _innovationNumbersSet;
+        private HashSet<int>? _innovationNumbersSet; // Innovation numbers set
 
         [JsonConstructor]
         public ConnectionHistory()
@@ -37,6 +38,7 @@ namespace SoNeat.src.NEAT
             get => _innovationNum;
         }
 
+        // Check if the genome is matching the connection history
         public bool IsMatching(Genome g, Node fromNode, Node toNode)
         {
             if (g.Connections.Count != _innovationNumbersSet!.Count)

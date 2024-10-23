@@ -8,6 +8,7 @@ using SplashKitSDK;
 
 namespace SoNeat.src.UI.GameScreen
 {
+    // Game over state for the game screen
     public class GameOverState : ISubScreenState
     {
         private GameScreenState _context;
@@ -34,14 +35,14 @@ namespace SoNeat.src.UI.GameScreen
 
         public void Draw()
         {
-            SplashKit.DrawBitmap(_context.UIBitmaps!["GameOver"], 309, 151);
+            SplashKit.DrawBitmap(_context.UiBitmaps!["GameOver"], 309, 151);
 
             foreach (MyButton button in _context.Buttons!.Values)
             {
                 button.Draw();
                 if (button.IsHovered())
                 {
-                    SplashKit.DrawBitmap(_context.UIBitmaps!["ChooseArrow"], button.X - 40, button.Y);
+                    SplashKit.DrawBitmap(_context.UiBitmaps!["ChooseArrow"], button.X - 40, button.Y);
                 }
             }
         }

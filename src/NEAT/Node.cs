@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace SoNeat.src.NEAT
 {
+    // Node class for the NEAT algorithm
     [Serializable]
     public class Node : IPrototype<Node>
     {
@@ -18,9 +19,7 @@ namespace SoNeat.src.NEAT
         [JsonProperty]
         private double _inputVal, _outputVal;
         [JsonProperty]
-        public double X { get; set; } = 0;
-        [JsonProperty]
-        public double Y { get; set; } = 0;
+        private double _x, _y;
         [JsonProperty]
         private List<Connection>? _connections;
 
@@ -35,6 +34,8 @@ namespace SoNeat.src.NEAT
             _layer = 0;
             _inputVal = 0;
             _outputVal = 0;
+            _x = 0;
+            _y = 0;
             _connections = new List<Connection>();
         }
 
@@ -67,6 +68,20 @@ namespace SoNeat.src.NEAT
         }
 
         [JsonIgnore]
+        public double X
+        {
+            get => _x;
+            set => _x = value;
+        }
+
+        [JsonIgnore]
+        public double Y
+        {
+            get => _y;
+            set => _y = value;
+        }
+
+        [JsonIgnore]
         public List<Connection> Connections
         {
             get => _connections!;
@@ -84,11 +99,13 @@ namespace SoNeat.src.NEAT
             {
                 if (_connections[i].Enabled)
                 {
+                    // Feed forward the connection
                     _connections[i].ToNode.InputVal += _outputVal * _connections[i].Weight;
                 }
             }
         }
 
+        // Clone the node
         public Node Clone()
         {
             Node clone = new Node(_innovationNum);
@@ -96,18 +113,22 @@ namespace SoNeat.src.NEAT
             return clone;
         }
 
+        // Check if the node is connected to another node
         public bool IsConnectedTo(Node node)
         {
+            // If the node is in the same layer, it is not connected
             if (node.Layer == _layer)
             {
                 return false;
             }
 
+            // If the node is in a previous layer, check if it is connected to this node
             if (node.Layer < _layer)
             {
                 return node.IsConnectedTo(this);
             }
 
+            // Check if the node is connected to the other node
             for (int i = 0; i < _connections!.Count; i++)
             {
                 if (_connections[i].ToNode == node)
@@ -116,6 +137,7 @@ namespace SoNeat.src.NEAT
                 }
             }
 
+            // If the node is not connected to the other node, return false
             return false;
         }
     }

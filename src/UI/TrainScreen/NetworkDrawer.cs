@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using SoNeat.src.NEAT;
 using SplashKitSDK;
 
 namespace SoNeat.src.UI.TrainScreen
 {
+    // Class to draw the neural network
     public class NetworkDrawer
     {
         private string[] _inputLabels, _outputLabels;
@@ -24,12 +20,17 @@ namespace SoNeat.src.UI.TrainScreen
             _panelHeight = panelHeight;
         }
 
+        // Draw the neural network
         public void Draw(Genome? genome)
         {
+            // If genome is null, return
             if (genome == null)
                 return;
 
+            // Calculate the node positions
             CalculateNodePositions(genome);
+
+            // Draw the connections and nodes
             foreach (NEAT.Connection connection in genome.Connections)
             {
                 DrawConnection(connection);
@@ -40,11 +41,14 @@ namespace SoNeat.src.UI.TrainScreen
                 DrawNode(node);
             }
 
+            // Draw the labels
             DrawLabels();
         }
 
+        // Calculate the node positions
         private void CalculateNodePositions(Genome g)
         {
+            // Create a list of nodes per layer
             List<Node>[] nodesPerLayer = new List<Node>[g.TotalLayers];
 
             foreach (Node node in g.Nodes)
@@ -71,6 +75,7 @@ namespace SoNeat.src.UI.TrainScreen
                 nodesPerLayer[^1][i].Y = (i + 1) / (double)(nodesPerLayer[^1].Count + 1);
             }
 
+            // Hidden nodes
             for (int i = 1; i < nodesPerLayer.Length - 1; i++)
             {
                 double nodeX = (i + 1) / (double)(nodesPerLayer.Length + 1);
@@ -84,15 +89,18 @@ namespace SoNeat.src.UI.TrainScreen
             }
         }
 
+        // Draw a node
         private void DrawNode(Node node)
         {
             double nodeX = _x + node.X * _panelWidth;
             double nodeY = _y + node.Y * _panelHeight;
 
+            // Draw the node circle and border
             SplashKit.FillCircle(Color.White, nodeX, nodeY, 10);
             SplashKit.DrawCircle(Color.Black, nodeX, nodeY, 10);
         }
 
+        // Draw a connection
         private void DrawConnection(NEAT.Connection connection)
         {
             Node fromNode = connection.FromNode;
@@ -104,6 +112,7 @@ namespace SoNeat.src.UI.TrainScreen
             double toY = _y + toNode.Y * _panelHeight;
 
             Color color;
+            // If connection is enabled, draw it blue, otherwise red
             if (connection.Enabled)
             {
                 color = Color.RGBAColor(0, 0, 250, Math.Max(0.2, Math.Abs(connection.Weight)) * 255);
@@ -116,9 +125,10 @@ namespace SoNeat.src.UI.TrainScreen
             SplashKit.DrawLine(color, fromX, fromY, toX, toY);
         }
 
+        // Draw the labels
         private void DrawLabels()
         {
-
+            // Draw the input labels
             for (int i = 0; i < _inputLabels.Length; i++)
             {
                 double nodeX = 0.1;
@@ -130,6 +140,7 @@ namespace SoNeat.src.UI.TrainScreen
                 SplashKit.DrawText(_inputLabels[i], Color.Black, "MainFont", 10, labelX, labelY);
             }
 
+            // Draw the bias label
             double nodeBiasX = 0.1;
             double nodeBiasY = (_inputLabels.Length + 1) / (double)(_inputLabels.Length + 2);
 

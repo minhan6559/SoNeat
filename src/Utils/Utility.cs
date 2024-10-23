@@ -6,8 +6,10 @@ using System.Xml.Serialization;
 
 namespace SoNeat.src.Utils
 {
+    // Utility class for general utility functions
     public class Utility
     {
+        // Normalize a path   
         public static string NormalizePath(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -21,11 +23,13 @@ namespace SoNeat.src.Utils
             return path.Replace(incorrectSeparator, correctSeparator);
         }
 
+        // Sigmoid function
         public static double Sigmoid(double x)
         {
             return 1.0f / (1.0f + Math.Exp(-4.9 * x));
         }
 
+        // Random Gaussian function
         public static double RandomGaussian()
         {
             Random _random = new Random();
@@ -35,6 +39,7 @@ namespace SoNeat.src.Utils
             return randStdNormal;
         }
 
+        // Normalize a value
         public static double Normalize(double value, double min, double max, double newMin, double newMax)
         {
             if (value < min)

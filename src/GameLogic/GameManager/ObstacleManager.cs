@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace SoNeat.src.GameLogic
 {
+    // Obstacle manager class for managing obstacle objects
     public class ObstacleManager : ObjectManagerBase
     {
+        // List of obstacles
         public List<Obstacle> Obstacles => GameObjects.Cast<Obstacle>().ToList();
 
         public ObstacleManager(float gameSpeed)
@@ -24,6 +26,7 @@ namespace SoNeat.src.GameLogic
         {
             base.Update();
 
+            // Check for collision with Sonic
             if (IsColliding(sonic))
             {
                 sonic.IsDead = true;
@@ -34,6 +37,7 @@ namespace SoNeat.src.GameLogic
         {
             base.Update();
 
+            // Check for collision with Sonics
             foreach (Sonic sonic in population.Data!)
             {
                 if (!sonic.IsDead && IsColliding(sonic))

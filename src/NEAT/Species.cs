@@ -7,20 +7,22 @@ using Newtonsoft.Json;
 
 namespace SoNeat.src.NEAT
 {
+    // Species class for the NEAT algorithm
     [Serializable]
     public class Species
     {
         [JsonProperty]
-        private List<Agent>? _agents;
+        private List<Agent>? _agents; // List of agents in the species
         [JsonProperty]
-        private Agent? _representative;
+        private Agent? _representative; // Representative agent 
         [JsonProperty]
-        private Genome? _benchmarkGenome;
+        private Genome? _benchmarkGenome; // Benchmark genome
         [JsonProperty]
-        private double _topFitness, _averageFitness;
+        private double _topFitness, _averageFitness; // Top and average fitness
         [JsonProperty]
-        private int _notImprovedGenerations;
+        private int _notImprovedGenerations; // Number of generations without improvement
 
+        // Constants
         private const double COMPATIBILITY_THRESHOLD = 3.0;
         private const double EXCESS_COEFFICIENT = 1.0;
         private const double WEIGHT_DIFFERENCE_COEFFICIENT = 0.5;
@@ -51,54 +53,42 @@ namespace SoNeat.src.NEAT
         }
 
         [JsonIgnore]
-        public List<Agent> Agents
-        {
-            get => _agents!;
-            set => _agents = value;
-        }
+        public List<Agent> Agents => _agents!;
 
         [JsonIgnore]
-        public double TopFitness
-        {
-            get => _topFitness;
-            set => _topFitness = value;
-        }
+        public double TopFitness => _topFitness;
 
         [JsonIgnore]
-        public double AverageFitness
-        {
-            get => _averageFitness;
-            set => _averageFitness = value;
-        }
+        public double AverageFitness => _averageFitness;
 
         [JsonIgnore]
-        public int NotImprovedGenerations
-        {
-            get => _notImprovedGenerations;
-        }
+        public int NotImprovedGenerations => _notImprovedGenerations;
 
         [JsonIgnore]
-        public Agent Representative
-        {
-            get => _representative!;
-        }
+        public Agent Representative => _representative!;
 
+        // Check if the genome is in the species
         public bool IsInSpecies(Genome genome)
         {
+            // Check if the genome is compatible with the species
             double excessDisjoint = CalculateExcessAndDisjoint(genome, _benchmarkGenome!);
             double averageWeightDiff = CalculateAverageWeightDiff(genome, _benchmarkGenome!);
 
+            // Normalize the genome
             double genomeNormalizer = genome.Connections.Count - 20;
             if (genomeNormalizer < 1)
             {
                 genomeNormalizer = 1;
             }
 
+            // Calculate the compatibility
             double compatibility = (EXCESS_COEFFICIENT * excessDisjoint / genomeNormalizer) + (WEIGHT_DIFFERENCE_COEFFICIENT * averageWeightDiff);
 
+            // Return if the genome is compatible
             return compatibility < COMPATIBILITY_THRESHOLD;
         }
 
+        // Calculate the excess and disjoint genes
         private double CalculateExcessAndDisjoint(Genome g1, Genome g2)
         {
             double matchingGenes = 0;
@@ -117,8 +107,10 @@ namespace SoNeat.src.NEAT
             return g1.Connections.Count + g2.Connections.Count - 2 * matchingGenes;
         }
 
+        // Calculate the average weight difference
         private double CalculateAverageWeightDiff(Genome g1, Genome g2)
         {
+            // Check if the genomes have connections
             if (g1.Connections.Count == 0 || g2.Connections.Count == 0)
             {
                 return 0;
@@ -127,6 +119,7 @@ namespace SoNeat.src.NEAT
             double totalWeightDiff = 0;
             double matchingGenes = 0;
 
+            // Loop through all connections in the genomes and calculate the weight difference for matching genes
             foreach (Connection conn1 in g1.Connections)
             {
                 foreach (Connection conn2 in g2.Connections)
@@ -140,29 +133,36 @@ namespace SoNeat.src.NEAT
                 }
             }
 
+            // If there are no matching genes, return 100 as the weight difference is infinite
             if (matchingGenes == 0)
             {
                 return 100;
             }
 
+            // Return the average weight difference
             return totalWeightDiff / matchingGenes;
         }
 
+        // Add an agent to the species
         public void Add(Agent agent)
         {
             _agents!.Add(agent);
         }
 
+        // Sort the agents in the species
         public void SortAgents()
         {
+            // Sort descending the agents by fitness
             _agents!.Sort((a, b) => b.Fitness.CompareTo(a.Fitness));
 
+            // If no agents, needs to extinct
             if (_agents.Count == 0)
             {
                 _notImprovedGenerations = Neat.MAX_NOT_IMPROVED_GENERATIONS;
                 return;
             }
 
+            // Check if the top fitness is improved
             if (_agents[0].Fitness > _topFitness)
             {
                 _topFitness = _agents[0].Fitness;
@@ -172,10 +172,12 @@ namespace SoNeat.src.NEAT
             }
             else
             {
+                // Increment the number of generations without improvement
                 _notImprovedGenerations++;
             }
         }
 
+        // Remove the agents with low fitness
         public void KillWeakAgents()
         {
             if (_agents!.Count <= 1)
@@ -188,6 +190,7 @@ namespace SoNeat.src.NEAT
             _agents.RemoveRange(survivors, _agents.Count - survivors);
         }
 
+        // Calculate the fitness of the species
         public void CalculateFitness()
         {
             _averageFitness = 0.0;
@@ -198,6 +201,7 @@ namespace SoNeat.src.NEAT
             _averageFitness /= _agents.Count;
         }
 
+        // Share the fitness among the agents
         public void FitnessSharing()
         {
             foreach (Agent agent in _agents!)
@@ -206,6 +210,7 @@ namespace SoNeat.src.NEAT
             }
         }
 
+        // Select a random agent from the species based on fitness, with a higher chance for the fittest agents
         public Agent SelectRandomAgent()
         {
             double totalFitness = 0;
@@ -229,20 +234,24 @@ namespace SoNeat.src.NEAT
             return _agents[0];
         }
 
+        // Reproduce the species to create a new agent
         public Agent Reproduce(List<ConnectionHistory> innoHistory)
         {
             Agent child;
 
+            // 25% chance to clone the parent
             if (_random.NextDouble() < 0.25)
             {
                 Agent parent = SelectRandomAgent();
                 child = parent.Clone();
             }
+            // 75% chance to crossover the parents
             else
             {
                 Agent parent1 = SelectRandomAgent();
                 Agent parent2 = SelectRandomAgent();
 
+                // Make sure the fittest parent is the first one
                 if (parent1.Fitness < parent2.Fitness)
                 {
                     Agent temp = parent1;

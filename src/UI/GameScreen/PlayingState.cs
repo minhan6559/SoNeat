@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace SoNeat.src.UI.GameScreen
 {
+    // Playing state for the game screen
     public class PlayingState : ISubScreenState
     {
         private GameScreenState _context;
@@ -21,6 +22,8 @@ namespace SoNeat.src.UI.GameScreen
             _context.CheckUpdateGameSpeed();
 
             _context.ObstacleManager!.Update(_context.Sonic);
+
+            // Check if Sonic is dead and change state to GameOverState
             if (_context.Sonic.IsDead)
             {
                 _context.Sonic.PlayAnimation("Dead");

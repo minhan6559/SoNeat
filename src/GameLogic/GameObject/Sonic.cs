@@ -9,14 +9,15 @@ using SoNeat.src.Utils;
 
 namespace SoNeat.src.GameLogic
 {
+    // Sonic class for managing Sonic object
     public class Sonic : GameObject
     {
         public const string DEFAULT_FOLDER_PATH = "assets/images/Sonic";
-        private bool _isIdle, _isJumping, _isDucking, _isHoldJump, _isDead;
-        private float _velocityY, _floorY, _gravity;
-        private int _lifeSpan, _score;
-        private double[] _vision = new double[6];
-        private Agent? _brain;
+        private bool _isIdle, _isJumping, _isDucking, _isHoldJump, _isDead; // Sonic states
+        private float _velocityY, _floorY, _gravity; // Sonic physics
+        private int _lifeSpan, _score; // Sonic stats
+        private double[] _vision = new double[6]; // Sonic vision
+        private Agent? _brain; // Sonic brain
 
         public Sonic(float x, float y, float floorY, float gameSpeed, string folderPath = DEFAULT_FOLDER_PATH)
                     : base(x, y, 0, gameSpeed, folderPath)
@@ -62,6 +63,7 @@ namespace SoNeat.src.GameLogic
             }
         }
 
+        // Move Sonic
         public override void Move()
         {
             if (_isJumping)
@@ -86,6 +88,7 @@ namespace SoNeat.src.GameLogic
                 Y = _floorY - CurrentBitmap.Height;
         }
 
+        // Take action based on input
         public void HandleInput()
         {
             if (SplashKit.KeyTyped(KeyCode.DownKey))
@@ -111,6 +114,7 @@ namespace SoNeat.src.GameLogic
             }
         }
 
+        // Jump Sonic
         public void Jump()
         {
             if (_isJumping)
@@ -128,6 +132,7 @@ namespace SoNeat.src.GameLogic
             PlayAnimation("Jump");
         }
 
+        // Duck Sonic
         public void Duck()
         {
             if (_isDucking)
@@ -141,6 +146,7 @@ namespace SoNeat.src.GameLogic
                 Y = _floorY - CurrentBitmap.Height;
         }
 
+        // Stop ducking Sonic
         public void StopDucking()
         {
             _isDucking = false;
@@ -151,13 +157,16 @@ namespace SoNeat.src.GameLogic
             PlayAnimation("Run");
         }
 
+        // Sonic sees the obstacles and updates its vision
         public void See(List<Obstacle> obstacles)
         {
+            // Reset vision
             for (int i = 0; i < _vision.Length; i++)
             {
                 _vision[i] = 0;
             }
 
+            // Find the next enemy
             int nextEnemyIndex = -1;
             for (int i = 0; i < obstacles.Count; i++)
             {
@@ -168,6 +177,7 @@ namespace SoNeat.src.GameLogic
                 }
             }
 
+            // If no enemy found
             if (nextEnemyIndex == -1)
             {
                 // All vision values set to 0
@@ -210,16 +220,20 @@ namespace SoNeat.src.GameLogic
             _vision[5] = Utility.Normalize(GameSpeed, 10, 50, 0, 1);
         }
 
+        // Sonic takes action based on its vision
         public void TakeAction()
         {
+            // If Sonic has no brain
             if (_brain == null)
                 return;
 
+            // Feed forward the vision
             double[] decision = _brain.FeedForward(_vision)!;
 
             // Find the highest value in the decision array and its index
             double highestValue = decision.Max();
 
+            // If highest value is less than 0.7, Sonic stops ducking
             if (highestValue < 0.7)
             {
                 StopDucking();
@@ -239,6 +253,7 @@ namespace SoNeat.src.GameLogic
             }
         }
 
+        // Calculate Sonic fitness
         public void CalculateFitness()
         {
             double fitness = _score * _score;
@@ -246,12 +261,14 @@ namespace SoNeat.src.GameLogic
             _brain!.Fitness = fitness;
         }
 
+        // Reset Sonic fitness elements
         public void ResetFitnessElements()
         {
             _score = 0;
             _lifeSpan = 0;
         }
 
+        // Check if Sonic is on the ground
         public bool IsOnGround()
         {
             return Y >= _floorY - CurrentBitmap.Height;

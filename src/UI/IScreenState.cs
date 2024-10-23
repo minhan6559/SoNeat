@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace SoNeat.src.UI
 {
+    // Interface for screen states
     public interface IScreenState
     {
         void EnterState();

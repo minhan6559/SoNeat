@@ -10,11 +10,11 @@ namespace SoNeat.src.GameLogic
     // Base spawner manager using Template Method Pattern
     public abstract class ObjectManagerBase
     {
-        private readonly List<GameObject> _gameObjects;
+        private readonly List<GameObject> _gameObjects; // List of game objects
         private float _gameSpeed;
-        private readonly ISpawnStrategy _spawnStrategy;
+        private readonly ISpawnStrategy _spawnStrategy; // Strategy for spawning objects
         private static readonly Random _random = new Random();
-        private double _nextSpawnInterval;
+        private double _nextSpawnInterval; // Time until next spawn
 
         protected List<GameObject> GameObjects => _gameObjects;
         protected double NextSpawnInterval
@@ -68,6 +68,7 @@ namespace SoNeat.src.GameLogic
             if (ShouldSpawn())
             {
                 SpawnNewObject();
+                // Calculate next spawn interval using strategy
                 _nextSpawnInterval = _spawnStrategy.CalculateNextSpawnInterval(_random);
             }
             _nextSpawnInterval++;

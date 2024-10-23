@@ -8,17 +8,18 @@ using SoNeat.src.Utils;
 
 namespace SoNeat.src.NEAT
 {
+    // Connection class for creating connections between nodes
     [Serializable]
     public class Connection : IPrototype<Connection>
     {
         [JsonProperty]
-        private Node? _fromNode, _toNode;
+        private Node? _fromNode, _toNode; // From and to nodes
         [JsonProperty]
-        private double _weight;
+        private double _weight; // Weight of the connection
         [JsonProperty]
-        private bool _enabled;
+        private bool _enabled; // Enabled status of the connection
         [JsonProperty]
-        private int _innovationNum;
+        private int _innovationNum; // Innovation number of the connection
         private static Random _random = new Random();
 
         [JsonConstructor]
@@ -70,8 +71,10 @@ namespace SoNeat.src.NEAT
             set => _toNode = value;
         }
 
+        // Mutate the weight of the connection
         public void MutateWeight()
         {
+            // Shift the weight of the connection by a small amount
             if (_random.NextDouble() < Neat.MUTATE_WEIGHT_SHIFT_PROB)
             {
                 _weight += Utility.RandomGaussian() / 50.0f;
@@ -83,6 +86,7 @@ namespace SoNeat.src.NEAT
             }
             else
             {
+                // Assign a new random weight to the connection
                 _weight = _random.NextDouble() * 2 - 1;
             }
         }

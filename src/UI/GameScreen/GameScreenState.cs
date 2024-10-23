@@ -5,121 +5,81 @@ using SoNeat.src.Utils;
 
 namespace SoNeat.src.UI.GameScreen
 {
-    public class GameScreenState : IScreenState
+    // Game screen state for the game screen
+    public class GameScreenState : GameScreenBase
     {
-        private ISubScreenState? _currentState;
         private Sonic? _sonic;
-        private ObstacleManager? _obstacleManager;
-        private EnvironmentManager? _environmentManager;
-        private double _score, _lastScoreMilestone;
-        private float _gameSpeed, _gameSpeedIncrement;
-        private Dictionary<string, MyButton>? _buttons;
-        private Dictionary<string, Bitmap>? _uiBitmaps;
 
         public Sonic? Sonic => _sonic;
 
-        public ObstacleManager? ObstacleManager => _obstacleManager;
-
-        public EnvironmentManager? EnvironmentManager => _environmentManager;
-
-        public Dictionary<string, MyButton>? Buttons => _buttons;
-
-        public Dictionary<string, Bitmap>? UIBitmaps => _uiBitmaps;
-
         public GameScreenState(EnvironmentManager? environmentManager = null)
+            : base(environmentManager) { }
+
+        public override void EnterState()
         {
-            _environmentManager = environmentManager;
+            GameSpeed = 10;
+            _sonic = new Sonic(-110, 509, 634, GameSpeed);
+            _sonic.PlayAnimation("Run");
+            Score = 0;
+            LastScoreMilestone = 0;
+            GameSpeedIncrement = 0.5f;
+            ObstacleManager = new ObstacleManager(GameSpeed);
+            EnvironmentManager ??= new EnvironmentManager(GameSpeed);
+
+            InitializeButtons();
+            InitializeUiBitmaps();
+
+            CurrentState = new OpeningSceneState(this);
         }
 
-        public void EnterState()
+        // Initialize buttons for the game screen
+        private void InitializeButtons()
         {
-            // Initialize game elements
-            _gameSpeed = 10;
-            _sonic = new Sonic(-110, 509, 634, _gameSpeed);
-            _sonic.PlayAnimation("Run");
-            _score = 0;
-            _lastScoreMilestone = 0;
-            _gameSpeedIncrement = 0.5f;
-            _obstacleManager = new ObstacleManager(_gameSpeed);
-            _environmentManager ??= new EnvironmentManager(_gameSpeed);
-
-            // Initialize UI elements
-            _buttons = new Dictionary<string, MyButton>
+            Buttons = new Dictionary<string, MyButton>
             {
                 { "RetryButton", new MyButton("assets/images/GameScreen/retry_btn.png", 562, 318) },
                 { "MainMenuButton", new MyButton("assets/images/GameScreen/game_main_menu_btn.png", 512, 368) }
             };
+        }
 
-            _uiBitmaps = new Dictionary<string, Bitmap>
+        // Initialize UI bitmaps for the game screen
+        private void InitializeUiBitmaps()
+        {
+            UiBitmaps = new Dictionary<string, Bitmap>
             {
                 { "ChooseArrow", SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png")},
                 { "GameOver", SplashKit.LoadBitmap("game_over", "assets/images/GameScreen/game_over.png")}
             };
-
-            // Set initial state
-            _currentState = new OpeningSceneState(this);
         }
 
-        public void Update()
+        public override void Update()
         {
-            _environmentManager!.Update();
+            EnvironmentManager!.Update();
             _sonic!.Update();
-            _currentState!.Update();
+            CurrentState!.Update();
             SaveHighScore();
         }
 
-        public void Draw()
+        public override void Draw()
         {
-            _environmentManager!.Draw();
+            EnvironmentManager!.Draw();
             _sonic!.Draw();
-            _obstacleManager!.Draw();
+            ObstacleManager!.Draw();
             DrawScore();
-            _currentState!.Draw();
+            CurrentState!.Draw();
         }
 
-        public void SetState(ISubScreenState newState)
+        public override void UpdateGameSpeed(float gameSpeed)
         {
-            _currentState = newState;
-        }
-
-        public void UpdateGameSpeed(float _gameSpeed)
-        {
-            _sonic!.UpdateGameSpeed(_gameSpeed);
-            _environmentManager!.UpdateGameSpeed(_gameSpeed);
-            _obstacleManager!.UpdateGameSpeed(_gameSpeed);
-        }
-
-        private void IncreaseGameSpeed()
-        {
-            _gameSpeed += _gameSpeedIncrement;
-            UpdateGameSpeed(_gameSpeed);
-        }
-
-        public void CheckUpdateGameSpeed()
-        {
-            if (Math.Floor(_score) >= _lastScoreMilestone + 100)
-            {
-                _lastScoreMilestone = Math.Floor(_score);
-                IncreaseGameSpeed();
-            }
-        }
-
-        public void ResumeGameSpeed()
-        {
-            UpdateGameSpeed(_gameSpeed);
-        }
-
-        public void UpdateScore()
-        {
-            _score += _gameSpeed / 60;
+            base.UpdateGameSpeed(gameSpeed);
+            _sonic!.UpdateGameSpeed(gameSpeed);
         }
 
         private void DrawScore()
         {
-            string scoreStr = Math.Floor(_score).ToString().PadLeft(5, '0');
+            string scoreStr = Math.Floor(Score).ToString().PadLeft(5, '0');
             SplashKit.DrawText($"SCORE:{scoreStr}", Color.Black, "MainFont", 20, 1024, 27);
 
-            // Draw highscore from file
             string highScore = GetHighScore().ToString().PadLeft(5, '0');
             SplashKit.DrawText($"HIGHSCORE:{highScore}", Color.Black, "MainFont", 20, 944, 59);
         }
@@ -127,9 +87,9 @@ namespace SoNeat.src.UI.GameScreen
         private void SaveHighScore()
         {
             string filePath = Utility.NormalizePath("save_contents/highscore.txt");
-            if (_score > GetHighScore())
+            if (Score > GetHighScore())
             {
-                File.WriteAllText(filePath, Math.Floor(_score).ToString());
+                File.WriteAllText(filePath, Math.Floor(Score).ToString());
             }
         }
 
@@ -140,11 +100,10 @@ namespace SoNeat.src.UI.GameScreen
             {
                 File.WriteAllText(filePath, "0");
             }
-
             return double.Parse(File.ReadAllText(filePath));
         }
 
-        public void ExitState()
+        public override void ExitState()
         {
             Console.WriteLine("Exiting Game Screen State");
         }

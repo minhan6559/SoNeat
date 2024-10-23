@@ -6,6 +6,7 @@ using SplashKitSDK;
 
 namespace SoNeat.src.UI.GameScreen
 {
+    // Waiting state for the game screen
     public class IdleState : ISubScreenState
     {
         private GameScreenState _context;

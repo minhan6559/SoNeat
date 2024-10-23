@@ -5,6 +5,7 @@ using SplashKitSDK;
 
 namespace SoNeat.src.UI.TrainScreen
 {
+    // Load model state for the training screen
     public class LoadModelState : ISubScreenState
     {
         private TrainScreenState _context;
@@ -17,7 +18,10 @@ namespace SoNeat.src.UI.TrainScreen
 
         public void Update()
         {
+            // Check if the user has chosen a model name and load the model
             _context.GetModelNameFromTextBox();
+
+            // Check if the user has clicked the buttons and the model name is valid
             if (_context.Buttons!["ChooseModelButton"].IsClicked() && _context.CheckValidModelName())
             {
                 _context.ResumeGameSpeed();

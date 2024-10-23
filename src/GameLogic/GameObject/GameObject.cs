@@ -7,13 +7,14 @@ using SoNeat.src.Utils;
 
 namespace SoNeat.src.GameLogic
 {
+    // Base game object class
     public abstract class GameObject
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float GameSpeed { get; set; }
-        public float Speed { get; set; }
-        protected MySprite Sprite { get; set; }
+        public float X { get; set; } // X position
+        public float Y { get; set; } // Y position
+        public float GameSpeed { get; set; } // Game speed
+        public float Speed { get; set; } // Object speed
+        protected MySprite Sprite { get; set; } // Object sprite
         public Bitmap CurrentBitmap => Sprite.CurrentBitmap;
 
         public GameObject(float x, float y, float speed, float gameSpeed, string folderPath)
@@ -51,11 +52,13 @@ namespace SoNeat.src.GameLogic
             Sprite.Play(animation);
         }
 
+        // Move object
         public virtual void Move()
         {
             X -= Speed;
         }
 
+        // Check if object is off screen
         public virtual bool IsOffScreen()
         {
             return X + CurrentBitmap.Width < 0;

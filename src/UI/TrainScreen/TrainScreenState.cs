@@ -6,57 +6,39 @@ using SoNeat.src.UI.MainMenu;
 
 namespace SoNeat.src.UI.TrainScreen
 {
-    public class TrainScreenState : IScreenState
+    public class TrainScreenState : GameScreenBase
     {
-        private ISubScreenState? _currentState;
         private Population? _population;
         private Neat? _neat;
-        private ObstacleManager? _obstacleManager;
-        private EnvironmentManager? _environmentManager;
-        private double _score, _lastScoreMilestone;
-        private float _gameSpeed, _gameSpeedIncrement;
-        private Dictionary<string, MyButton>? _buttons;
-        private Dictionary<string, Bitmap>? _uiBitmaps;
         private NetworkDrawer? _networkDrawer;
         private string _modelName = "Enter Model Name";
-        private string _errorMessage = "", _successMessage = "";
+        private string _errorMessage = "";
+        private string _successMessage = "";
         private bool _isFastForward = false;
 
         public Population? Population => _population;
-
-        public ObstacleManager? ObstacleManager => _obstacleManager;
-
-        public EnvironmentManager? EnvironmentManager => _environmentManager;
-
-        public Dictionary<string, MyButton>? Buttons => _buttons;
-
-        public Dictionary<string, Bitmap>? UiBitmaps => _uiBitmaps;
-
         public string SuccessMessage
         {
-            get => _successMessage;
             set => _successMessage = value;
         }
 
         public TrainScreenState(EnvironmentManager? environmentManager = null)
-        {
-            _environmentManager = environmentManager;
-        }
+            : base(environmentManager) { }
 
-        public void EnterState()
+        public override void EnterState()
         {
             string[] inputLabels = { "Sonic Y Position", "Distance To Next Enemy",
                 "Next Enemy Width", "Next Enemy Height",
                 "Bat Y Position", "Game Speed" };
             string[] outputLabels = { "Jump", "Duck" };
 
-            _gameSpeed = 10;
+            GameSpeed = 10;
             _population = new Population(500);
-            _score = 0;
-            _lastScoreMilestone = 0;
-            _gameSpeedIncrement = 0.5f;
-            _obstacleManager = new ObstacleManager(_gameSpeed);
-            _environmentManager ??= new EnvironmentManager(_gameSpeed);
+            Score = 0;
+            LastScoreMilestone = 0;
+            GameSpeedIncrement = 0.5f;
+            ObstacleManager = new ObstacleManager(GameSpeed);
+            EnvironmentManager ??= new EnvironmentManager(GameSpeed);
 
             InitializeButtons();
             InitializeUiBitmaps();
@@ -68,7 +50,7 @@ namespace SoNeat.src.UI.TrainScreen
 
         private void InitializeButtons()
         {
-            _buttons = new Dictionary<string, MyButton>
+            Buttons = new Dictionary<string, MyButton>
             {
                 { "MainMenuButton", new MyButton("assets/images/TrainScreen/train_main_menu_btn.png", 525, 403) },
                 { "ChooseModelButton", new MyButton("assets/images/TrainScreen/choose_model_btn.png", 491, 314)},
@@ -80,7 +62,7 @@ namespace SoNeat.src.UI.TrainScreen
 
         private void InitializeUiBitmaps()
         {
-            _uiBitmaps = new Dictionary<string, Bitmap>
+            UiBitmaps = new Dictionary<string, Bitmap>
             {
                 { "ChooseArrow", SplashKit.LoadBitmap("choose_arrow", "assets/images/choose_arrow.png")},
                 { "LoadModelTitle", SplashKit.LoadBitmap("load_model_title", "assets/images/TrainScreen/load_model_title.png")},
@@ -88,54 +70,23 @@ namespace SoNeat.src.UI.TrainScreen
             };
         }
 
-        public void Update()
+        public override void Update()
         {
-            _environmentManager!.Update();
-            _currentState!.Update();
+            EnvironmentManager!.Update();
+            CurrentState!.Update();
         }
 
-        public void Draw()
+        public override void Draw()
         {
-            _environmentManager!.Draw();
-            _obstacleManager!.Draw();
-            _currentState!.Draw();
+            EnvironmentManager!.Draw();
+            ObstacleManager!.Draw();
+            CurrentState!.Draw();
         }
 
-        public void SetState(ISubScreenState state)
+        public override void UpdateGameSpeed(float gameSpeed)
         {
-            _currentState = state;
-        }
-
-        public void UpdateGameSpeed(float gameSpeed)
-        {
+            base.UpdateGameSpeed(gameSpeed);
             _population!.UpdateGameSpeed(gameSpeed);
-            _environmentManager!.UpdateGameSpeed(gameSpeed);
-            _obstacleManager!.UpdateGameSpeed(gameSpeed);
-        }
-
-        private void IncreaseGameSpeed()
-        {
-            _gameSpeed += _gameSpeedIncrement;
-            UpdateGameSpeed(_gameSpeed);
-        }
-
-        public void CheckUpdateGameSpeed()
-        {
-            if (Math.Floor(_score) >= _lastScoreMilestone + 100)
-            {
-                _lastScoreMilestone = Math.Floor(_score);
-                IncreaseGameSpeed();
-            }
-        }
-
-        public void ResumeGameSpeed()
-        {
-            UpdateGameSpeed(_gameSpeed);
-        }
-
-        public void UpdateScore()
-        {
-            _score += _gameSpeed / 60;
         }
 
         public void UpdateFrameRate()
@@ -148,12 +99,12 @@ namespace SoNeat.src.UI.TrainScreen
             _population!.Reset();
             _neat!.Evolve();
             _population.LinkBrains(_neat);
-            _obstacleManager!.Reset();
-            _score = 0;
-            _lastScoreMilestone = 0;
-            _gameSpeed = 10;
+            ObstacleManager!.Reset();
+            Score = 0;
+            LastScoreMilestone = 0;
+            GameSpeed = 10;
             SetState(new TrainingState(this));
-            UpdateGameSpeed(_gameSpeed);
+            UpdateGameSpeed(GameSpeed);
         }
 
         public void ToggleFastForward()
@@ -163,7 +114,7 @@ namespace SoNeat.src.UI.TrainScreen
 
         public void DrawTrainingInfo()
         {
-            string scoreStr = Math.Floor(_score).ToString().PadLeft(5, '0');
+            string scoreStr = Math.Floor(Score).ToString().PadLeft(5, '0');
             SplashKit.DrawText($"SCORE:{scoreStr}", Color.Black, "MainFont", 20, 973, 27);
             SplashKit.DrawText($"ALIVE:{_population!.Alives}", Color.Black, "MainFont", 20, 973, 63);
             SplashKit.DrawText($"GEN:{_neat!.Generation}", Color.Black, "MainFont", 20, 1013, 99);
@@ -198,11 +149,8 @@ namespace SoNeat.src.UI.TrainScreen
                 _errorMessage = "";
                 return true;
             }
-            else
-            {
-                _errorMessage = "Model not found";
-                return false;
-            }
+            _errorMessage = "Model not found";
+            return false;
         }
 
         public void GetModelNameFromTextBox()
@@ -240,7 +188,7 @@ namespace SoNeat.src.UI.TrainScreen
             _networkDrawer!.Draw(_neat!.BestAgent.Genome);
         }
 
-        public void ExitState()
+        public override void ExitState()
         {
             Console.WriteLine("Exiting Train Screen State");
         }

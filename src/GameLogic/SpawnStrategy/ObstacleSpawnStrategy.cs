@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace SoNeat.src.GameLogic
 {
+    // Obstacle spawn strategy class for spawning obstacle objects
     public class ObstacleSpawnStrategy : SpawnStrategyBase
     {
         private readonly Random _random = new Random();
@@ -13,6 +14,7 @@ namespace SoNeat.src.GameLogic
         {
         }
 
+        // Create game object
         public override GameObject CreateGameObject(float gameSpeed, float screenWidth)
         {
             GameObjectType type = GetRandomObstacleType();

@@ -7,6 +7,7 @@ using SoNeat.src.Utils;
 
 namespace SoNeat.src.GameLogic
 {
+    // Obstacle factory class for creating obstacle objects
     public class ObstacleFactory : IGameObjectFactory
     {
         private readonly Random _random = new Random();
@@ -25,6 +26,7 @@ namespace SoNeat.src.GameLogic
             };
         }
 
+        // Create bat object
         private GameObject CreateBat(float xPosition, float gameSpeed)
         {
             float y = _random.NextDouble() < 0.5 ? 348 : 465;
@@ -33,6 +35,7 @@ namespace SoNeat.src.GameLogic
             return new Bat(xPosition, y, speed, gameSpeed, folderPath);
         }
 
+        // Create obstacle object
         private GameObject CreateObstacle(GameObjectType type, float xPosition, float yPosition, float gameSpeed)
         {
             string folderPath = GetAssetPath(type);
@@ -45,6 +48,7 @@ namespace SoNeat.src.GameLogic
             };
         }
 
+        // Get asset path
         private string GetAssetPath(GameObjectType type) =>
             Utility.NormalizePath($"assets/images/{type}");
     }

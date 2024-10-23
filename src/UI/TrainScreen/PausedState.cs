@@ -4,6 +4,7 @@ using SplashKitSDK;
 
 namespace SoNeat.src.UI.TrainScreen
 {
+    // Paused state for the training screen
     public class PausedState : ISubScreenState
     {
         private TrainScreenState _context;

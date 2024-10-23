@@ -2,6 +2,7 @@ using SplashKitSDK;
 
 namespace SoNeat.src.UI.TrainScreen
 {
+    // Training state for the training screen
     public class TrainingState : ISubScreenState
     {
         private TrainScreenState _context;
@@ -20,6 +21,7 @@ namespace SoNeat.src.UI.TrainScreen
             _context.ObstacleManager!.Update(_context.Population!);
             _context.Population!.Update(_context.ObstacleManager.Obstacles);
 
+            // Check if all agents are dead
             if (_context.IsAllDead())
                 _context.Reset();
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace SoNeat.src.UI
 {
+    // Interface for sub screen states
     public interface ISubScreenState
     {
         void Update();

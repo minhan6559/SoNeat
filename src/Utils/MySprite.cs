@@ -7,13 +7,14 @@ using SplashKitSDK;
 
 namespace SoNeat.src.Utils
 {
+    // Class for creating sprites
     public class MySprite
     {
-        private Dictionary<string, List<Bitmap>> _animations;
-        private Dictionary<string, int> _animation_lengths;
-        private string _current_animation;
-        private int _current_animation_frame;
-        private int _animation_timer;
+        private Dictionary<string, List<Bitmap>> _animations; // Animations of the sprite
+        private Dictionary<string, int> _animation_lengths; // Lengths of the animations
+        private string _current_animation; // Current animation of the sprite
+        private int _current_animation_frame; // Current frame of the animation
+        private int _animation_timer; // Timer for the animation
 
         public MySprite(string folderPath)
         {
@@ -28,10 +29,14 @@ namespace SoNeat.src.Utils
 
         public Bitmap CurrentBitmap => _animations[_current_animation][_current_animation_frame];
 
+        // Load the settings of the sprite
         private void LoadSettings(string folderPath)
         {
+            // Get the directories in the folder
             string normalizedPath = Utility.NormalizePath(folderPath);
             string[] directories = Directory.GetDirectories(normalizedPath);
+
+            // Load the bitmaps and animation lengths
             foreach (string directory in directories)
             {
                 string folderName = Path.GetFileName(directory);
@@ -74,6 +79,8 @@ namespace SoNeat.src.Utils
         public void Update()
         {
             _animation_timer++;
+
+            // If the animation is over, move to the next frame
             if (_animation_timer >= _animation_lengths[_current_animation])
             {
                 _animation_timer = 0;

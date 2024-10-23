@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SoNeat.src.UI
 {
-    // Singleton
+    // Singleton class for managing screens
     public class ScreenManager
     {
         private static ScreenManager? _instance;

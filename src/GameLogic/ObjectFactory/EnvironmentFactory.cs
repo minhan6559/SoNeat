@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using SoNeat.src.Utils;
-
 namespace SoNeat.src.GameLogic
 {
+    // Environment factory class for creating environment objects
     public class EnvironmentFactory : IGameObjectFactory
     {
         private readonly Random _random = new Random();
@@ -25,6 +19,7 @@ namespace SoNeat.src.GameLogic
 
         private GameObject CreateCloud(float xPosition, float yPosition)
         {
+            // Random cloud speed
             float randomSpeed = (float)(_random.NextDouble() * 1.0f + 3.0f);
             return new Cloud(xPosition, yPosition, randomSpeed);
         }

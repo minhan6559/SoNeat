@@ -6,6 +6,7 @@ using SoNeat.src.UI.TrainScreen;
 
 namespace SoNeat.src.UI.MainMenu
 {
+    // Main menu state for the program
     public class MainMenuState : IScreenState
     {
         private Dictionary<string, MyButton>? _buttons;
