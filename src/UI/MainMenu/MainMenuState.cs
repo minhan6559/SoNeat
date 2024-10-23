@@ -22,20 +22,40 @@ namespace SoNeat.src.UI.MainMenu
 
         public void EnterState()
         {
+            InitializeUiBitmaps();
+            InitializeButtons();
+            LoadAudioResources();
+
+            Utility.FadeToNewMusic("MainMenuMusic", 500, 1.0f);
+
+            _environmentManager = new EnvironmentManager(0);
+        }
+
+        private void InitializeUiBitmaps()
+        {
+            _uiBitmaps = new Dictionary<string, Bitmap>()
+            {
+                { "Title", SplashKit.LoadBitmap("title", "assets/images/MainMenu/title.png") },
+                { "ChooseArrow", SplashKit.LoadBitmap("choose_arrow", "assets/images/MainMenu/choose_arrow.png") }
+            };
+        }
+
+        private void InitializeButtons()
+        {
             _buttons = new Dictionary<string, MyButton>
             {
                 { "PlayButton", new MyButton("assets/images/MainMenu/play.png", 581, 322) },
                 { "TrainButton", new MyButton("assets/images/MainMenu/train.png", 537, 370) },
                 { "ExitButton", new MyButton("assets/images/MainMenu/exit.png", 581, 418) }
             };
+        }
 
-            _uiBitmaps = new Dictionary<string, Bitmap>()
-            {
-                { "Title", SplashKit.LoadBitmap("title", "assets/images/MainMenu/title.png") },
-                { "ChooseArrow", SplashKit.LoadBitmap("choose_arrow", "assets/images/MainMenu/choose_arrow.png") }
-            };
-
-            _environmentManager = new EnvironmentManager(0);
+        private void LoadAudioResources()
+        {
+            SplashKit.LoadMusic("GameMusic", Utility.NormalizePath("assets/sounds/game_music.mp3"));
+            SplashKit.LoadMusic("GameOverMusic", Utility.NormalizePath("assets/sounds/game_over.mp3"));
+            SplashKit.LoadMusic("MainMenuMusic", Utility.NormalizePath("assets/sounds/main_menu_music.wav"));
+            SplashKit.LoadSoundEffect("JumpSoundEffect", Utility.NormalizePath("assets/sounds/jump.mp3"));
         }
 
         public void Update()
@@ -57,6 +77,7 @@ namespace SoNeat.src.UI.MainMenu
             if (_buttons!["ExitButton"].IsClicked())
             {
                 SplashKit.CloseAllWindows();
+                FreeResources();
             }
         }
 
@@ -80,6 +101,14 @@ namespace SoNeat.src.UI.MainMenu
         {
             // Clean up the game screen
             Console.WriteLine("Exiting Main Menu State");
+        }
+
+        private void FreeResources()
+        {
+            SplashKit.FreeAllBitmaps();
+            SplashKit.FreeAllFonts();
+            SplashKit.FreeAllMusic();
+            SplashKit.FreeAllSoundEffects();
         }
     }
 }

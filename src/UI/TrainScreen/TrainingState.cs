@@ -1,3 +1,4 @@
+using SoNeat.src.Utils;
 using SplashKitSDK;
 
 namespace SoNeat.src.UI.TrainScreen
@@ -9,6 +10,7 @@ namespace SoNeat.src.UI.TrainScreen
 
         public TrainingState(TrainScreenState context)
         {
+            Utility.FadeToNewMusic("GameMusic", 500, 0.4f);
             _context = context;
         }
 
