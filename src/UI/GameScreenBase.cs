@@ -14,7 +14,7 @@ namespace SoNeat.src.UI
         private ISubScreenState? _currentState; // Current state of the game screen
         private ObstacleManager? _obstacleManager; // Obstacle manager for the game screen
         private EnvironmentManager? _environmentManager; // Environment manager for the game screen
-        private double _score, _lastScoreMilestone;
+        private double _score, _lastScoreMilestone; // Score stats
         private float _gameSpeed, _gameSpeedIncrement;
         private Dictionary<string, MyButton>? _buttons;
         private Dictionary<string, Bitmap>? _uiBitmaps;
@@ -106,6 +106,11 @@ namespace SoNeat.src.UI
             {
                 _lastScoreMilestone = Math.Floor(_score);
                 IncreaseGameSpeed();
+            }
+
+            if (_score >= 10 && Math.Floor(_score) % 500 == 0 && !SplashKit.SoundEffectPlaying("CheckpointSoundEffect"))
+            {
+                SplashKit.PlaySoundEffect("CheckpointSoundEffect");
             }
         }
 

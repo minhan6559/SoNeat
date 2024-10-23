@@ -13,7 +13,6 @@ namespace SoNeat.src.UI.GameScreen
 
         public PlayingState(GameScreenState context)
         {
-            Utility.FadeToNewMusic("GameMusic", 500, 0.4f);
             _context = context;
         }
 
@@ -30,6 +29,8 @@ namespace SoNeat.src.UI.GameScreen
             {
                 _context.Sonic.PlayAnimation("Dead");
                 _context.UpdateGameSpeed(0);
+
+                Utility.FadeToNewMusic("GameOverMusic", 1, 0, 1.0f);
                 _context.SetState(new GameOverState(_context));
             }
         }

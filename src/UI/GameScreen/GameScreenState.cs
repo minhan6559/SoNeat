@@ -107,5 +107,10 @@ namespace SoNeat.src.UI.GameScreen
         {
             Console.WriteLine("Exiting Game Screen State");
         }
+
+        public void PlayClickSound()
+        {
+            SplashKit.PlaySoundEffect("ClickSoundEffect", 0.2f);
+        }
     }
 }

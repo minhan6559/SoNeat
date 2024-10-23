@@ -24,9 +24,6 @@ namespace SoNeat.src.UI.MainMenu
         {
             InitializeUiBitmaps();
             InitializeButtons();
-            LoadAudioResources();
-
-            Utility.FadeToNewMusic("MainMenuMusic", 500, 1.0f);
 
             _environmentManager = new EnvironmentManager(0);
         }
@@ -50,34 +47,28 @@ namespace SoNeat.src.UI.MainMenu
             };
         }
 
-        private void LoadAudioResources()
-        {
-            SplashKit.LoadMusic("GameMusic", Utility.NormalizePath("assets/sounds/game_music.mp3"));
-            SplashKit.LoadMusic("GameOverMusic", Utility.NormalizePath("assets/sounds/game_over.mp3"));
-            SplashKit.LoadMusic("MainMenuMusic", Utility.NormalizePath("assets/sounds/main_menu_music.wav"));
-            SplashKit.LoadSoundEffect("JumpSoundEffect", Utility.NormalizePath("assets/sounds/jump.mp3"));
-        }
-
         public void Update()
         {
             _environmentManager!.Update();
 
             if (_buttons!["PlayButton"].IsClicked())
             {
+                PlayClickSound();
                 GameScreenState gameScreen = new GameScreenState(_environmentManager);
                 ScreenManager.Instance.SetState(gameScreen);
             }
 
             if (_buttons!["TrainButton"].IsClicked())
             {
+                PlayClickSound();
                 TrainScreenState trainScreen = new TrainScreenState(_environmentManager);
                 ScreenManager.Instance.SetState(trainScreen);
             }
 
             if (_buttons!["ExitButton"].IsClicked())
             {
+                PlayClickSound();
                 SplashKit.CloseAllWindows();
-                FreeResources();
             }
         }
 
@@ -103,12 +94,9 @@ namespace SoNeat.src.UI.MainMenu
             Console.WriteLine("Exiting Main Menu State");
         }
 
-        private void FreeResources()
+        private void PlayClickSound()
         {
-            SplashKit.FreeAllBitmaps();
-            SplashKit.FreeAllFonts();
-            SplashKit.FreeAllMusic();
-            SplashKit.FreeAllSoundEffects();
+            SplashKit.PlaySoundEffect("ClickSoundEffect", 0.2f);
         }
     }
 }

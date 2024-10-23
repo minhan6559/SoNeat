@@ -24,20 +24,25 @@ namespace SoNeat.src.UI.TrainScreen
             // Check if the user has clicked the buttons and the model name is valid
             if (_context.Buttons!["ChooseModelButton"].IsClicked() && _context.CheckValidModelName())
             {
+                _context.PlayClickSound();
                 _context.ResumeGameSpeed();
                 _context.LoadNeatModel();
+                Utility.FadeToNewMusic("TrainMusic", -1, 500, 0.4f);
                 _context.SetState(new TrainingState(_context));
             }
 
             if (_context.Buttons!["RetrainButton"].IsClicked())
             {
+                _context.PlayClickSound();
                 _context.ResumeGameSpeed();
                 _context.InitializeNeatModel();
+                Utility.FadeToNewMusic("TrainMusic", -1, 500, 0.4f);
                 _context.SetState(new TrainingState(_context));
             }
 
             if (_context.Buttons!["MainMenuButton"].IsClicked())
             {
+                _context.PlayClickSound();
                 MainMenuState mainMenuState = new MainMenuState(_context.EnvironmentManager!);
                 ScreenManager.Instance.SetState(mainMenuState);
             }

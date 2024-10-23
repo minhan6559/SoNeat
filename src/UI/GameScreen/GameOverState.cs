@@ -15,7 +15,6 @@ namespace SoNeat.src.UI.GameScreen
 
         public GameOverState(GameScreenState context)
         {
-            Utility.FadeToNewMusic("GameOverMusic", 0, 1.0f);
             _context = context;
         }
 
@@ -23,12 +22,16 @@ namespace SoNeat.src.UI.GameScreen
         {
             if (_context.Buttons!["RetryButton"].IsClicked())
             {
+                _context.PlayClickSound();
+                Utility.FadeToNewMusic("MainMenuMusic", -1, 500, 1.0f);
                 GameScreenState gameScreen = new GameScreenState(_context.EnvironmentManager!);
                 ScreenManager.Instance.SetState(gameScreen);
             }
 
             if (_context.Buttons!["MainMenuButton"].IsClicked())
             {
+                _context.PlayClickSound();
+                Utility.FadeToNewMusic("MainMenuMusic", -1, 500, 1.0f);
                 MainMenuState mainMenuState = new MainMenuState(_context.EnvironmentManager!);
                 ScreenManager.Instance.SetState(mainMenuState);
             }

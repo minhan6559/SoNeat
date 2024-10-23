@@ -149,6 +149,8 @@ namespace SoNeat.src.UI.TrainScreen
                 _errorMessage = "";
                 return true;
             }
+
+            SplashKit.PlaySoundEffect("IncorrectSoundEffect", 0.5f);
             _errorMessage = "Model not found";
             return false;
         }
@@ -191,6 +193,11 @@ namespace SoNeat.src.UI.TrainScreen
         public override void ExitState()
         {
             Console.WriteLine("Exiting Train Screen State");
+        }
+
+        public void PlayClickSound()
+        {
+            SplashKit.PlaySoundEffect("ClickSoundEffect", 0.2f);
         }
     }
 }

@@ -10,7 +10,6 @@ namespace SoNeat.src.UI.TrainScreen
 
         public TrainingState(TrainScreenState context)
         {
-            Utility.FadeToNewMusic("GameMusic", 500, 0.4f);
             _context = context;
         }
 
@@ -30,6 +29,7 @@ namespace SoNeat.src.UI.TrainScreen
 
             if (SplashKit.KeyTyped(KeyCode.EscapeKey))
             {
+                _context.PlayClickSound();
                 ScreenManager.FrameRate = 60;
                 _context.UpdateGameSpeed(0);
                 _context.SetState(new PausedState(_context));
@@ -37,6 +37,7 @@ namespace SoNeat.src.UI.TrainScreen
 
             if (SplashKit.KeyTyped(KeyCode.FKey))
             {
+                _context.PlayClickSound();
                 _context.ToggleFastForward();
             }
         }

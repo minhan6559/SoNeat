@@ -19,6 +19,7 @@ namespace SoNeat.src.UI.TrainScreen
             _context.GetModelNameFromTextBox();
             if (_context.Buttons!["ResumeButton"].IsClicked())
             {
+                _context.PlayClickSound();
                 _context.SuccessMessage = "";
                 _context.SetState(new TrainingState(_context));
                 _context.ResumeGameSpeed();
@@ -26,12 +27,15 @@ namespace SoNeat.src.UI.TrainScreen
 
             if (_context.Buttons!["MainMenuButton"].IsClicked())
             {
+                _context.PlayClickSound();
+                Utility.FadeToNewMusic("MainMenuMusic", -1, 500, 1.0f);
                 MainMenuState mainMenuState = new MainMenuState(_context.EnvironmentManager!);
                 ScreenManager.Instance.SetState(mainMenuState);
             }
 
             if (_context.Buttons!["SaveModelButton"].IsClicked())
             {
+                _context.PlayClickSound();
                 _context.SaveNeatModel();
             }
         }

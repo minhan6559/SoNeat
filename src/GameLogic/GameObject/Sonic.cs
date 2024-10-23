@@ -103,7 +103,7 @@ namespace SoNeat.src.GameLogic
 
             if (SplashKit.KeyDown(KeyCode.SpaceKey))
             {
-                Jump();
+                Jump(true);
                 StopDucking();
                 _isHoldJump = true;
             }
@@ -115,7 +115,7 @@ namespace SoNeat.src.GameLogic
         }
 
         // Jump Sonic
-        public void Jump()
+        public void Jump(bool playSoundEffect = false)
         {
             if (_isJumping)
                 return;
@@ -128,6 +128,9 @@ namespace SoNeat.src.GameLogic
             {
                 StopDucking();
             }
+
+            if (playSoundEffect)
+                SplashKit.PlaySoundEffect("JumpSoundEffect", 0.15f);
 
             PlayAnimation("Jump");
         }

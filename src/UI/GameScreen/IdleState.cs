@@ -24,6 +24,7 @@ namespace SoNeat.src.UI.GameScreen
                 _context.Sonic!.IsIdle = false;
                 _context.ResumeGameSpeed();
 
+                Utility.FadeToNewMusic("GameMusic", -1, 500, 0.4f);
                 _context.SetState(new PlayingState(_context));
             }
         }

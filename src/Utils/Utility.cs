@@ -45,10 +45,10 @@ namespace SoNeat.src.Utils
             return newMin + (value - min) * (newMax - newMin) / (max - min);
         }
 
-        public static void FadeToNewMusic(string newMusic, int fadeInMs, float newVolume)
+        public static void FadeToNewMusic(string newMusic, int times, int fadeInMs, float newVolume)
         {
             Music gameMusic = SplashKit.MusicNamed(newMusic);
-            SplashKit.FadeMusicIn(gameMusic, -1, fadeInMs);
+            SplashKit.FadeMusicIn(gameMusic, times, fadeInMs);
             SplashKit.SetMusicVolume(newVolume);
         }
     }
