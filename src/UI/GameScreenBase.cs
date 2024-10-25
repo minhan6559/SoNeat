@@ -110,7 +110,7 @@ namespace SoNeat.src.UI
 
             if (_score >= 10 && Math.Floor(_score) % 500 == 0 && !SplashKit.SoundEffectPlaying("CheckpointSoundEffect"))
             {
-                SplashKit.PlaySoundEffect("CheckpointSoundEffect");
+                SplashKit.PlaySoundEffect("CheckpointSoundEffect", 0.3f);
             }
         }
 
