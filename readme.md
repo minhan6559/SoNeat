@@ -44,7 +44,7 @@ Link to video demo [here](https://youtu.be/JZCMCS_Qe2o?si=WcSeDWuaC_lphNjh)
 Before running the game, you need to install **SplashKit** as it is the main library used in this project. Please follow the instructions below to install SplashKit:
 
 1. Download and install **SplashKit** by following the official [SplashKit installation guide](https://www.splashkit.io/).
-2. Ensure that you have the .NET SDK installed. If not, you can download it from [here](https://dotnet.microsoft.com/download).
+2. Ensure that you have the .NET SDK 8.0 installed. If not, you can download it from [here](https://dotnet.microsoft.com/download).
 
 ### Running the Program
 
