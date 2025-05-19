@@ -13,7 +13,8 @@ The core concept of the game is to provide users with an opportunity to observe 
 This project was awarded the **Best Project Award** and the **Highest Achievement** in the Object-Oriented Programming (COS20007) unit at Swinburne University due to its innovative use of AI and its ability to teach complex concepts in an engaging way.
 
 ## Demo
-Link to video demo [here](https://youtu.be/JZCMCS_Qe2o?si=WcSeDWuaC_lphNjh)
+[![SoNeat AI Learning Game Demo](https://img.youtube.com/vi/JZCMCS_Qe2o/maxresdefault.jpg)](https://www.youtube.com/watch?v=JZCMCS_Qe2o)
+*Click the image above to watch the demo video*
 
 ## Screenshots
 ![Main Menu Screen](assets/screenshots/Picture1.png)
